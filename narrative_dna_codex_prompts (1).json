@@ -1,0 +1,1500 @@
+{
+  "file_name": "narrative_dna_codex_prompts.json",
+  "version": "1.0.0",
+  "created_at_utc": "2026-05-24T21:07:43Z",
+  "language": "es",
+  "project": {
+    "name": "narrative_dna",
+    "goal": "Implementar desde cero un MVP JSON-first para ADN narrativo estable, interpretable y auditable.",
+    "core_principles": [
+      "JSON es la fuente de verdad.",
+      "La notación compacta se deriva del JSON, nunca se edita manualmente.",
+      "La precisión tiene prioridad sobre cobertura falsa.",
+      "La revisión sintética con alta temperatura se usa para diversidad, no como decisión final.",
+      "El agregador y el árbitro final son conservadores.",
+      "Sólo synthetic_gold_high_confidence puede usarse para pruebas de regresión.",
+      "CSV sólo existe como export derivado."
+    ],
+    "notation": "(FUNCIONES)[CERTEZA]_EMOCIÓNINTENSIDAD{POSTURA}",
+    "example_notations": [
+      "(P+V)_S1{0}",
+      "(K+Y)!_E2{-}",
+      "(S+I+U)_C1{+}"
+    ]
+  },
+  "model_policy": {
+    "codex_default_model": "GPT-5.5",
+    "codex_reasoning_guidance": {
+      "architecture_and_taxonomy": "xhigh",
+      "auditing_and_stability": "xhigh",
+      "schemas_and_validators": "high",
+      "implementation_mechanical": "medium",
+      "documentation": "medium"
+    },
+    "runtime_openai_config_recommendation": {
+      "main_classifier": {
+        "model": "gpt-5.5",
+        "reasoning_effort": "medium",
+        "temperature": 0.1
+      },
+      "adjudicator": {
+        "model": "gpt-5.5",
+        "reasoning_effort": "high",
+        "temperature": 0.0
+      },
+      "synthetic_reviewers": [
+        {
+          "name": "divergent_reviewer_a",
+          "model": "gpt-5.5",
+          "reasoning_effort": "high",
+          "temperature": 0.9
+        },
+        {
+          "name": "divergent_reviewer_b",
+          "model": "gpt-5.5",
+          "reasoning_effort": "high",
+          "temperature": 1.0
+        },
+        {
+          "name": "taxonomy_strict_reviewer",
+          "model": "gpt-5.5",
+          "reasoning_effort": "high",
+          "temperature": 0.7
+        }
+      ],
+      "synthetic_aggregator": {
+        "model": "gpt-5.5",
+        "reasoning_effort": "high",
+        "temperature": 0.1
+      },
+      "synthetic_final_adjudicator": {
+        "model": "gpt-5.5",
+        "reasoning_effort": "xhigh",
+        "temperature": 0.0
+      }
+    }
+  },
+  "execution_order": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+  ],
+  "prompts": [
+    {
+      "step": 0,
+      "title": "Arquitectura JSON-first y principios del proyecto",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "xhigh",
+      "temperature_guidance": "baja/default en Codex; priorizar precisión y arquitectura",
+      "objective": "Definir visión, alcance, principios, contratos JSON y estrategia de auditoría antes de escribir código.",
+      "prompt": "Quiero iniciar desde cero un proyecto Python llamado narrative_dna.\n\nObjetivo:\nConstruir un sistema JSON-first para convertir transcripciones de discursos en una representación estable, interpretable y auditable de ADN narrativo.\n\nPrincipio central:\nLa fuente de verdad NO será la notación compacta. La fuente de verdad serán JSONs validados por schema. La notación compacta se derivará desde esos JSONs.\n\nNotación derivada:\n(FUNCIONES)[CERTEZA]_EMOCIÓNINTENSIDAD{POSTURA}\n\nEjemplos:\n(P+V)_S1{0}\n(K+Y)!_E2{-}\n(S+I+U)_C1{+}\n\nCapas obligatorias por unidad:\n1. functions\n2. primary_function\n3. secondary_functions\n4. inherited_functions\n5. certainty\n6. emotion_expressed\n7. emotions_mentioned\n8. stance\n9. target\n10. speech_act\n11. logic optional\n12. evidence_spans\n13. rejected_labels\n14. validator_flags\n15. review_status\n16. final_notation\n\nRelaciones externas:\nANS, SUP, EXPL, ELAB, EXMP, ANLG, CONTR, REFUT, RISK, SOLV, SEQ, SUM, CALL, CAUSE, COND.\n\nEl proyecto debe priorizar:\n- estabilidad\n- interpretabilidad\n- auditoría\n- similitud entre frases\n- detección de inconsistencias\n- JSON Schemas estrictos\n- pruebas de regresión\n\nNo construir dashboard todavía.\nNo entrenar modelos todavía.\nNo usar CSV como fuente de verdad.\nCSV sólo puede existir como export derivado.\n\nPrimero crea un documento ARCHITECTURE.md y un PROJECT_CHARTER.md explicando:\n- problema\n- alcance MVP\n- no-alcance\n- JSONs principales\n- pipeline\n- principios de auditoría\n- cómo evitar inconsistencia entre frases similares\n- cómo versionar taxonomía, prompts y validadores\n\nNo implementes código aún.\nHaz commit con mensaje:\ninit: define narrative dna architecture and json-first principles",
+      "expected_commit_message": "init: define narrative dna architecture and json-first principles",
+      "inputs_required": [],
+      "outputs_expected": [
+        "outputs/{run_id}/step_0_report.json"
+      ],
+      "dependencies": [],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 7000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 1,
+      "title": "Scaffolding del repositorio",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "medium",
+      "temperature_guidance": "baja/default; tarea mecánica pero cuidando estructura",
+      "objective": "Crear estructura inicial instalable del paquete, carpetas, configs, schemas, CLI placeholder y tests mínimos.",
+      "prompt": "Crea la estructura inicial del repositorio narrative_dna como paquete Python instalable.\n\nUsa:\n- Python >= 3.11\n- pyproject.toml\n- pydantic\n- typer\n- pandas sólo para exports\n- pyyaml\n- pytest\n- ruff\n- rich para logs legibles\n\nEstructura:\n\nnarrative_dna/\n  pyproject.toml\n  README.md\n  AGENTS.md\n  .env.example\n  PROJECT_CHARTER.md\n  ARCHITECTURE.md\n\n  configs/\n    project_config.json\n    llm_config.json\n    synthetic_review_config.json\n    taxonomy_v0_1.json\n    validators_config_v0_1.json\n    similarity_audit_config.json\n    relation_patterns.json\n    chain_patterns.json\n\n  schemas/\n    document.schema.json\n    unit.schema.json\n    relation.schema.json\n    chain.schema.json\n    audit.schema.json\n    gold.schema.json\n    taxonomy.schema.json\n\n  annotation_guidelines/\n    annotation_constitution_v0_1.md\n    taxonomy_v0_1.json\n    decision_trees_v0_1.md\n    label_boundaries_v0_1.json\n    minimal_pairs_seed_v0_1.jsonl\n    positive_negative_examples_v0_1.jsonl\n    validator_rules_seed_v0_1.json\n    notation_contract_v0_1.md\n    confusion_groups_seed_v0_1.json\n\n  data/\n    transcripts/\n    gold/\n    review/\n\n  outputs/\n\n  prompts/\n    unit_classifier.md\n    adjudicator.md\n    relation_adjudicator.md\n    synthetic_reviewer.md\n    synthetic_aggregator.md\n    synthetic_adjudicator.md\n\n  src/\n    narrative_dna/\n      __init__.py\n      models.py\n      schema_exporter.py\n      taxonomy.py\n      validators.py\n      notation.py\n      loader.py\n      normalizer.py\n      segmenter.py\n      heuristic_candidates.py\n      llm_client.py\n      unit_classifier.py\n      adjudicator.py\n      relation_detector.py\n      chain_detector.py\n      similarity_auditor.py\n      cluster_auditor.py\n      review_set_builder.py\n      synthetic_reviewer.py\n      review_aggregator.py\n      synthetic_reliability.py\n      evaluator.py\n      exporter.py\n      pipeline.py\n      cli.py\n\n  tests/\n    fixtures/\n    test_models.py\n    test_taxonomy.py\n    test_validators.py\n    test_notation.py\n\nAGENTS.md debe indicar:\n- no usar CSV como fuente de verdad\n- todo debe validarse contra Pydantic/JSON Schema\n- todo output importante debe tener run_id\n- cada anotación debe guardar taxonomy_version, prompt_version y validator_version\n- la notación compacta siempre se deriva, nunca se edita manualmente\n\nAgrega comandos CLI vacíos:\nnarrative-dna validate-taxonomy\nnarrative-dna run\nnarrative-dna evaluate\nnarrative-dna inspect\nnarrative-dna audit-similarity\nnarrative-dna build-review-set\nnarrative-dna synthetic-review\nnarrative-dna promote-synthetic-gold\nnarrative-dna export-schemas\n\nHaz tests mínimos de importación.\nHaz commit:\nchore: scaffold json-first narrative dna package\n\nAñade además en el scaffolding un archivo de reglas de migración:\nconfigs/version_migration_rules.json\ncon estructura mínima por regla:\n- from_version\n- to_version\n- migration_notes\n\nRegla de versionado:\n- v0_1 es la base inicial del scaffold.\n- v1_0 queda reservado para después de consolidación/auditoría (step 5).\n\nRegla de outputs:\n- todo output JSON/JSONL/MD importante debe incluir la versión efectiva usada (taxonomy_version_effective, prompt_version_effective, validator_version_effective).",
+      "expected_commit_message": "chore: scaffold json-first narrative dna package",
+      "inputs_required": [
+        "configs/version_migration_rules.json"
+      ],
+      "outputs_expected": [
+        "pyproject.toml",
+        "README.md",
+        "PROJECT_CHARTER.md",
+        "ARCHITECTURE.md",
+        "configs/",
+        "schemas/",
+        "annotation_guidelines/",
+        "prompts/",
+        "src/",
+        "tests/",
+        "configs/version_migration_rules.json"
+      ],
+      "dependencies": [
+        0
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 7000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 2,
+      "title": "Modelos Pydantic y JSON Schemas estrictos",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "high",
+      "temperature_guidance": "baja/default; precisión sobre rapidez",
+      "objective": "Definir contratos JSON estrictos para documentos, unidades, relaciones, cadenas, auditoría y manifest.",
+      "prompt": "Implementa src/narrative_dna/models.py y schema_exporter.py.\n\nEl objetivo es definir contratos JSON estrictos. La fuente de verdad del proyecto serán estos modelos.\n\nCrear modelos:\n\n1. ProjectRunManifest\nCampos:\n- run_id\n- created_at_utc\n- project_version\n- taxonomy_version\n- validator_version\n- prompt_version\n- input_dir\n- output_dir\n- config_snapshot\n- llm_config_snapshot\n- git_commit optional\n\n2. NarrativeDocument\nCampos:\n- document_id\n- source_path\n- source_type\n- language\n- metadata\n- segmentation\n- units: list[NarrativeUnit]\n- relations: list[NarrativeRelation]\n- chains: list[NarrativeChain]\n- document_metrics\n- audit_summary\n\n3. NarrativeUnit\nCampos:\n- document_id\n- unit_id\n- sequence_index\n- text\n- normalized_text\n- start_ms optional\n- end_ms optional\n- char_start optional\n- char_end optional\n- previous_unit_id optional\n- next_unit_id optional\n- functions: list[str]\n- primary_function\n- secondary_functions\n- inherited_functions: list[InheritedFunction]\n- certainty: none | strong | tentative | uncertain\n- emotion_expressed: emotion code\n- emotion_intensity: int 0-3\n- emotions_mentioned: list[str]\n- stance: positive | negative | mixed | neutral\n- target optional\n- speech_act optional\n- logic optional\n- evidence_spans: list[EvidenceSpan]\n- rejected_labels: list[RejectedLabel]\n- validator_flags: list[ValidatorFlag]\n- heuristic_candidates\n- llm_votes\n- confidence: float 0-1\n- method\n- needs_review bool\n- review_reasons\n- final_notation\n- taxonomy_version\n- prompt_version\n- validator_version\n\n4. NarrativeRelation\n- relation_id\n- document_id\n- source_unit_id\n- target_unit_id\n- relation_type\n- confidence\n- method\n- evidence_spans\n- rejected_relation_types\n- validator_flags\n- needs_review\n\n5. NarrativeChain\n- chain_id\n- document_id\n- chain_type\n- unit_ids\n- relation_ids\n- notation_sequence\n- start_unit_id\n- end_unit_id\n- score\n- narrative_function\n- evidence_summary\n- needs_review\n\n6. Audit objects:\n- SimilarityConflict\n- ClusterInstability\n- ValidatorSummary\n- EvaluationMetrics\n\n7. Synthetic review objects:\n- SyntheticReviewItem\n- SyntheticReviewerOutput\n- SyntheticAggregatedReview\n- SyntheticGoldCandidate\n- SyntheticReliabilityMetrics\n\nTodos los modelos deben:\n- usar enums donde aplique\n- validar rangos\n- rechazar campos extra\n- permitir exportar JSON Schema\n\nImplementa comando narrative-dna export-schemas que escriba schemas/*.schema.json.\n\nAgrega tests fuertes:\n- JSON válido\n- JSON inválido por campos extra\n- emoción inválida\n- intensidad fuera de rango\n- función inválida\n- relation_type inválido\n- synthetic review inválido\n\nHaz commit:\nfeat: define strict pydantic models and json schemas",
+      "expected_commit_message": "feat: define strict pydantic models and json schemas",
+      "inputs_required": [],
+      "outputs_expected": [
+        "outputs/{run_id}/step_2_report.json"
+      ],
+      "dependencies": [
+        0,
+        1
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 7000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 3,
+      "title": "Constitución de Anotación v0.1",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "xhigh",
+      "temperature_guidance": "baja/default; diseñar fronteras estables, no creatividad libre",
+      "objective": "Crear la taxonomía desde el inicio junto con reglas de frontera, pares mínimos, ejemplos negativos y validadores esperados.",
+      "prompt": "Implementa la Constitución de Anotación v0.1 del proyecto narrative_dna.\n\nObjetivo:\nCrear desde cero una estructura de anotación estable, interpretable y auditable. No crear una taxonomía aislada. La taxonomía debe nacer junto con sus reglas de frontera, pares mínimos, ejemplos negativos y validadores esperados.\n\nCrear estos archivos:\n\nannotation_guidelines/\n  annotation_constitution_v0_1.md\n  taxonomy_v0_1.json\n  decision_trees_v0_1.md\n  label_boundaries_v0_1.json\n  minimal_pairs_seed_v0_1.jsonl\n  positive_negative_examples_v0_1.jsonl\n  validator_rules_seed_v0_1.json\n  notation_contract_v0_1.md\n\nconfigs/\n  taxonomy_v0_1.json\n  validators_config_v0_1.json\n\nLa fuente de verdad debe ser JSON. La notación compacta sólo será derivada.\n\nNotación derivada:\n(FUNCIONES)[CERTEZA]_EMOCIÓNINTENSIDAD{POSTURA}\n\nEjemplos:\n(P+V)_S1{0}\n(K+Y)!_E2{-}\n(S+I+U)_C1{+}\n\nFunciones candidatas:\nA afirmación simple\nK claim fuerte\nO opinión/interpretación\nF definición\nY explicación causal\nD dato/evidencia\nQ cita/voz externa\nP pregunta\nR respuesta\nE ejemplo\nH historia/anécdota\nG analogía/comparación\nC contraste/giro\nB objeción/refutación\nX advertencia/riesgo\nT transición\nM metacomentario\nL lista/enumeración\nZ cierre/conclusión\nS solución/recomendación\nI instrucción/paso operativo\nU utilidad/aprendizaje\nV llamada al espectador\nN no clasificado\n\nEmociones:\nN neutral\nA alegría/entusiasmo\nL amor/admiración/cariño\nC calma/confianza\nS sorpresa/asombro\nE enojo/indignación\nM miedo/ansiedad\nT tristeza/decepción\nD disgusto/desprecio\nF frustración/resignación\nI ironía/sarcasmo\n\nCerteza:\nnone = \"\"\nstrong = \"!\"\ntentative = \"~\"\nuncertain = \"?\"\n\nPostura:\npositive = \"+\"\nnegative = \"-\"\nmixed = \"±\"\nneutral = \"0\"\n\nPara cada función crear una ficha completa con:\n- code\n- name\n- layer\n- definition\n- when_to_use\n- when_not_to_use\n- positive_tests\n- negative_tests\n- required_evidence\n- common_lexical_signals\n- misleading_lexical_signals\n- confusable_with\n- boundary_rules\n- priority_rules\n- inheritance\n- allowed_relations\n- positive_examples\n- negative_examples\n- minimal_pair_examples\n\nReglas obligatorias:\n- N no coexiste con ninguna otra función.\n- K hereda A, pero A se guarda como inherited_function, no como function principal.\n- D exige evidencia concreta.\n- R exige pregunta explícita cercana, pregunta implícita clara o estructura pregunta-respuesta.\n- Y exige explicación causal o mecanismo.\n- E, H y G deben tener fronteras muy claras.\n- S, I y U deben tener fronteras muy claras.\n- C, B y X deben tener fronteras muy claras.\n- emoción expresada no es lo mismo que emoción mencionada.\n- V es ortogonal y puede coexistir con muchas funciones.\n- lógica es opcional.\n- más de 5 funciones en una unidad debe activar possible_overlabeling.\n- toda etiqueta final debe tener evidence_spans o una regla clara que la soporte.\n- toda etiqueta confundible rechazada debe registrarse en rejected_labels.\n\nCrear árboles de decisión para:\n1. A vs K vs O\n2. P vs R vs Y\n3. D vs A/K/Q\n4. E vs H vs G\n5. S vs I vs U\n6. C vs B vs X\n7. T vs M vs L vs Z\n8. emoción expresada vs emoción mencionada\n9. neutral vs emoción leve\n10. postura positiva vs negativa vs mixta vs neutral\n\nCrear al menos 120 pares mínimos en minimal_pairs_seed_v0_1.jsonl.\nCada par debe tener:\n- pair_id\n- text_a\n- expected_a JSON\n- text_b\n- expected_b JSON\n- why_different\n- confusable_labels\n- decision_rule_id\n- validator_rule_ids\n\nCrear validator_rules_seed_v0_1.json con reglas esperadas, pero no implementarlas aún.\n\nCrear notation_contract_v0_1.md explicando que:\n- final_notation se deriva del JSON\n- nadie debe editar final_notation manualmente\n- si cambia el JSON, se recompila la notación\n- CSV sólo es export derivado\n\nNo implementar pipeline todavía.\nSí implementar validación básica de que los JSON/JSONL creados sean parseables.\nAgregar tests simples para cargar estos archivos.\n\nHaz commit:\nfeat: create annotation constitution v0.1 with boundaries and minimal pairs\n\nAñadir reglas de migración iniciales en configs/version_migration_rules.json con al menos:\n- from_version: v0_1\n- to_version: v1_0\n- migration_notes: criterios y cambios esperados para pasar de semilla a versión consolidada.\n\nRegla de salida:\n- todos los outputs generados en este paso deben incluir versión efectiva usada (taxonomy_version_effective, prompt_version_effective, validator_version_effective).\n\nNota:\n- v1_0 aún no se crea aquí; sólo se define su ruta de migración.",
+      "expected_commit_message": "feat: create annotation constitution v0.1 with boundaries and minimal pairs",
+      "inputs_required": [
+        "configs/version_migration_rules.json"
+      ],
+      "outputs_expected": [
+        "annotation_guidelines/",
+        "configs/"
+      ],
+      "dependencies": [
+        1,
+        2
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 7000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 4,
+      "title": "Auditoría adversarial de la Constitución v0.1",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "xhigh",
+      "temperature_guidance": "baja/default; el objetivo es romper la taxonomía, no embellecerla",
+      "objective": "Detectar ambigüedades, contradicciones, redundancias, reglas débiles y casos frontera antes de implementar clasificadores.",
+      "prompt": "Audita adversarialmente la Constitución de Anotación v0.1.\n\nObjetivo:\nEncontrar ambigüedades, contradicciones, etiquetas redundantes, fronteras débiles y pares mínimos insuficientes ANTES de implementar clasificadores.\n\nLeer:\nannotation_guidelines/annotation_constitution_v0_1.md\nannotation_guidelines/taxonomy_v0_1.json\nannotation_guidelines/decision_trees_v0_1.md\nannotation_guidelines/label_boundaries_v0_1.json\nannotation_guidelines/minimal_pairs_seed_v0_1.jsonl\nannotation_guidelines/validator_rules_seed_v0_1.json\n\nCrear:\nannotation_guidelines/adversarial_audit_v0_1.md\nannotation_guidelines/taxonomy_revision_plan_v0_2.json\nannotation_guidelines/ambiguous_cases_generated_v0_1.jsonl\nannotation_guidelines/redundancy_report_v0_1.json\nannotation_guidelines/confusion_matrix_expected_v0_1.json\n\nTareas:\n1. Buscar etiquetas que se solapan demasiado.\n2. Buscar reglas que se contradicen.\n3. Detectar funciones que probablemente causarán sobre-etiquetado.\n4. Detectar funciones con criterios demasiado subjetivos.\n5. Generar casos frontera nuevos.\n6. Generar frases similares que podrían recibir notaciones distintas.\n7. Proponer reglas de desempate adicionales.\n8. Proponer si alguna etiqueta debe:\n   - mantenerse\n   - fusionarse\n   - renombrarse\n   - degradarse a atributo secundario\n   - eliminarse\n9. Revisar especialmente:\n   - A vs K vs O\n   - R vs Y\n   - D vs Q vs K\n   - E vs H vs G\n   - S vs I vs U\n   - C vs B vs X\n   - T vs M vs L vs Z\n   - emoción expresada vs emoción mencionada\n   - postura vs emoción\n   - certeza vs fuerza retórica\n\nRegla importante:\nNo modifiques directamente taxonomy_v0_1.json todavía.\nGenera un plan de revisión explícito con:\n- issue_id\n- severity: low | medium | high | critical\n- affected_labels\n- problem\n- examples\n- proposed_fix\n- expected_impact\n- requires_new_validator: true/false\n- requires_new_minimal_pairs: true/false\n\nCrear al menos 100 ambiguous_cases_generated_v0_1.jsonl.\nCada caso debe incluir:\n- text\n- possible_annotations\n- preferred_annotation\n- why_preferred\n- rejected_options\n- decision_rule_needed\n\nHaz commit:\naudit: adversarially review annotation constitution v0.1\n\nAñadir/actualizar en configs/version_migration_rules.json entradas con:\n- from_version\n- to_version\n- migration_notes\npara reflejar hallazgos de auditoría y cambios propuestos antes de consolidar v1_0.\n\nRegla:\n- mantener v0_1 como versión efectiva durante toda la auditoría; v1_0 sigue reservado para el paso de consolidación.\n\nOutputs de auditoría:\n- incluir versión efectiva usada en cada artefacto (taxonomy_version_effective, prompt_version_effective, validator_version_effective).",
+      "expected_commit_message": "audit: adversarially review annotation constitution v0.1",
+      "token_optimization_policy": {
+        "enabled": true,
+        "override_global": false,
+        "intermediate_summary_strategy": {
+          "enabled": true,
+          "summary_interval_items": 25,
+          "force_summary_before_adjudication": true
+        },
+        "max_output_tokens": 5000,
+        "synthetic_reviewers_parallelism": {
+          "max_parallel_items": 8
+        }
+      },
+      "inputs_required": [
+        "annotation_guidelines/annotation_constitution_v0_1.md",
+        "annotation_guidelines/taxonomy_v0_1.json",
+        "annotation_guidelines/decision_trees_v0_1.md",
+        "annotation_guidelines/label_boundaries_v0_1.json",
+        "annotation_guidelines/minimal_pairs_seed_v0_1.jsonl",
+        "annotation_guidelines/validator_rules_seed_v0_1.json",
+        "annotation_guidelines/adversarial_audit_v0_1.md",
+        "annotation_guidelines/taxonomy_revision_plan_v0_2.json",
+        "annotation_guidelines/ambiguous_cases_generated_v0_1.jsonl",
+        "annotation_guidelines/redundancy_report_v0_1.json",
+        "annotation_guidelines/confusion_matrix_expected_v0_1.json",
+        "configs/version_migration_rules.json"
+      ],
+      "outputs_expected": [
+        "annotation_guidelines/annotation_constitution_v0_1.md",
+        "annotation_guidelines/taxonomy_v0_1.json",
+        "annotation_guidelines/decision_trees_v0_1.md",
+        "annotation_guidelines/label_boundaries_v0_1.json",
+        "annotation_guidelines/minimal_pairs_seed_v0_1.jsonl",
+        "annotation_guidelines/validator_rules_seed_v0_1.json",
+        "annotation_guidelines/adversarial_audit_v0_1.md",
+        "annotation_guidelines/taxonomy_revision_plan_v0_2.json",
+        "annotation_guidelines/ambiguous_cases_generated_v0_1.jsonl",
+        "annotation_guidelines/redundancy_report_v0_1.json",
+        "annotation_guidelines/confusion_matrix_expected_v0_1.json"
+      ],
+      "dependencies": [
+        2,
+        3
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 12000,
+        "output_tokens": 4500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 5,
+      "title": "Consolidar Constitución v1.0 estable",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "xhigh",
+      "temperature_guidance": "baja/default; resolver contradicciones y congelar contrato inicial",
+      "objective": "Aplicar auditoría adversarial y crear una primera versión estable lista para implementación.",
+      "prompt": "Consolida la Constitución de Anotación v1.0.\n\nObjetivo:\nAplicar la auditoría adversarial de v0.1 y generar una versión estable inicial v1.0 lista para implementación.\n\nLeer:\nannotation_guidelines/annotation_constitution_v0_1.md\nannotation_guidelines/taxonomy_v0_1.json\nannotation_guidelines/adversarial_audit_v0_1.md\nannotation_guidelines/taxonomy_revision_plan_v0_2.json\nannotation_guidelines/ambiguous_cases_generated_v0_1.jsonl\nannotation_guidelines/minimal_pairs_seed_v0_1.jsonl\n\nCrear:\nannotation_guidelines/annotation_constitution_v1_0.md\nannotation_guidelines/taxonomy_v1_0.json\nannotation_guidelines/decision_trees_v1_0.md\nannotation_guidelines/label_boundaries_v1_0.json\nannotation_guidelines/minimal_pairs_v1_0.jsonl\nannotation_guidelines/positive_negative_examples_v1_0.jsonl\nannotation_guidelines/validator_rules_v1_0.json\nannotation_guidelines/notation_contract_v1_0.md\nannotation_guidelines/confusion_groups_v1_0.json\n\nconfigs/\n  taxonomy_v1_0.json\n  validators_config_v1_0.json\n\nReglas:\n- Resolver todos los issues critical y high.\n- Si una etiqueta sigue siendo ambigua, reforzar sus negative_tests y minimal_pairs.\n- No agregar etiquetas nuevas salvo que la auditoría demuestre que son necesarias.\n- No eliminar etiquetas salvo que haya redundancia clara.\n- Para cada grupo confundible, crear reglas de desempate explícitas.\n- Para cada función, incluir al menos:\n  - 5 ejemplos positivos\n  - 5 ejemplos negativos\n  - 3 pares mínimos\n- Crear al menos 180 pares mínimos totales.\n- Crear expected_confusions por grupo.\n\nGenerar un changelog:\nannotation_guidelines/CHANGELOG_v0_1_to_v1_0.md\n\nTambién crear tests:\ntests/test_annotation_assets_v1_0.py\n\nLos tests deben validar:\n- taxonomy_v1_0.json parsea\n- todos los códigos tienen ficha completa\n- todos los confusable_with existen\n- todos los minimal_pairs tienen expected_a y expected_b válidos\n- no hay etiquetas huérfanas\n- todo validator_rule_id referenciado existe\n- todas las funciones tienen ejemplos positivos y negativos suficientes\n- todo grupo confundible tiene árbol de decisión\n\nHaz commit:\nfeat: consolidate stable annotation constitution v1.0\n\nAntes de generar v1_0, aplicar explícitamente reglas de migración desde configs/version_migration_rules.json.\nRegistrar en CHANGELOG y/o manifest de consolidación para cada cambio:\n- from_version\n- to_version\n- migration_notes\n\nRegla de outputs:\n- todos los outputs de consolidación y tests deben incluir versión efectiva usada (taxonomy_version_effective, prompt_version_effective, validator_version_effective).",
+      "expected_commit_message": "feat: consolidate stable annotation constitution v1.0",
+      "inputs_required": [
+        "annotation_guidelines/annotation_constitution_v0_1.md",
+        "annotation_guidelines/taxonomy_v0_1.json",
+        "annotation_guidelines/adversarial_audit_v0_1.md",
+        "annotation_guidelines/taxonomy_revision_plan_v0_2.json",
+        "annotation_guidelines/ambiguous_cases_generated_v0_1.jsonl",
+        "annotation_guidelines/minimal_pairs_seed_v0_1.jsonl",
+        "annotation_guidelines/annotation_constitution_v1_0.md",
+        "annotation_guidelines/taxonomy_v1_0.json",
+        "annotation_guidelines/decision_trees_v1_0.md",
+        "annotation_guidelines/label_boundaries_v1_0.json",
+        "annotation_guidelines/minimal_pairs_v1_0.jsonl",
+        "annotation_guidelines/positive_negative_examples_v1_0.jsonl",
+        "annotation_guidelines/validator_rules_v1_0.json",
+        "annotation_guidelines/notation_contract_v1_0.md",
+        "annotation_guidelines/confusion_groups_v1_0.json",
+        "annotation_guidelines/CHANGELOG_v0_1_to_v1_0.md",
+        "configs/version_migration_rules.json."
+      ],
+      "outputs_expected": [
+        "annotation_guidelines/annotation_constitution_v0_1.md",
+        "annotation_guidelines/taxonomy_v0_1.json",
+        "annotation_guidelines/adversarial_audit_v0_1.md",
+        "annotation_guidelines/taxonomy_revision_plan_v0_2.json",
+        "annotation_guidelines/ambiguous_cases_generated_v0_1.jsonl",
+        "annotation_guidelines/minimal_pairs_seed_v0_1.jsonl",
+        "annotation_guidelines/annotation_constitution_v1_0.md",
+        "annotation_guidelines/taxonomy_v1_0.json",
+        "annotation_guidelines/decision_trees_v1_0.md",
+        "annotation_guidelines/label_boundaries_v1_0.json",
+        "annotation_guidelines/minimal_pairs_v1_0.jsonl",
+        "annotation_guidelines/positive_negative_examples_v1_0.jsonl",
+        "annotation_guidelines/validator_rules_v1_0.json",
+        "annotation_guidelines/notation_contract_v1_0.md",
+        "annotation_guidelines/confusion_groups_v1_0.json",
+        "configs/",
+        "annotation_guidelines/CHANGELOG_v0_1_to_v1_0.md",
+        "tests/test_annotation_assets_v1_0.py"
+      ],
+      "dependencies": [
+        3,
+        4
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 12000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 6,
+      "title": "Validadores determinísticos y compilador de notación",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "high",
+      "temperature_guidance": "baja/default; reglas determinísticas y tests exactos",
+      "objective": "Implementar las reglas que protegen consistencia y compilar la notación derivada desde JSON.",
+      "prompt": "Implementa validators.py y notation.py.\n\nObjetivo:\nCrear validadores determinísticos para proteger estabilidad, precisión y auditoría.\n\nValidadores obligatorios:\n1. N_exclusive:\nSi N coexiste con cualquier otra función, remover N y registrar validator_flag.\n\n2. K_inherits_A:\nSi K está en functions, agregar A a inherited_functions con reason K_subclass_of_A.\nSi A y K están ambos en functions, remover A de functions y dejarlo como inherited.\n\n3. D_requires_evidence:\nSi D aparece y no hay evidence_spans ni señales textuales fuertes de evidencia, marcar needs_review y validator_flag D_without_evidence.\n\n4. R_requires_anchor:\nSi R aparece y no hay pregunta cercana en contexto ni relation ANS candidata, marcar needs_review R_without_question_anchor.\n\n5. emotion_mentioned_vs_expressed:\nSi emoción expresada intensa aparece sólo porque el texto menciona una emoción, marcar possible_emotion_confusion.\n\n6. overlabeling:\nSi hay más de 5 functions, needs_review=true.\n\n7. primary_function_required:\nSi hay functions distintas de N, debe existir primary_function.\n\n8. notation_derivation:\nfinal_notation siempre se deriva desde JSON, nunca se recibe manualmente.\n\nCompilador de notación:\nFormato:\n(F1+F2+...)[certainty_symbol]_EmotionIntensity{stance_symbol}\n\nReglas:\n- Ordenar funciones según taxonomy order.\n- Si sólo hay una función, puede escribirse K_N1{0}, pero mantener opción config always_parentheses.\n- Si certainty=none no agregar símbolo.\n- stance siempre se agrega.\n- emotion intensity siempre 0-3.\n\nEjemplos:\n(P+V)_S1{0}\n(K+Y)!_E2{-}\n(S+I+U)_C1{+}\nN_N0{0}\n\nAgregar tests de casos exactos y validadores.\n\nHaz commit:\nfeat: implement deterministic validators and notation compiler",
+      "expected_commit_message": "feat: implement deterministic validators and notation compiler",
+      "inputs_required": [],
+      "outputs_expected": [
+        "outputs/{run_id}/step_6_report.json"
+      ],
+      "dependencies": [
+        4,
+        5
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 7000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 7,
+      "title": "Loader, normalizador y segmentador JSON-first",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "medium",
+      "temperature_guidance": "baja/default; reproducibilidad y robustez",
+      "objective": "Leer transcripciones y convertirlas a NarrativeDocument JSON válido con unidades limpias.",
+      "prompt": "Implementa loader.py, normalizer.py y segmenter.py.\n\nObjetivo:\nLeer transcripciones y convertirlas a NarrativeDocument JSON válido con unidades limpias.\n\nEntradas soportadas:\n1. .txt simple\n2. .json con:\n{\n  \"document_id\": \"...\",\n  \"transcript\": \"...\",\n  \"metadata\": {...}\n}\n3. .json con:\n{\n  \"document_id\": \"...\",\n  \"segments\": [\n    {\"start_ms\": 0, \"end_ms\": 1000, \"text\": \"...\"}\n  ],\n  \"metadata\": {...}\n}\n4. .jsonl con un documento por línea.\n\nReglas:\n- No perder metadata.\n- Si no hay document_id, construir uno estable con hash.\n- Normalizar espacios, comillas raras, saltos de línea, caracteres invisibles.\n- Segmentar en unidades semánticas breves.\n- Respetar timestamps si existen.\n- Si un segmento es largo, dividir preservando start_ms/end_ms aproximados y marcar validator_flag approximate_timing.\n- Dividir preguntas y respuestas si vienen en la misma línea:\n  \"¿Por qué pasa esto? Porque nadie mide bien.\"\n  debe generar dos unidades.\n- Mantener char_start y char_end cuando sea texto plano.\n- Cada unidad debe tener previous_unit_id y next_unit_id.\n\nSalida interna:\nNarrativeDocument con units sin clasificar todavía.\n\nTests:\n- txt básico\n- json transcript\n- json segments\n- pregunta+respuesta en misma línea\n- segmento largo\n- caracteres raros\n\nHaz commit:\nfeat: add transcript loading normalization and segmentation",
+      "expected_commit_message": "feat: add transcript loading normalization and segmentation",
+      "inputs_required": [],
+      "outputs_expected": [
+        "outputs/{run_id}/step_7_report.json"
+      ],
+      "dependencies": [
+        5,
+        6
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 7000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 8,
+      "title": "Heurísticas conservadoras como candidatos",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "high",
+      "temperature_guidance": "baja/default; no sobre-etiquetar",
+      "objective": "Generar señales determinísticas de alta precisión como candidatos, no como verdad final.",
+      "prompt": "Implementa heuristic_candidates.py.\n\nObjetivo:\nGenerar señales determinísticas de alta precisión, pero no imponer clasificación final salvo casos obvios.\n\nSalida por unidad:\n{\n  \"locked_functions\": [],\n  \"candidate_functions\": [],\n  \"candidate_certainty\": null,\n  \"candidate_emotion_expressed\": null,\n  \"candidate_emotions_mentioned\": [],\n  \"candidate_stance\": null,\n  \"heuristics_fired\": [],\n  \"evidence_spans\": []\n}\n\nReglas:\n- ¿? o cierre ? => P locked\n- \"en resumen\", \"en conclusión\", \"para cerrar\" => Z candidate/locked si está cerca del final\n- números, %, \"según\", \"estudio\", \"encuesta\", \"datos\" => D candidate\n- \"porque\", \"debido a\", \"la razón es\" => Y candidate\n- \"por ejemplo\", \"imagina\", \"supongamos\" => E candidate\n- \"una vez\", \"me pasó\", \"recuerdo que\" => H candidate\n- \"es como\", \"funciona como\", \"parecido a\" => G candidate\n- \"pero\", \"sin embargo\", \"aunque\", \"en cambio\" => C candidate\n- \"alguien podría decir\", \"se podría objetar\" => B candidate\n- \"cuidado\", \"ojo\", \"riesgo\", \"peligro\" => X candidate\n- \"te recomiendo\", \"conviene\", \"deberías\" => S candidate\n- imperativos claros => I candidate\n- \"la lección\", \"aprendizaje\", \"takeaway\" => U candidate\n- \"tú\", \"te\", \"tu caso\", \"pregúntate\" => V candidate\n- \"creo\", \"pienso\", \"me parece\" => O candidate\n- \"significa\", \"se define\", \"es decir\" => F candidate\n- \"primero\", \"segundo\", \"tercero\" => L candidate\n- \"voy a explicar\", \"déjame explicar\" => M candidate\n- citas explícitas => Q candidate\n\nDistinguir:\n- emotion_expressed candidates\n- emotions_mentioned candidates\n\nNo sobre-etiquetar.\nNo convertir todas las señales léxicas en funciones finales.\nAgregar evidence_spans para cada heurística.\n\nTests:\n- cada etiqueta con ejemplo positivo\n- falsos positivos controlados\n- \"pero bueno, sigamos\" no debe ser C fuerte\n- \"la gente siente miedo\" debe ser emotion_mentioned, no expressed\n\nHaz commit:\nfeat: add conservative heuristic candidate extraction",
+      "expected_commit_message": "feat: add conservative heuristic candidate extraction",
+      "inputs_required": [],
+      "outputs_expected": [
+        "outputs/{run_id}/step_8_report.json"
+      ],
+      "dependencies": [
+        6,
+        7
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 7000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 9,
+      "title": "Cliente OpenAI con Structured Outputs, cache y versiones",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "high",
+      "temperature_guidance": "baja/default para implementación; el runtime usará config",
+      "objective": "Crear cliente robusto para llamadas estructuradas, cacheadas y validadas con Pydantic.",
+      "prompt": "Implementa llm_client.py.\n\nObjetivo:\nCrear cliente OpenAI robusto para clasificación estructurada, con cache y validación.\n\nRequisitos:\n- Usar Responses API.\n- Usar Structured Outputs con json_schema strict=true.\n- Nunca aceptar texto libre.\n- Validar toda respuesta con Pydantic.\n- Leer OPENAI_API_KEY del entorno.\n- Soportar llm_config.json.\n- Guardar cache por hash en .cache/narrative_dna/.\n- El hash debe incluir:\n  - model\n  - reasoning_effort\n  - temperature si aplica\n  - taxonomy_version\n  - prompt_version\n  - validator_version\n  - input payload\n- Retries con backoff.\n- Modo dry_run.\n- Registrar uso estimado si la API devuelve usage.\n- Si falla, devolver error controlado y permitir fallback a heurísticas.\n\nllm_config.json:\n{\n  \"main_classifier\": {\n    \"model\": \"gpt-5.5\",\n    \"reasoning_effort\": \"medium\",\n    \"temperature\": 0.1\n  },\n  \"adjudicator\": {\n    \"model\": \"gpt-5.5\",\n    \"reasoning_effort\": \"high\",\n    \"temperature\": 0.0\n  },\n  \"synthetic_reviewers\": [\n    {\n      \"name\": \"divergent_reviewer_a\",\n      \"model\": \"gpt-5.5\",\n      \"reasoning_effort\": \"high\",\n      \"temperature\": 0.9\n    },\n    {\n      \"name\": \"divergent_reviewer_b\",\n      \"model\": \"gpt-5.5\",\n      \"reasoning_effort\": \"high\",\n      \"temperature\": 1.0\n    },\n    {\n      \"name\": \"taxonomy_strict_reviewer\",\n      \"model\": \"gpt-5.5\",\n      \"reasoning_effort\": \"high\",\n      \"temperature\": 0.7\n    }\n  ],\n  \"synthetic_aggregator\": {\n    \"model\": \"gpt-5.5\",\n    \"reasoning_effort\": \"high\",\n    \"temperature\": 0.1\n  },\n  \"synthetic_final_adjudicator\": {\n    \"model\": \"gpt-5.5\",\n    \"reasoning_effort\": \"xhigh\",\n    \"temperature\": 0.0\n  },\n  \"cheap_batch_profile\": {\n    \"enabled\": false,\n    \"model\": \"gpt-5.4-mini\",\n    \"reasoning_effort\": \"low\",\n    \"temperature\": 0.0\n  }\n}\n\nTests con mocks:\n- cache hit\n- cache miss\n- schema inválido\n- retry\n- dry_run\n\nHaz commit:\nfeat: add structured openai client with cache and schema validation",
+      "expected_commit_message": "feat: add structured openai client with cache and schema validation",
+      "inputs_required": [],
+      "outputs_expected": [
+        "outputs/{run_id}/step_9_report.json"
+      ],
+      "dependencies": [
+        7,
+        8
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 7000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 10,
+      "title": "Clasificador de unidades JSON-first",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "high",
+      "temperature_guidance": "baja/default en Codex; runtime main_classifier temperature 0.1",
+      "objective": "Clasificar unidades con contexto, heurísticas, reglas de frontera y salida JSON estricta.",
+      "prompt": "Implementa unit_classifier.py y prompts/unit_classifier.md.\n\nObjetivo:\nClasificar unidades en JSON estricto, con contexto, heurísticas y guía de decisión.\n\nInput al modelo por unidad:\n{\n  \"taxonomy_version\": \"...\",\n  \"unit\": {...},\n  \"previous_units\": [... máximo 2],\n  \"next_units\": [... máximo 2],\n  \"heuristic_candidates\": {...},\n  \"taxonomy_excerpt\": {...},\n  \"decision_trees_excerpt\": \"...\",\n  \"minimal_pairs_excerpt\": [...]\n}\n\nOutput esperado:\nDebe cumplir NarrativeUnitPartialClassification:\n- functions\n- primary_function\n- secondary_functions\n- certainty\n- emotion_expressed\n- emotion_intensity\n- emotions_mentioned\n- stance\n- target\n- speech_act\n- logic\n- evidence_spans\n- rejected_labels\n- confidence\n- needs_review\n- review_reasons\n\nReglas del prompt:\n- Clasifica por función de frase, no por palabras sueltas.\n- No sobre-etiquetar.\n- D exige evidencia concreta.\n- R exige anclaje de pregunta.\n- Y exige causalidad/mecanismo.\n- K exige tesis fuerte, generalizable o debatible.\n- O exige interpretación/opinión subjetiva.\n- E, H y G son diferentes.\n- S, I y U son diferentes.\n- emoción expresada no es emoción mencionada.\n- lógica es opcional.\n- Si dudas, baja confidence y marca needs_review.\n- Siempre incluye rejected_labels para al menos las etiquetas confundibles principales.\n\nImplementar:\n- clasificación de documento completo\n- clasificación por unidad\n- merge con heurísticas\n- postproceso con validators\n- generación de final_notation\n\nNo llamar adjudicator todavía; sólo dejar hook.\n\nTests con mocks:\n- P+V\n- K vs A\n- emoción mencionada vs expresada\n- R sin pregunta debe marcar review\n- D sin evidencia debe marcar review\n\nHaz commit:\nfeat: implement json-first unit classifier",
+      "expected_commit_message": "feat: implement json-first unit classifier",
+      "inputs_required": [],
+      "outputs_expected": [
+        "outputs/{run_id}/step_10_report.json"
+      ],
+      "dependencies": [
+        8,
+        9
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 7000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 11,
+      "title": "Árbitro conservador de precisión",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "xhigh",
+      "temperature_guidance": "baja/default en Codex; runtime adjudicator temperature 0.0",
+      "objective": "Resolver sólo casos de alto riesgo con una política conservadora y auditable.",
+      "prompt": "Implementa adjudicator.py y prompts/adjudicator.md.\n\nObjetivo:\nResolver sólo los casos de alto riesgo. Prioridad absoluta: precisión conservadora.\n\nEl adjudicator se activa si:\n- confidence < 0.70\n- D_without_evidence\n- R_without_question_anchor\n- possible_overlabeling\n- emotion_intensity >= 3\n- conflicto entre locked_functions y clasificación LLM\n- functions contiene más de 4 etiquetas\n- primary_function está en grupos confundibles:\n  A/K/O, R/Y, E/H/G, S/I/U, C/B/X\n- similarity_auditor marca conflicto de alta severidad\n\nInput:\n- unidad actual\n- contexto ±3\n- clasificación inicial\n- heurísticas\n- validator_flags\n- etiquetas confundibles relevantes\n- minimal pairs relevantes\n- decision tree relevante\n\nOutput:\nAdjudicatedClassification:\n- final_functions\n- final_primary_function\n- final_secondary_functions\n- final_certainty\n- final_emotion_expressed\n- final_emotion_intensity\n- final_emotions_mentioned\n- final_stance\n- final_target\n- final_speech_act\n- final_logic\n- final_evidence_spans\n- final_rejected_labels\n- final_confidence\n- final_needs_review\n- adjudication_reason_summary\n- changed_fields\n\nReglas:\n- No aumentar etiquetas si no hay evidencia.\n- Preferir una etiqueta primaria clara sobre muchas secundarias débiles.\n- Si no hay evidencia para D, quitar D.\n- Si R no tiene anclaje, cambiar a Y/A/K o dejar review.\n- Si emoción sólo está mencionada, no ponerla como expressed.\n- Si dos notaciones son plausibles, dejar needs_review=true.\n\nTests con mocks:\n- sobre-etiquetado reducido\n- D eliminado por falta de evidencia\n- R cambiado a Y\n- emoción intensa degradada\n- K vs A resuelto\n\nHaz commit:\nfeat: add conservative adjudicator for high-risk classifications",
+      "expected_commit_message": "feat: add conservative adjudicator for high-risk classifications",
+      "inputs_required": [],
+      "outputs_expected": [
+        "outputs/{run_id}/step_11_report.json"
+      ],
+      "dependencies": [
+        9,
+        10
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 7000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 12,
+      "title": "Auditoría por similitud semántica",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "high",
+      "temperature_guidance": "baja/default; cuidado con diferencias explicadas por contexto",
+      "objective": "Detectar frases semánticamente similares con notaciones inconsistentes.",
+      "prompt": "Implementa similarity_auditor.py.\n\nObjetivo:\nDetectar frases semánticamente similares con notaciones inconsistentes.\n\nRequisitos:\n- Crear una interfaz EmbeddingProvider.\n- Implementar un proveedor dummy/local para tests.\n- Implementar un proveedor OpenAI configurable, sin hardcodear modelo.\n- Guardar embeddings en cache.\n- Construir texto contextual para embedding:\n  previous_unit + current_unit + next_unit\n- Calcular vecinos cercanos por cosine similarity.\n- Calcular label_distance por Jaccard sobre functions.\n- Calcular notation_distance considerando:\n  functions\n  certainty\n  emotion_expressed\n  stance\n  primary_function\n- Calcular conflict_score:\n  semantic_similarity * notation_distance * avg_confidence\n- Generar SimilarityConflict JSONL.\n\nNo todo conflicto es error:\nAgregar campo conflict_explanation_type:\n- likely_inconsistency\n- context_explains_difference\n- allowed_by_taxonomy\n- needs_human_review\n\nReglas:\n- Si dos frases son muy similares y difieren entre A/K/O, marcar.\n- Si difieren entre R/Y pero una tiene pregunta previa y otra no, marcar context_explains_difference.\n- Si difieren sólo en V por presencia de \"tú/te\", marcar allowed_by_taxonomy.\n- Si difieren en emotion_expressed vs emotions_mentioned, marcar posible inconsistencia.\n\nOutputs:\noutputs/{run_id}/similarity_conflicts.jsonl\noutputs/{run_id}/similarity_conflicts_summary.json\n\nCLI:\nnarrative-dna audit-similarity --run-id X --top-k 10 --threshold 0.82\n\nTests:\n- conflicto real\n- diferencia explicada por contexto\n- diferencia permitida por taxonomía\n\nHaz commit:\nfeat: add semantic similarity auditor for notation consistency",
+      "expected_commit_message": "feat: add semantic similarity auditor for notation consistency",
+      "inputs_required": [
+        "outputs/{run_id}/similarity_conflicts.jsonl",
+        "outputs/{run_id}/similarity_conflicts_summary.json"
+      ],
+      "outputs_expected": [
+        "outputs/{run_id}/similarity_conflicts.jsonl",
+        "outputs/{run_id}/similarity_conflicts_summary.json"
+      ],
+      "dependencies": [
+        10,
+        11
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 7000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 13,
+      "title": "Construir review set para comité sintético",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "medium",
+      "temperature_guidance": "baja/default; selección amplia de casos difíciles",
+      "objective": "Crear un conjunto JSON de revisión para que modelos avanzados revisen casos difíciles, similares y frontera.",
+      "prompt": "Ajusta build-review-set para revisión sintética por comité OpenAI.\n\nObjetivo:\nConstruir un conjunto de revisión que maximice aprendizaje y detección de inconsistencias, no sólo casos aleatorios.\n\nCrear:\nsrc/narrative_dna/review_set_builder.py\n\nComando:\nnarrative-dna build-review-set --run-id X\n\nEl review set debe incluir:\n1. Todas las unidades needs_review=true.\n2. Casos con validator_flags.\n3. Casos con similarity_conflicts.\n4. Casos con funciones confundibles:\n   - A/K/O\n   - R/Y\n   - D/Q/K\n   - E/H/G\n   - S/I/U\n   - C/B/X\n   - T/M/L/Z\n5. Casos con emoción expresada intensa.\n6. Casos con emotions_mentioned no vacías.\n7. Casos con más de 3 funciones.\n8. Casos con confidence baja o media.\n9. Muestra de alta confianza para control de calidad.\n10. Pares similares con notaciones distintas.\n11. Pares mínimos de annotation_guidelines/minimal_pairs_v1_0.jsonl.\n\nCada registro debe tener:\n- review_item_id\n- item_type:\n  unit | similar_pair | minimal_pair | relation | chain\n- document_id\n- unit_id o unit_ids\n- text\n- context_before\n- context_after\n- current_prediction_json\n- current_notation\n- relevant_taxonomy_rules\n- relevant_decision_tree\n- relevant_minimal_pairs\n- validator_flags\n- similarity_conflict_info\n- expected_difficulty:\n  easy | medium | hard | adversarial\n- review_goal:\n  validate | find_alternative | resolve_confusion | test_boundary\n\nOutput:\noutputs/{run_id}/review/review_items.jsonl\noutputs/{run_id}/review/review_manifest.json\n\nNo crear CSV como fuente.\nCSV opcional sólo derivado.\n\nHaz commit:\nfeat: build synthetic review set with boundary and similarity cases",
+      "expected_commit_message": "feat: build synthetic review set with boundary and similarity cases",
+      "inputs_required": [
+        "annotation_guidelines/minimal_pairs_v1_0.jsonl.",
+        "outputs/{run_id}/review/review_items.jsonl",
+        "outputs/{run_id}/review/review_manifest.json"
+      ],
+      "outputs_expected": [
+        "src/narrative_dna/review_set_builder.py",
+        "outputs/{run_id}/review/review_items.jsonl",
+        "outputs/{run_id}/review/review_manifest.json"
+      ],
+      "dependencies": [
+        11,
+        12
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 7000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 14,
+      "title": "Revisión sintética por comité OpenAI",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "high",
+      "temperature_guidance": "runtime: reviewers temperatura 0.7-1.0, aggregator 0.1, final adjudicator 0.0",
+      "objective": "Sustituir revisión humana exhaustiva por comité sintético auditado, con diversidad alta y agregación conservadora.",
+      "prompt": "Reemplaza el flujo de revisión humana por un flujo de revisión sintética auditada por comité de modelos OpenAI.\n\nImportante:\nNo llamar a esto gold humano. Llamarlo synthetic_review y synthetic_gold_candidate.\n\nCrear:\nsrc/narrative_dna/synthetic_reviewer.py\nsrc/narrative_dna/review_aggregator.py\nprompts/synthetic_reviewer.md\nprompts/synthetic_aggregator.md\nprompts/synthetic_adjudicator.md\n\nConfig:\nconfigs/synthetic_review_config.json\n\nConfiguración sugerida:\n{\n  \"reviewers\": [\n    {\n      \"name\": \"divergent_reviewer_a\",\n      \"model\": \"gpt-5.5\",\n      \"reasoning_effort\": \"high\",\n      \"temperature\": 0.9,\n      \"role\": \"Find plausible alternative annotations and edge cases.\"\n    },\n    {\n      \"name\": \"divergent_reviewer_b\",\n      \"model\": \"gpt-5.5\",\n      \"reasoning_effort\": \"high\",\n      \"temperature\": 1.0,\n      \"role\": \"Stress-test the current annotation and search for hidden ambiguity.\"\n    },\n    {\n      \"name\": \"taxonomy_strict_reviewer\",\n      \"model\": \"gpt-5.5\",\n      \"reasoning_effort\": \"high\",\n      \"temperature\": 0.7,\n      \"role\": \"Apply the taxonomy strictly but consider borderline cases.\"\n    }\n  ],\n  \"aggregator\": {\n    \"model\": \"gpt-5.5\",\n    \"reasoning_effort\": \"high\",\n    \"temperature\": 0.1\n  },\n  \"final_adjudicator\": {\n    \"model\": \"gpt-5.5\",\n    \"reasoning_effort\": \"xhigh\",\n    \"temperature\": 0.0\n  }\n}\n\nFlujo:\n1. Tomar review_units.jsonl.\n2. Para cada unidad, mandar a 3 synthetic reviewers independientes.\n3. Cada reviewer debe devolver JSON estricto:\n   - proposed_functions\n   - primary_function\n   - certainty\n   - emotion_expressed\n   - emotion_intensity\n   - emotions_mentioned\n   - stance\n   - target\n   - speech_act\n   - logic\n   - evidence_spans\n   - rejected_labels\n   - uncertainty_notes\n   - possible_alternative_annotations\n   - confidence\n4. El aggregator compara las 3 respuestas.\n5. El aggregator produce:\n   - consensus_annotation\n   - disagreement_score\n   - disagreement_fields\n   - majority_labels\n   - minority_labels\n   - unresolved_ambiguities\n   - recommended_action:\n     accept_synthetic_gold | send_to_final_adjudicator | keep_for_manual_later\n6. Si disagreement_score es alto, llamar final_adjudicator.\n7. final_adjudicator debe ser conservador:\n   - si no hay evidencia suficiente, no aceptar etiqueta\n   - si D no tiene evidencia, quitar D\n   - si R no tiene anclaje, quitar/cambiar R\n   - si emoción sólo está mencionada, no marcarla como expressed\n   - si persiste ambigüedad, NO crear gold; marcar unresolved\n\nOutputs:\noutputs/{run_id}/synthetic_reviews.jsonl\noutputs/{run_id}/synthetic_review_aggregated.jsonl\noutputs/{run_id}/synthetic_gold_candidates.jsonl\noutputs/{run_id}/synthetic_review_report.json\noutputs/{run_id}/synthetic_review_report.md\n\nEstados:\n- accepted_synthetic_gold\n- unresolved\n- low_confidence\n- high_disagreement\n- needs_future_human_review\n\nReglas:\n- synthetic_gold_candidates.jsonl sólo incluye casos accepted_synthetic_gold.\n- No mezclar synthetic_gold con human_gold.\n- Todo registro debe guardar:\n  - reviewer_models\n  - temperatures\n  - reasoning_efforts\n  - prompt_version\n  - taxonomy_version\n  - disagreement_score\n  - final_adjudication_method\n\nAgregar CLI:\nnarrative-dna synthetic-review --run-id X\nnarrative-dna promote-synthetic-gold --run-id X\n\nAgregar tests con mocks:\n- los reviewers discrepan\n- aggregator acepta consenso\n- aggregator manda a final adjudicator\n- final adjudicator deja unresolved\n- no se promueven casos unresolved\n\nHaz commit:\nfeat: add synthetic openai committee review workflow",
+      "expected_commit_message": "feat: add synthetic openai committee review workflow",
+      "token_optimization_policy": {
+        "enabled": true,
+        "override_global": false,
+        "intermediate_summary_strategy": {
+          "enabled": true,
+          "summary_interval_items": 25,
+          "force_summary_before_adjudication": true
+        },
+        "max_output_tokens": 4500,
+        "synthetic_reviewers_parallelism": {
+          "max_parallel_items": 6
+        }
+      },
+      "inputs_required": [
+        "configs/synthetic_review_config.json",
+        "outputs/{run_id}/synthetic_reviews.jsonl",
+        "outputs/{run_id}/synthetic_review_aggregated.jsonl",
+        "outputs/{run_id}/synthetic_gold_candidates.jsonl",
+        "outputs/{run_id}/synthetic_review_report.json",
+        "outputs/{run_id}/synthetic_review_report.md"
+      ],
+      "outputs_expected": [
+        "src/narrative_dna/synthetic_reviewer.py",
+        "src/narrative_dna/review_aggregator.py",
+        "prompts/synthetic_reviewer.md",
+        "prompts/synthetic_aggregator.md",
+        "prompts/synthetic_adjudicator.md",
+        "configs/synthetic_review_config.json",
+        "outputs/{run_id}/synthetic_reviews.jsonl",
+        "outputs/{run_id}/synthetic_review_aggregated.jsonl",
+        "outputs/{run_id}/synthetic_gold_candidates.jsonl",
+        "outputs/{run_id}/synthetic_review_report.json",
+        "outputs/{run_id}/synthetic_review_report.md"
+      ],
+      "dependencies": [
+        12,
+        13
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 12000,
+        "output_tokens": 4500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 15,
+      "title": "Métricas de confiabilidad sintética",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "high",
+      "temperature_guidance": "baja/default en Codex; decisión conservadora",
+      "objective": "Calcular cuándo confiar en el gold sintético y separar high/medium/low/rejected.",
+      "prompt": "Implementa métricas de confiabilidad para la revisión sintética.\n\nCrear:\nsrc/narrative_dna/synthetic_reliability.py\n\nPara cada review item calcular:\n- reviewer_agreement_functions_jaccard\n- primary_function_agreement\n- emotion_agreement\n- stance_agreement\n- certainty_agreement\n- average_confidence\n- confidence_variance\n- disagreement_score\n- taxonomy_violation_count\n- validator_flag_count_after_review\n- alternative_annotation_count\n- accepted_by_aggregator bool\n- accepted_by_final_adjudicator bool\n- synthetic_gold_reliability:\n  high | medium | low | rejected\n\nReglas sugeridas:\n- high:\n  primary_function_agreement total\n  functions_jaccard >= 0.80\n  no validator violations\n  average_confidence >= 0.80\n  disagreement_score bajo\n\n- medium:\n  functions_jaccard >= 0.65\n  primary_function_agreement parcial\n  sin validator critical\n\n- low:\n  desacuerdo alto o confianza baja\n\n- rejected:\n  unresolved, validator critical o final adjudicator no acepta\n\nGenerar:\noutputs/{run_id}/synthetic_reliability_report.json\noutputs/{run_id}/synthetic_gold_high_confidence.jsonl\noutputs/{run_id}/synthetic_gold_medium_confidence.jsonl\noutputs/{run_id}/synthetic_gold_rejected.jsonl\n\nRegla:\nSólo high_confidence puede usarse para regression tests automáticos.\nMedium puede usarse para análisis, pero no para congelar reglas.\nRejected queda para revisión futura.\n\nHaz commit:\nfeat: add reliability scoring for synthetic review outputs",
+      "expected_commit_message": "feat: add reliability scoring for synthetic review outputs",
+      "inputs_required": [
+        "outputs/{run_id}/synthetic_reliability_report.json",
+        "outputs/{run_id}/synthetic_gold_high_confidence.jsonl",
+        "outputs/{run_id}/synthetic_gold_medium_confidence.jsonl",
+        "outputs/{run_id}/synthetic_gold_rejected.jsonl"
+      ],
+      "outputs_expected": [
+        "src/narrative_dna/synthetic_reliability.py",
+        "outputs/{run_id}/synthetic_reliability_report.json",
+        "outputs/{run_id}/synthetic_gold_high_confidence.jsonl",
+        "outputs/{run_id}/synthetic_gold_medium_confidence.jsonl",
+        "outputs/{run_id}/synthetic_gold_rejected.jsonl"
+      ],
+      "dependencies": [
+        13,
+        14
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 12000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 16,
+      "title": "Detector auditable de relaciones",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "high",
+      "temperature_guidance": "baja/default; reglas primero, LLM sólo para ambigüedad",
+      "objective": "Detectar relaciones entre unidades con candidatos por regla y adjudicación estructurada.",
+      "prompt": "Implementa relation_detector.py y configs/relation_patterns.json.\n\nObjetivo:\nDetectar relaciones entre unidades de forma auditable.\n\nPrimero generar candidatos por código duro:\n- P cerca de R en ventana 1-4 => ANS candidate\n- D cerca de K/Y/O => SUP candidate\n- Y cerca de K/A/R => EXPL candidate\n- E cerca de K/A => EXMP candidate\n- G cerca de K/A => ANLG candidate\n- C/B cerca de K/A/O => CONTR o REFUT candidate\n- X cerca de S/I/U => RISK/SOLV candidate\n- Z al final => SUM candidate\n- H seguido de H/E/C/U => SEQ candidate\n\nDespués:\n- Si patrón es obvio, aceptar con method=rule.\n- Si ambiguo, enviar a adjudicator relacional con GPT-5.5 high.\n- Si confidence < 0.60, no crear relación final; crear candidate_relation needs_review=true.\n\nCada relación debe guardar:\n- source_unit_id\n- target_unit_id\n- relation_type\n- confidence\n- method\n- evidence_spans\n- rejected_relation_types\n- validator_flags\n\nAgregar prompts/relation_adjudicator.md.\nRegla:\nNo crear relaciones sin evidencia textual o estructural.\n\nTests:\n- P→R\n- D→K\n- X→S\n- E→K\n- G→K\n- C→K\n- Z→bloque previo\n\nHaz commit:\nfeat: implement auditable relation detection",
+      "expected_commit_message": "feat: implement auditable relation detection",
+      "inputs_required": [
+        "configs/relation_patterns.json."
+      ],
+      "outputs_expected": [
+        "outputs/{run_id}/step_16_report.json"
+      ],
+      "dependencies": [
+        14,
+        15
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 7000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 17,
+      "title": "Detector de cadenas narrativas",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "medium",
+      "temperature_guidance": "baja/default; matching de predicados, no strings planos",
+      "objective": "Detectar patrones sobre secuencias multilabel y relaciones.",
+      "prompt": "Implementa chain_detector.py y configs/chain_patterns.json.\n\nObjetivo:\nDetectar patrones sobre secuencias multilabel y relaciones, no sobre strings planos.\n\nPatrones MVP:\n1. ENGAGE_RESOLVE:\nhas(P) and has(V) -> relation ANS or later has(R/Y/K)\n\n2. CLAIM_EVIDENCE:\nhas(K) connected with SUP from D\n\n3. RISK_SOLUTION:\nhas(X) connected with SOLV from S/I/U\n\n4. STORY_LESSON:\nH -> optional C -> U/K/S\n\n5. CONTRAST_CLAIM:\nC/B -> K/O\n\n6. DEFINITION_EXPLANATION:\nF -> Y/E/G\n\n7. HOOK_PROMISE_PAYOFF:\ninicio con P/V/K/X -> payoff posterior R/S/U/K\n\n8. LISTED_ARGUMENT:\nL -> sequence of A/K/D/Y\n\nCada chain debe guardar:\n- chain_id\n- chain_type\n- unit_ids\n- relation_ids\n- notation_sequence\n- start_unit_id\n- end_unit_id\n- score\n- narrative_function\n- evidence_summary\n- needs_review\n\nPermitir matching por predicados:\nhas(\"P\")\nhas_any([\"R\",\"Y\",\"K\"])\nhas_relation(\"SUP\")\nwithin_window(4)\n\nTests:\n- secuencia simple\n- multilabel\n- relación usada\n- patrón rechazado por falta de evidencia\n\nHaz commit:\nfeat: detect narrative chains over multilabel sequences",
+      "expected_commit_message": "feat: detect narrative chains over multilabel sequences",
+      "inputs_required": [
+        "configs/chain_patterns.json."
+      ],
+      "outputs_expected": [
+        "outputs/{run_id}/step_17_report.json"
+      ],
+      "dependencies": [
+        15,
+        16
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 7000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 18,
+      "title": "Evaluación, métricas y reportes JSON",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "high",
+      "temperature_guidance": "baja/default; evaluación conservadora y diferenciando synthetic gold",
+      "objective": "Medir estabilidad, precisión, sobre-etiquetado e inconsistencia contra gold/synthetic high confidence.",
+      "prompt": "Implementa evaluator.py.\n\nObjetivo:\nMedir estabilidad, precisión, sobre-etiquetado e inconsistencia.\n\nInput:\n- predictions: outputs/{run_id}/documents.jsonl o units.jsonl\n- gold: data/gold/gold_units.jsonl o outputs/{run_id}/synthetic_gold_high_confidence.jsonl\n- optional gold_relations.jsonl\n\nMétricas:\n1. functions_exact_match\n2. primary_function_accuracy\n3. multilabel_jaccard\n4. micro_precision_recall_f1\n5. macro_precision_recall_f1\n6. f1_by_function\n7. emotion_expressed_accuracy\n8. emotion_intensity_mae\n9. stance_accuracy\n10. certainty_accuracy\n11. overlabeling_rate\n12. N_rate\n13. validator_violation_rate\n14. needs_review_rate\n15. rejected_labels_rate\n16. similarity_conflict_rate\n17. relation_precision_recall_f1 si hay gold\n18. regression_pass_rate si hay golden tests\n19. synthetic_gold_reliability_distribution si aplica\n\nGenerar:\noutputs/{run_id}/evaluation_metrics.json\noutputs/{run_id}/label_metrics.json\noutputs/{run_id}/confusion_groups_report.json\noutputs/{run_id}/audit_report.json\noutputs/{run_id}/audit_report.md\n\nEl reporte debe destacar:\n- K vs A vs O\n- R vs Y\n- E vs H vs G\n- S vs I vs U\n- C vs B vs X\n- emoción expresada vs mencionada\n- frases similares con notación distinta\n- proporción de synthetic gold high/medium/low/rejected\n\nCLI:\nnarrative-dna evaluate --run-id X --gold data/gold/gold_units.jsonl\nnarrative-dna evaluate --run-id X --gold outputs/X/synthetic_gold_high_confidence.jsonl\n\nTests con fixtures.\n\nHaz commit:\nfeat: add evaluation and audit metrics",
+      "expected_commit_message": "feat: add evaluation and audit metrics",
+      "inputs_required": [
+        "outputs/{run_id}/documents.jsonl",
+        "data/gold/gold_units.jsonl",
+        "outputs/{run_id}/synthetic_gold_high_confidence.jsonl",
+        "outputs/{run_id}/evaluation_metrics.json",
+        "outputs/{run_id}/label_metrics.json",
+        "outputs/{run_id}/confusion_groups_report.json",
+        "outputs/{run_id}/audit_report.json",
+        "outputs/{run_id}/audit_report.md"
+      ],
+      "outputs_expected": [
+        "outputs/{run_id}/evaluation_metrics.json",
+        "outputs/{run_id}/label_metrics.json",
+        "outputs/{run_id}/confusion_groups_report.json",
+        "outputs/{run_id}/audit_report.json",
+        "outputs/{run_id}/audit_report.md",
+        "outputs/{run_id}/documents.jsonl",
+        "outputs/{run_id}/synthetic_gold_high_confidence.jsonl"
+      ],
+      "dependencies": [
+        16,
+        17
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 12000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 19,
+      "title": "Pipeline y CLI end-to-end JSON-first",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "high",
+      "temperature_guidance": "baja/default; integración robusta",
+      "objective": "Conectar carga, segmentación, heurísticas, clasificación, validación, relaciones, cadenas, auditoría y exports.",
+      "prompt": "Implementa pipeline.py, exporter.py y cli.py.\n\nPipeline:\n1. Crear run_id.\n2. Guardar ProjectRunManifest.\n3. Cargar transcripts.\n4. Normalizar.\n5. Segmentar.\n6. Aplicar heurísticas.\n7. Clasificar unidades con o sin LLM.\n8. Validar y compilar notación.\n9. Adjudicar casos críticos si está habilitado.\n10. Detectar relaciones.\n11. Detectar cadenas.\n12. Auditar similitud si está habilitado.\n13. Exportar JSONs.\n14. Generar audit_report.\n\nComando principal:\nnarrative-dna run\n\nParámetros:\n--input-dir data/transcripts\n--output-dir outputs\n--run-id optional\n--use-llm / --no-llm\n--use-adjudicator / --no-adjudicator\n--audit-similarity / --no-audit-similarity\n--sample-size optional\n--max-documents optional\n--max-units optional\n--config configs/project_config.json\n--llm-config configs/llm_config.json\n\nOutputs obligatorios:\noutputs/{run_id}/run_manifest.json\noutputs/{run_id}/documents.jsonl\noutputs/{run_id}/units.jsonl\noutputs/{run_id}/relations.jsonl\noutputs/{run_id}/chains.jsonl\noutputs/{run_id}/similarity_conflicts.jsonl cuando aplique\noutputs/{run_id}/audit_report.json\noutputs/{run_id}/audit_report.md\noutputs/{run_id}/dna_sequences.txt derivado\noutputs/{run_id}/exports/units.csv derivado\noutputs/{run_id}/exports/relations.csv derivado\noutputs/{run_id}/exports/chains.csv derivado\n\nRegla:\nSi un CSV existe, debe indicar en metadatos que es derivado y no fuente de verdad.\n\nLogs:\n- documentos procesados\n- unidades procesadas\n- llamadas LLM\n- cache hits\n- unidades adjudicadas\n- conflicts detectados\n- needs_review rate\n\nHaz commit:\nfeat: wire end-to-end json-first pipeline and cli",
+      "expected_commit_message": "feat: wire end-to-end json-first pipeline and cli",
+      "inputs_required": [
+        "data/transcripts",
+        "configs/project_config.json",
+        "configs/llm_config.json",
+        "outputs/{run_id}/run_manifest.json",
+        "outputs/{run_id}/documents.jsonl",
+        "outputs/{run_id}/units.jsonl",
+        "outputs/{run_id}/relations.jsonl",
+        "outputs/{run_id}/chains.jsonl",
+        "outputs/{run_id}/similarity_conflicts.jsonl",
+        "outputs/{run_id}/audit_report.json",
+        "outputs/{run_id}/audit_report.md",
+        "outputs/{run_id}/dna_sequences.txt",
+        "outputs/{run_id}/exports/units.csv",
+        "outputs/{run_id}/exports/relations.csv",
+        "outputs/{run_id}/exports/chains.csv"
+      ],
+      "outputs_expected": [
+        "outputs/{run_id}/run_manifest.json",
+        "outputs/{run_id}/documents.jsonl",
+        "outputs/{run_id}/units.jsonl",
+        "outputs/{run_id}/relations.jsonl",
+        "outputs/{run_id}/chains.jsonl",
+        "outputs/{run_id}/audit_report.json",
+        "outputs/{run_id}/audit_report.md",
+        "outputs/{run_id}/similarity_conflicts.jsonl",
+        "outputs/{run_id}/dna_sequences.txt",
+        "outputs/{run_id}/exports/units.csv",
+        "outputs/{run_id}/exports/relations.csv",
+        "outputs/{run_id}/exports/chains.csv"
+      ],
+      "dependencies": [
+        17,
+        18
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 12000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 20,
+      "title": "Golden regression tests con synthetic high-confidence",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "high",
+      "temperature_guidance": "baja/default; proteger estabilidad futura",
+      "objective": "Crear pruebas de regresión usando casos determinísticos y sólo synthetic gold de alta confiabilidad.",
+      "prompt": "Crea pruebas de regresión para evitar que la notación cambie accidentalmente.\n\nCrear:\ntests/fixtures/golden_units.jsonl\ntests/fixtures/golden_documents/\ntests/test_regression_golden_units.py\ntests/test_pipeline_smoke.py\ntests/test_synthetic_gold_reliability.py\n\ngolden_units.jsonl debe cubrir:\n- P simple\n- P+V\n- A vs K\n- O vs K\n- D con evidencia\n- D sin evidencia\n- R con pregunta previa\n- R sin pregunta previa\n- Y causal\n- E ejemplo\n- H historia\n- G analogía\n- S recomendación\n- I instrucción\n- U aprendizaje\n- C contraste\n- B objeción\n- X riesgo\n- emoción mencionada\n- emoción expresada\n- N residual\n\nLas pruebas deben validar:\n- final_notation esperada cuando sea determinístico\n- validator_flags esperados\n- no hay campos extra\n- outputs JSONL válidos\n- CSV derivado no es fuente de verdad\n- run_manifest existe\n- synthetic_gold_high_confidence puede usarse para regresión\n- synthetic_gold_medium_confidence no congela reglas\n- synthetic_gold_rejected nunca se usa como gold\n\nAgregar comando:\nnarrative-dna test-golden\nsi es razonable, o documentar pytest.\n\nHaz commit:\ntest: add golden regression fixtures for notation stability",
+      "expected_commit_message": "test: add golden regression fixtures for notation stability",
+      "inputs_required": [],
+      "outputs_expected": [
+        "tests/fixtures/golden_units.jsonl",
+        "tests/fixtures/golden_documents/",
+        "tests/test_regression_golden_units.py",
+        "tests/test_pipeline_smoke.py",
+        "tests/test_synthetic_gold_reliability.py"
+      ],
+      "dependencies": [
+        18,
+        19
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 7000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    },
+    {
+      "step": 21,
+      "title": "Documentación y guía de operación",
+      "recommended_codex_model": "GPT-5.5",
+      "recommended_reasoning_effort": "medium",
+      "temperature_guidance": "baja/default; claridad y uso práctico",
+      "objective": "Documentar uso, filosofía JSON-first, revisión sintética, evaluación y versionado.",
+      "prompt": "Actualiza README.md y crea docs/OPERATING_GUIDE.md.\n\nDebe explicar:\n\n1. Qué es narrative_dna.\n2. Por qué es JSON-first.\n3. Por qué la notación es derivada.\n4. Formato:\n(FUNCIONES)[CERTEZA]_EMOCIÓNINTENSIDAD{POSTURA}\n5. Ejemplos:\n(P+V)_S1{0}\n(K+Y)!_E2{-}\n(S+I+U)_C1{+}\n6. Estructura de outputs.\n7. Cómo correr sin LLM.\n8. Cómo correr con LLM.\n9. Cómo construir review set.\n10. Cómo correr synthetic-review.\n11. Cómo interpretar synthetic_gold_candidate.\n12. Cómo promover sólo high-confidence synthetic gold.\n13. Cómo evaluar.\n14. Cómo auditar similitud.\n15. Cómo interpretar validator_flags.\n16. Cómo versionar taxonomía.\n17. Cómo agregar nuevos pares mínimos.\n18. Cómo decidir si una etiqueta nueva es necesaria.\n19. Por qué alta temperatura se usa sólo para diversidad en reviewers, no para decisión final.\n20. Por qué aggregator y final_adjudicator deben ser conservadores.\n\nIncluir flujo recomendado:\n\nA. Correr muestra pequeña sin LLM.\nB. Correr muestra pequeña con LLM.\nC. Revisar audit_report.\nD. Auditar similitud.\nE. Construir review set.\nF. Correr synthetic-review.\nG. Revisar synthetic_reliability_report.\nH. Promover sólo high-confidence.\nI. Evaluar.\nJ. Ajustar taxonomía o prompts.\nK. Repetir.\nL. Congelar taxonomy_version.\n\nHaz commit:\ndocs: add operating guide for stable auditable synthetic-reviewed annotations",
+      "expected_commit_message": "docs: add operating guide for stable auditable synthetic-reviewed annotations",
+      "inputs_required": [],
+      "outputs_expected": [
+        "outputs/{run_id}/step_21_report.json"
+      ],
+      "dependencies": [
+        19,
+        20
+      ],
+      "acceptance_checks": [
+        "json_syntax_valid_if_json_files_changed",
+        "required_paths_created",
+        "no_csv_as_source_of_truth",
+        "effective_version_fields_present_in_outputs"
+      ],
+      "retry_policy": {
+        "max_attempts": 3,
+        "backoff_seconds": [
+          2,
+          8,
+          20
+        ],
+        "retry_on": [
+          "rate_limit",
+          "timeout",
+          "transient_io_error",
+          "schema_validation_retryable"
+        ],
+        "non_retryable": [
+          "invalid_taxonomy_contract",
+          "missing_required_input_artifacts"
+        ]
+      },
+      "timeout_policy": {
+        "soft_timeout_seconds": 900,
+        "hard_timeout_seconds": 1800,
+        "on_timeout": "emit_partial_artifacts_with_manifest_and_fail_step"
+      },
+      "token_budget_estimate": {
+        "input_tokens": 7000,
+        "output_tokens": 2500,
+        "context_window_budget_pct": 0.8
+      }
+    }
+  ],
+  "token_optimization_policy": {
+    "max_input_tokens": 24000,
+    "max_output_tokens": 4000,
+    "context_window_budget_pct": 0.8,
+    "intermediate_summary_strategy": {
+      "enabled": true,
+      "applies_to_steps_with_keywords": [
+        "audit",
+        "review"
+      ],
+      "trigger": {
+        "input_tokens_over": 12000,
+        "or_multi_file_context_over": 8
+      },
+      "policy": [
+        "Generar resumen estructurado por secciones antes de continuar.",
+        "Conservar citas de archivo, reglas críticas y decisiones pendientes.",
+        "Encadenar resúmenes (rolling summary) para mantener trazabilidad en pasos largos."
+      ]
+    },
+    "cheap_first_rules": {
+      "enabled": true,
+      "heuristics_before_llm": [
+        "Validar esquema JSON/Pydantic primero y abortar temprano ante errores estructurales.",
+        "Aplicar reglas determinísticas de taxonomía y validadores antes de inferencia LLM.",
+        "Resolver casos de alta confianza por patrones/heurísticas y enviar al LLM sólo ambiguos."
+      ]
+    },
+    "staged_retries": {
+      "enabled": true,
+      "for_non_critical_tasks_only": true,
+      "sequence": [
+        {
+          "attempt": 1,
+          "model": "gpt-5.5",
+          "reasoning_effort": "high"
+        },
+        {
+          "attempt": 2,
+          "model": "gpt-5.5",
+          "reasoning_effort": "medium"
+        },
+        {
+          "attempt": 3,
+          "model": "gpt-5.5-mini",
+          "reasoning_effort": "medium"
+        }
+      ],
+      "critical_task_policy": "No degradar modelo ni reasoning_effort en decisiones críticas de adjudicación final."
+    },
+    "cache_policy": {
+      "enabled": true,
+      "key": "sha256(normalized_input + prompt_version + taxonomy_version + validator_version)",
+      "store_fields": [
+        "model",
+        "reasoning_effort",
+        "temperature",
+        "response_json",
+        "created_at_utc"
+      ],
+      "invalidation": [
+        "prompt_version_change",
+        "taxonomy_version_change",
+        "validator_version_change"
+      ]
+    },
+    "synthetic_reviewers_parallelism": {
+      "max_parallel_reviewers": 3,
+      "max_parallel_items": 10,
+      "backpressure_strategy": "queue_fifo"
+    }
+  }
+}
