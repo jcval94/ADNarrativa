@@ -1,0 +1,79 @@
+{
+  "video_id": "IunfWIOSzmU",
+  "language": "es",
+  "summary": "El video explora la teoría de la lithopanespermia, que sugiere que la vida pudo haber llegado a la Tierra desde Marte a través de meteoritos. Un grupo de científicos ha demostrado que la bacteria Rococcus radiodurans puede sobrevivir a condiciones extremas simulando impactos, lo que refuerza la posibilidad de que microorganismos viajen entre planetas.",
+  "main_topics": [
+    "Lithopanespermia",
+    "Sobrevivencia de microorganismos",
+    "Investigación científica sobre vida en otros planetas",
+    "Impactos extremos y sus efectos"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción a la lithopanespermia",
+      "purpose": "Presentar la teoría y generar interés",
+      "summary": "El narrador introduce la idea de que la vida podría haber llegado desde Marte a la Tierra mediante meteoritos."
+    },
+    {
+      "section": "Experimentos realizados",
+      "purpose": "Explicar la investigación",
+      "summary": "Se discute el uso de la bacteria Rococcus radiodurans y los experimentos para comprobar su resistencia a impactos."
+    },
+    {
+      "section": "Resultados del estudio",
+      "purpose": "Informar sobre los hallazgos",
+      "summary": "Los científicos demuestran que la bacteria puede sobrevivir y mantenerse viable tras un impacto extremo."
+    },
+    {
+      "section": "Implicaciones de los resultados",
+      "purpose": "Discutir las consecuencias de la investigación",
+      "summary": "Se menciona cómo estos hallazgos implican la necesidad de cuidar la contaminación planetaria en futuras exploraciones espaciales."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Pregunta retórica",
+    "hook_text": "¿Es posible que la vida llegase a la Tierra desde Marte en un meteorito?",
+    "why_it_works": "Engancha a la audiencia al proponer una pregunta intrigante sobre la existencia de vida en otros planetas."
+  },
+  "claims": [
+    {
+      "claim": "La vida puede viajar entre planetas a través de meteoritos.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "Rococcus radiodurans puede sobrevivir a condiciones extremas.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "Los microorganismos atrapados en rocas pueden llegar vivos a la Tierra.",
+      "support_level": "implicit",
+      "risk": "medio"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Investigar más sobre la panspermia y sus implicaciones",
+    "Participar en debates sobre vida en otros planetas",
+    "Apoyar iniciativas de protección planetaria en exploraciones espaciales"
+  ],
+  "audience": "Interesados en ciencia, astrobiología y vida extraterrestre",
+  "tone": "Informativo y reflexivo",
+  "content_style": "Ciencia popular",
+  "retention_devices": [
+    "Preguntas retóricas",
+    "Datos científicos sorprendentes",
+    "Conexión personal con la audiencia"
+  ],
+  "title_supporting_quotes": [
+    "¿Y tú? ¿crees que hay vida en otros mundos?"
+  ],
+  "creative_reuse_opportunities": [
+    "Artículos sobre astrobiología",
+    "Documentales sobre investigación espacial",
+    "Podcast sobre teorías científicas de vida extraterrestre"
+  ],
+  "risk_notes": [],
+  "schema_version": "transcript_insights_v1"
+}

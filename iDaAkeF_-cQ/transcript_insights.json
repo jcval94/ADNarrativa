@@ -1,0 +1,87 @@
+{
+  "video_id": "iDaAkeF_-cQ",
+  "language": "es",
+  "summary": "El sistema educativo actual se enfoca excesivamente en las calificaciones, lo que desvía el interés genuino por aprender y fomenta el miedo al error. Esto puede resultar en un desprecio hacia las materias estudiadas, mientras que los docentes enfrentan desafíos como recursos limitados y aulas sobrepobladas.",
+  "main_topics": [
+    "Impacto de las calificaciones en la educación",
+    "Motivación en el aprendizaje",
+    "Desafíos en la enseñanza",
+    "Creatividad y curiosidad en los estudiantes"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción sobre el sistema educativo",
+      "purpose": "Presentar el problema de las calificaciones en la educación",
+      "summary": "El enfoque en las notas limita el aprendizaje y genera miedo al error."
+    },
+    {
+      "section": "Consecuencias del sistema",
+      "purpose": "Explicar el efecto negativo en el deseo de aprender",
+      "summary": "Los estudiantes terminan odiando las materias debido a la presión del sistema."
+    },
+    {
+      "section": "Desafíos de los docentes",
+      "purpose": "Destacar las dificultades que enfrentan los educadores",
+      "summary": "Los docentes lidian con aulas sobrepobladas y falta de recursos, afectando su capacidad para enseñar."
+    },
+    {
+      "section": "Importancia de la curiosidad y creatividad",
+      "purpose": "Reiterar la necesidad de fomentar el deseo de aprender",
+      "summary": "Se necesita encender la creatividad y curiosidad en los estudiantes."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Anécdota",
+    "hook_text": "Cada vez que uno de nuestros chicos tiene que responder en un examen cuál es la capital de Bulgaria",
+    "why_it_works": "Capta la atención al conectar con una experiencia común y resaltar la presión del sistema educativo."
+  },
+  "claims": [
+    {
+      "claim": "El miedo a equivocarse es fomentado por el sistema educativo.",
+      "support_level": "explicit",
+      "risk": "moderado"
+    },
+    {
+      "claim": "Las calificaciones desincentivan el aprendizaje genuino.",
+      "support_level": "explicit",
+      "risk": "moderado"
+    },
+    {
+      "claim": "Los docentes enfrentan múltiples desafíos que impactan la educación.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    }
+  ],
+  "examples": [
+    "Estudiantes que odian las materias estudiadas",
+    "Docentes trabajando en condiciones difíciles",
+    "Sistema enfocándose en premios y castigos"
+  ],
+  "actionable_ideas": [
+    "Fomentar un ambiente de aprendizaje sin miedo al error.",
+    "Implementar currículas más flexibles.",
+    "Promover la creatividad y curiosidad en el aula."
+  ],
+  "audience": "Educadores, padres, y responsables de políticas educativas",
+  "tone": "Reflexivo",
+  "content_style": "Informativo y crítico",
+  "retention_devices": [
+    "Anécdotas personales",
+    "Estadísticas sobre el sistema educativo",
+    "Preguntas retóricas"
+  ],
+  "title_supporting_quotes": [
+    "En la vida siempre hay que evitar equivocarse, porque el error se paga.",
+    "El deseo genuino de aprender quedó completamente relegado."
+  ],
+  "creative_reuse_opportunities": [
+    "Talleres sobre métodos de enseñanza creativos",
+    "Artículos sobre la reforma educativa",
+    "Charlas motivacionales para docentes"
+  ],
+  "risk_notes": [
+    "Puede generar resistencia por parte de quienes defienden el sistema actual.",
+    "Dificultades para implementar cambios en currículas rígidas."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

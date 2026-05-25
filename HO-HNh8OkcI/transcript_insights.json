@@ -1,0 +1,78 @@
+{
+  "video_id": "HO-HNh8OkcI",
+  "language": "es",
+  "summary": "El video explora cómo la prisa afecta la empatía y la salud de las personas, presentando un experimento que demuestra que las personas apuradas son menos propensas a ayudar a otros en necesidad.",
+  "main_topics": [
+    "Impacto del apuro en la empatía",
+    "Consecuencias del estrés en la salud",
+    "Experimento social sobre la prisa"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción al experimento",
+      "purpose": "Presentar el contexto del estudio sobre la prisa y la empatía",
+      "summary": "Se describe un experimento realizado con estudiantes para observar cómo reaccionan ante situaciones de emergencia."
+    },
+    {
+      "section": "Resultados del experimento",
+      "purpose": "Mostrar el impacto del tiempo en las decisiones de ayudar",
+      "summary": "Los resultados muestran que la mayoría de los apurados no ayudaron, mientras que los que no estaban apresurados lo hicieron."
+    },
+    {
+      "section": "Reflexión sobre el impacto del apuro",
+      "purpose": "Conectar los resultados a la vida diaria y la salud",
+      "summary": "El apuro no solo afecta la empatía, sino que también tiene implicaciones negativas para la salud, aumentando el estrés y el riesgo de enfermedades."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Estadística impactante",
+    "hook_text": "9 de cada 10 personas en la encuesta sufrieron estrés el último año",
+    "why_it_works": "Esta estadística capta la atención y establece la relevancia del tema en la vida diaria."
+  },
+  "claims": [
+    {
+      "claim": "El apuro disminuye la empatía hacia los demás.",
+      "support_level": "explicit",
+      "risk": "moderado"
+    },
+    {
+      "claim": "La prisa puede afectar negativamente la salud.",
+      "support_level": "explicit",
+      "risk": "alto"
+    },
+    {
+      "claim": "La mayoría de las personas padecen estrés debido a un estilo de vida apresurado.",
+      "support_level": "explicit",
+      "risk": "moderado"
+    }
+  ],
+  "examples": [
+    "Caso del estudiante que no ayuda por estar apurado.",
+    "Relato de la salud afectada por el estrés en la vida diaria."
+  ],
+  "actionable_ideas": [
+    "Fomentar la empatía en momentos de prisa.",
+    "Reducir el ritmo de vida para mejorar la salud.",
+    "Promover pausas regulares para aliviar el estrés."
+  ],
+  "audience": "Personas interesadas en el bienestar emocional y la salud",
+  "tone": "Reflexivo y alarmante",
+  "content_style": "Narrativo y analítico",
+  "retention_devices": [
+    "Historia impactante",
+    "Estadísticas personales",
+    "Ejemplo de experimento social"
+  ],
+  "title_supporting_quotes": [
+    "\"El apuro te desconecta de los demás\"",
+    "\"El impacto en la salud de vivir acelerados es demoledor.\""
+  ],
+  "creative_reuse_opportunities": [
+    "Artículos de blog sobre la empatía y salud emocional.",
+    "Videos educativos sobre la gestión del tiempo y estrés."
+  ],
+  "risk_notes": [
+    "El tema puede ser sensible para personas con problemas de ansiedad."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

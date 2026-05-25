@@ -1,0 +1,79 @@
+{
+  "video_id": "I-8ZKQewU8U",
+  "language": "es",
+  "summary": "El video aborda la obsesión por logros materiales y su impacto negativo en el bienestar personal. Propone que el verdadero reto es medir el bienestar a partir de criterios propios, en lugar de estándares externos. Destaca la importancia de reflexionar sobre la vida propia y cambiar de rumbo cuando sea necesario, priorizando lo que realmente importa.",
+  "main_topics": [
+    "Obsesión por logros materiales",
+    "Bienestar personal",
+    "Reflexión sobre la vida",
+    "Cambio de rumbo",
+    "Prioridades y valores"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Presentar la temática central del video.",
+      "summary": "Se menciona la obsesión por logros visibles y su efecto negativo en el bienestar."
+    },
+    {
+      "section": "Desarrollo",
+      "purpose": "Profundizar sobre la importancia de los criterios personales.",
+      "summary": "Se habla de la revelación que muchos experimentan sobre su vida y la necesidad de escuchar esos momentos."
+    },
+    {
+      "section": "Conclusión",
+      "purpose": "Reflexionar sobre el legado personal y la autenticidad.",
+      "summary": "Se resalta la importancia de priorizar el propósito sobre el reconocimiento."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Impactante estadística",
+    "hook_text": "Cuanto más te obsesionas con eso, más te alejas de lo que realmente importa.",
+    "why_it_works": "Genera interés al presentar una afirmación que desafía creencias comunes sobre el éxito."
+  },
+  "claims": [
+    {
+      "claim": "La obsesión por logros materiales disminuye el bienestar personal.",
+      "support_level": "explicit",
+      "risk": "moderate"
+    },
+    {
+      "claim": "Es crucial medir el bienestar por criterios personales.",
+      "support_level": "explicit",
+      "risk": "low"
+    },
+    {
+      "claim": "Cambiar de rumbo no es un fracaso.",
+      "support_level": "implicit",
+      "risk": "low"
+    }
+  ],
+  "examples": [
+    "El escritor David Brooks sugiere priorizar virtudes del epitafio sobre las del LinkedIn."
+  ],
+  "actionable_ideas": [
+    "Reflexionar sobre tus propios criterios de éxito.",
+    "Permitir el cambio de rumbo sin miedo al fracaso.",
+    "Priorizar relaciones y experiencias sobre logros materiales."
+  ],
+  "audience": "Personas en búsqueda de un propósito personal.",
+  "tone": "Reflexivo y motivador",
+  "content_style": "Narrativo y persuasivo",
+  "retention_devices": [
+    "Citas impactantes",
+    "Ejemplos personales",
+    "Preguntas reflexivas"
+  ],
+  "title_supporting_quotes": [
+    "Hay que priorizar las virtudes del epitafio por sobre las del LinkedIn."
+  ],
+  "creative_reuse_opportunities": [
+    "Artículos sobre bienestar personal",
+    "Talleres sobre auto-reflexión",
+    "Charlas motivacionales"
+  ],
+  "risk_notes": [
+    "Posible resistencia de audiencias acostumbradas a medir el éxito en términos materiales."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

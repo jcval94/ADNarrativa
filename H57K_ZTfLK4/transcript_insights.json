@@ -1,0 +1,81 @@
+{
+  "video_id": "H57K_ZTfLK4",
+  "language": "es",
+  "summary": "El video explora cómo una ruptura amorosa, aunque dolorosa, puede ser una experiencia de crecimiento personal. Se destaca la importancia de la autosuperación y cómo salir de la tristeza puede llevar a convertirse en una mejor versión de uno mismo.",
+  "main_topics": [
+    "Ruptura amorosa",
+    "Crecimiento personal",
+    "Autosuperación"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Plantear la premisa de que las rupturas pueden ser positivas.",
+      "summary": "Se presenta la idea inicial de que romperse el corazón puede ser una bendición disfrazada."
+    },
+    {
+      "section": "Experiencia de dolor",
+      "purpose": "Describir el dolor de una ruptura.",
+      "summary": "Se compara el dolor de una ruptura con caer en un pozo sin fondo."
+    },
+    {
+      "section": "Proceso de sanación",
+      "purpose": "Hablar sobre el proceso de recuperación.",
+      "summary": "Se enfatiza que la verdadera sanación depende del esfuerzo personal."
+    },
+    {
+      "section": "Resultados positivos",
+      "purpose": "Mostrar los beneficios de superar el dolor.",
+      "summary": "Salir de una ruptura puede llevar a una mejora en diversas áreas de la vida."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Paradoja",
+    "hook_text": "Que te rompan el corazón es una de las mejores cosas que te puede pasar en el mundo.",
+    "why_it_works": "La paradoja genera curiosidad y confronta creencias comunes sobre el dolor emocional."
+  },
+  "claims": [
+    {
+      "claim": "Las rupturas pueden llevar a un mejor crecimiento personal.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "La sanación depende del esfuerzo personal.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "Superar el dolor puede resultar en mejoras financieras, físicas y espirituales.",
+      "support_level": "implicit",
+      "risk": "medio"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Reflexionar sobre el crecimiento personal después de una ruptura.",
+    "Buscar apoyo en amigos y familiares durante momentos difíciles.",
+    "Invertir tiempo en el autocuidado y desarrollo personal después de una ruptura."
+  ],
+  "audience": "Personas que han pasado por una ruptura amorosa o están en un proceso de sanación.",
+  "tone": "Motivacional",
+  "content_style": "Conversacional",
+  "retention_devices": [
+    "Historias personales",
+    "Analogías emotivas"
+  ],
+  "title_supporting_quotes": [
+    "Eres una versión de ti infinitamente mejor.",
+    "El hecho de que te rompiesen tu corazón te dio una oportunidad para subir al siguiente nivel."
+  ],
+  "creative_reuse_opportunities": [
+    "Crear un blog sobre lecciones aprendidas de rupturas.",
+    "Desarrollar un taller sobre crecimiento personal post-ruptura.",
+    "Realizar un podcast enfocado en historias de superación tras desengaños amorosos."
+  ],
+  "risk_notes": [
+    "Generalizar la experiencia de dolor emocional puede no aplicar a todos.",
+    "La idea de crecimiento puede no ser aceptada por quienes no han sanado aún."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

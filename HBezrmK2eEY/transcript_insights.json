@@ -1,0 +1,79 @@
+{
+  "video_id": "HBezrmK2eEY",
+  "language": "Spanish",
+  "summary": "El video trata sobre la carga emocional y las expectativas que enfrenta un hijo mayor en la familia, destacando cómo esta presión puede ser transformada en fortaleza personal y autovaloración.",
+  "main_topics": [
+    "Responsabilidad del hijo mayor",
+    "Expectativas familiares",
+    "Salud mental",
+    "Autoaceptación",
+    "Transformación personal"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Presentar la carga del hijo mayor",
+      "summary": "El hijo mayor carga con la responsabilidad familiar y es el más afectado emocionalmente."
+    },
+    {
+      "section": "Desarrollo",
+      "purpose": "Explorar la presión y expectativas",
+      "summary": "Se describen los desafíos y la falta de permisos para mostrar vulnerabilidad."
+    },
+    {
+      "section": "Clímax",
+      "purpose": "Revelar la transformación",
+      "summary": "La presión se convierte en fuerza, llevando al hijo mayor a la autoaceptación y el empoderamiento."
+    },
+    {
+      "section": "Conclusión",
+      "purpose": "Inspirar a la autoaceptación",
+      "summary": "El mensaje final es sobre el poder de quererse a uno mismo y la superación de las expectativas."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Declaración impactante",
+    "hook_text": "La persona más deprimida de la familia no es la madre, no es el padre...",
+    "why_it_works": "Captura la atención al presentar una verdad dolorosa y poco convencional sobre la estructura familiar."
+  },
+  "claims": [
+    {
+      "claim": "La presión crea diamantes.",
+      "support_level": "implicit",
+      "risk": "Puede no resonar con todos."
+    },
+    {
+      "claim": "La responsabilidad no elegida puede transformarse en fortaleza.",
+      "support_level": "explicit",
+      "risk": "Genera expectativas poco realistas."
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Fomentar el diálogo emocional en la familia.",
+    "Promover la autoaceptación y la vulnerabilidad.",
+    "Crear espacios seguros para expresar sentimientos."
+  ],
+  "audience": "Hijos mayores y familias que enfrentan expectativas altas.",
+  "tone": "Reflexivo y empoderador",
+  "content_style": "Narrativo y emocional",
+  "retention_devices": [
+    "Testimonios personales",
+    "Frases motivadoras",
+    "Llamados a la acción"
+  ],
+  "title_supporting_quotes": [
+    "La presión crea diamantes.",
+    "Cuando el hijo mayor aprende a quererse a sí mismo..."
+  ],
+  "creative_reuse_opportunities": [
+    "Crear un blog sobre salud mental familiar.",
+    "Generar un podcast sobre la autoaceptación.",
+    "Desarrollar talleres sobre la comunicación en familias."
+  ],
+  "risk_notes": [
+    "El contenido puede ser sensible para algunas personas.",
+    "Algunas afirmaciones pueden generar debates."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

@@ -1,0 +1,90 @@
+{
+  "video_id": "kKkiGPUnIds",
+  "language": "es",
+  "summary": "El video explica qué es la antimateria, cómo se forma y sus propiedades. Presenta sus similitudes con la materia normal, la posibilidad de crear antiátomos y antimoléculas, y plantea el misterio de la ausencia de antimateria en el universo. También menciona el peligro de usar antimateria en un camión.",
+  "main_topics": [
+    "definición de antimateria",
+    "proceso de aniquilación",
+    "creación de antiátomos",
+    "existencia de antielementos y antimoléculas",
+    "misterio de la falta de antimateria en el universo",
+    "peligros del manejo de antimateria"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Introducir el tema de la antimateria",
+      "summary": "Presentación del concepto de antimateria y la pregunta provocadora sobre su uso en un camión."
+    },
+    {
+      "section": "Definición y características",
+      "purpose": "Explicar qué es la antimateria",
+      "summary": "Descripción de las antipartículas y sus propiedades fundamentales."
+    },
+    {
+      "section": "Creación de antiátomos",
+      "purpose": "Explorar la posibilidad de la existencia de antiátomos y antimoléculas",
+      "summary": "Explicación de cómo se pueden crear antiátomos y la similitud con sus versiones de materia."
+    },
+    {
+      "section": "Misterio del universo",
+      "purpose": "Plantear una pregunta sobre la ausencia de antimateria",
+      "summary": "Los misterios relacionados con la presencia de antimateria en el cosmos."
+    },
+    {
+      "section": "Peligro de la antimateria",
+      "purpose": "Advertir sobre el uso de antimateria",
+      "summary": "Reflexión sobre los peligros que conllevaría el manejo de antimateria en un camión."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "pregunta provocativa",
+    "hook_text": "¿Un camión con antimateria? ¡Pff! ¿Qué locura es esta?",
+    "why_it_works": "Despierta la curiosidad del espectador y plantea un dilema interesante."
+  },
+  "claims": [
+    {
+      "claim": "La antimateria puede crear antiátomos como el antihidrógeno.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "La colisión entre materia y antimateria genera una explosión.",
+      "support_level": "explicit",
+      "risk": "alto"
+    },
+    {
+      "claim": "La antimateria es un misterio en el cosmos.",
+      "support_level": "implicit",
+      "risk": "medio"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Investigar más sobre antimateria y sus aplicaciones.",
+    "Ver el video completo para más detalles sobre el tema.",
+    "Seguir al creador del contenido para más información sobre ciencia."
+  ],
+  "audience": "personas interesadas en ciencia y temas del universo",
+  "tone": "informativo y entretenido",
+  "content_style": "conversacional y accesible",
+  "retention_devices": [
+    "preguntas retóricas",
+    "anécdotas",
+    "futuras implicaciones científicas"
+  ],
+  "title_supporting_quotes": [
+    "¿Qué podría pasar si choca?",
+    "¿Dónde está la antimateria?"
+  ],
+  "creative_reuse_opportunities": [
+    "Crear infografías sobre antimateria.",
+    "Desarrollar un podcast sobre misterios del universo.",
+    "Realizar videos explicativos sobre el riesgo de la antimateria."
+  ],
+  "risk_notes": [
+    "El manejo de antimateria conlleva riesgos muy altos debido a su capacidad de causar explosiones.",
+    "Es esencial entender estos conceptos antes de considerar aplicaciones prácticas."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

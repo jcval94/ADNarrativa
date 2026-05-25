@@ -1,0 +1,75 @@
+{
+  "video_id": "Lq15JrYGH-s",
+  "language": "es",
+  "summary": "El video enfatiza la importancia de cuidar la apariencia personal, sugiriendo que esta afecta la forma en que los demás nos tratan y también nuestra autoestima. Se destaca la idea de 'vestirse para el trabajo que quieres', sugiriendo que una buena imagen refleja seriedad y disposición para crecer profesionalmente.",
+  "main_topics": [
+    "Importancia de la apariencia",
+    "Percepción social",
+    "Autoestima y éxito profesional"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Presentar la idea central sobre la apariencia y su impacto.",
+      "summary": "La apariencia afecta cómo te perciben y tratan los demás."
+    },
+    {
+      "section": "Consejo práctico",
+      "purpose": "Ofrecer un consejo sobre vestimenta y actitud.",
+      "summary": "Vestirse adecuadamente puede cambiar la percepción en el entorno laboral."
+    },
+    {
+      "section": "Refuerzo personal",
+      "purpose": "Motivar al espectador sobre la imagen personal.",
+      "summary": "La imagen que proyectas debe reflejar tus aspiraciones."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Frase motivacional",
+    "hook_text": "Vístete para el trabajo que quieres y no para el que tienes.",
+    "why_it_works": "Es un llamado a la acción que invita a la reflexión sobre la propia imagen y aspiraciones."
+  },
+  "claims": [
+    {
+      "claim": "La apariencia afecta cómo te tratan los demás.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "Vestirse adecuadamente refleja seriedad y profesionalismo.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "Una mala imagen puede afectar tus oportunidades de éxito.",
+      "support_level": "implicit",
+      "risk": "medio"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Cuida tu piel y fragancia personal.",
+    "Elige ropa que te haga sentir profesional.",
+    "Proyecta la imagen de la persona que aspiras ser."
+  ],
+  "audience": "Profesionales que buscan mejorar su imagen personal y oportunidades laborales.",
+  "tone": "Motivador y reflexivo",
+  "content_style": "Directo y persuasivo",
+  "retention_devices": [
+    "Frases motivacionales",
+    "Consejos prácticos"
+  ],
+  "title_supporting_quotes": [
+    "Como te ven es como te tratan.",
+    "Muéstrate ahora mismo como la persona en la que quieres convertirte."
+  ],
+  "creative_reuse_opportunities": [
+    "Artículos sobre desarrollo personal.",
+    "Charlas motivacionales sobre imagen profesional."
+  ],
+  "risk_notes": [
+    "El enfoque en la apariencia puede ser visto como superficial por algunos.",
+    "Puede no resonar con todos los públicos."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

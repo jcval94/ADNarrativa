@@ -1,0 +1,69 @@
+{
+  "video_id": "iNuSrPJlZjU",
+  "language": "es",
+  "summary": "El video trata sobre cómo superar el miedo y la vergüenza del rechazo, enfatizando la importancia de la perseverancia y la evolución personal a través de la aceptación del fracaso y el dolor de las opiniones ajenas.",
+  "main_topics": [
+    "vergüenza del rechazo",
+    "perseverancia",
+    "superación personal",
+    "opiniones ajenas"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Lanzar la idea central del video.",
+      "summary": "Presentar la importancia de superar el miedo al rechazo."
+    },
+    {
+      "section": "Desarrollo",
+      "purpose": "Explicar cómo convivir con el rechazo y el dolor de las opiniones ajenas.",
+      "summary": "Hablar sobre el dolor y la incomodidad de hacer el ridículo y cómo esto puede llevar al crecimiento personal."
+    },
+    {
+      "section": "Conclusión",
+      "purpose": "Inspirar a la audiencia a seguir adelante a pesar de los fracasos.",
+      "summary": "Enfatizar que la perseverancia es clave para superar a otros."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "motivacional",
+    "hook_text": "Puedes literalmente superar al 99% de personas si...",
+    "why_it_works": "Engancha al espectador al prometer una exaltación personal significativa mediante el manejo del rechazo."
+  },
+  "claims": [
+    {
+      "claim": "Puedes superar al 99% de las personas.",
+      "support_level": "implicit",
+      "risk": "moderado"
+    },
+    {
+      "claim": "Aceptar el aburrimiento y el rechazo es crucial para el éxito.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Practica la aceptación del rechazo.",
+    "Realiza pequeñas mejoras diarias en tus habilidades.",
+    "Ignora las opiniones negativas de los demás."
+  ],
+  "audience": "Personas que buscan mejorar y enfrentar sus miedos.",
+  "tone": "inspirador",
+  "content_style": "motivacional",
+  "retention_devices": [
+    "historias de superación personal",
+    "frases impactantes",
+    "referencias a experiencias comunes"
+  ],
+  "title_supporting_quotes": [
+    "Aceptar el aburrimiento de hacer la misma cosa un poquito mejor cada día."
+  ],
+  "creative_reuse_opportunities": [
+    "Crear contenido sobre superación personal.",
+    "Desarrollar cursos sobre gestión del rechazo.",
+    "Escribir un libro basado en experiencias personales de perseverancia."
+  ],
+  "risk_notes": [],
+  "schema_version": "transcript_insights_v1"
+}

@@ -1,0 +1,20 @@
+{
+  "video_id": "INmSlU8iNGk",
+  "channel_id": "UCNye-wNBqNL5ZzHSJj3l8Bg",
+  "channel_name": "Al Jazeera English",
+  "title": "Child survivor of San Diego mosque shooting describes ordeal | AJ #shorts",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\INmSlU8iNGk.mp3",
+  "transcribed_at": "2026-05-20T13:56:25.346722+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 688,
+  "text_sha256": "e4d5cdbe2f392addd07bf87f8aaee166fd6b3359cc9a3464c8797f59b5151d0a",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\INmSlU8iNGk\\transcript_segments.jsonl",
+  "segment_count": 9,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T19:34:27.974592+00:00",
+  "duration_seconds": 63.5
+}

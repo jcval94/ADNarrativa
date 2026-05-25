@@ -1,0 +1,14 @@
+{
+  "video_id": "kKkiGPUnIds",
+  "channel_id": "UCQX_MZRCaluNKxkywkLEgfA",
+  "channel_name": "Date un Vlog",
+  "title": "¿Un camión con antimateria?",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\kKkiGPUnIds.mp3",
+  "transcribed_at": "2026-05-18T01:54:41.851634+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 1816,
+  "text_sha256": "5a899f00065d66afff20d03a9bda9ad1353617332185b2885c091263d748b609",
+  "repo_schema_version": "transcript_metadata_v1"
+}

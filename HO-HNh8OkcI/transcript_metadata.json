@@ -1,0 +1,20 @@
+{
+  "video_id": "HO-HNh8OkcI",
+  "channel_id": "UC5PwIMtLiIBCBhsu8f_-6UQ",
+  "channel_name": "Santiago Bilinkis",
+  "title": "El costo invisible de vivir apurado",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\HO-HNh8OkcI.mp3",
+  "transcribed_at": "2026-05-24T19:53:30.806782+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 1225,
+  "text_sha256": "f66b474ae78b980a72c37699a844830779452527775d630da09e29b32ea267bc",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\HO-HNh8OkcI\\transcript_segments.jsonl",
+  "segment_count": 19,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T20:07:44.116433+00:00",
+  "duration_seconds": 60.5
+}

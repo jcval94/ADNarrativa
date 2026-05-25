@@ -1,0 +1,20 @@
+{
+  "video_id": "HBezrmK2eEY",
+  "channel_id": "UCF0L4jd9LcSIxsj5gKITMqQ",
+  "channel_name": "Jaime Higuera",
+  "title": "Esta es la persona más deprimida de la familia  #shorts",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\HBezrmK2eEY.mp3",
+  "transcribed_at": "2026-05-09T05:37:04.502788+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 1382,
+  "text_sha256": "9f7c7637e5d6a07ae99e6b4389591ca67eac81d5d717847b7125f1fef010adb0",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\HBezrmK2eEY\\transcript_segments.jsonl",
+  "segment_count": 24,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T19:34:14.606250+00:00",
+  "duration_seconds": 61.29999923706055
+}

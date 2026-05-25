@@ -1,0 +1,75 @@
+{
+  "video_id": "H0ymuKNn4GQ",
+  "language": "unknown",
+  "summary": "A distressing account of a traumatic event involving gunshots, fear, and the response of law enforcement during a crisis situation. The narrator describes the chaos experienced by their class and the disturbing sights encountered afterward.",
+  "main_topics": [
+    "gun violence",
+    "trauma",
+    "children's experiences during crises",
+    "law enforcement response"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introduction to the event",
+      "purpose": "Set the scene of the traumatic experience.",
+      "summary": "The narrator recalls hearing gunshots while hiding."
+    },
+    {
+      "section": "Response of law enforcement",
+      "purpose": "Describe the actions taken by the SWAT team.",
+      "summary": "The SWAT team forces entry and instructs the students to line up."
+    },
+    {
+      "section": "Witnessing the aftermath",
+      "purpose": "Illustrate the disturbing sights following the crisis.",
+      "summary": "The narrator describes the damage in the mosque and the presence of injured individuals."
+    },
+    {
+      "section": "Emotional impact",
+      "purpose": "Convey the narrator's feelings during the event.",
+      "summary": "The narrator expresses fear and physical symptoms of distress."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "emotional",
+    "hook_text": "I felt a bit scared. My legs were shaking, my hands.",
+    "why_it_works": "This statement evokes empathy and draws the audience's attention to the emotional and physical toll of the traumatic experience."
+  },
+  "claims": [
+    {
+      "claim": "Children experience significant trauma during violent events.",
+      "support_level": "explicit",
+      "risk": "high"
+    },
+    {
+      "claim": "The response of law enforcement can be chaotic.",
+      "support_level": "implicit",
+      "risk": "medium"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Implement trauma-informed practices in schools.",
+    "Provide mental health support for children after traumatic events."
+  ],
+  "audience": "general public",
+  "tone": "serious",
+  "content_style": "narrative",
+  "retention_devices": [
+    "visual imagery of the event",
+    "personal emotional reflection"
+  ],
+  "title_supporting_quotes": [
+    "I heard like a bunch of bad stuff, like gunshots.",
+    "I felt a bit scared. My legs were shaking, my hands."
+  ],
+  "creative_reuse_opportunities": [
+    "Educational videos on crisis response in schools.",
+    "Documentary segments on the impact of gun violence on children."
+  ],
+  "risk_notes": [
+    "Discussion of sensitive topics may trigger trauma in viewers.",
+    "Need for proper context when discussing law enforcement actions."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

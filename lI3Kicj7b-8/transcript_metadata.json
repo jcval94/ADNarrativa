@@ -1,0 +1,14 @@
+{
+  "video_id": "lI3Kicj7b-8",
+  "channel_id": "UCt7k7y_xTkkc1Jeh7cdAjDQ",
+  "channel_name": "SinEmbargo Al Aire",
+  "title": "La CIA en México y sus cómplices. Por Álvaro Delgado Gómez",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\lI3Kicj7b-8.mp3",
+  "transcribed_at": "2026-05-20T13:56:18.003383+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 6548,
+  "text_sha256": "1a05bd0877e48500ad596567f98a1b9ae5d72f10562bc1272cd48aa008182769",
+  "repo_schema_version": "transcript_metadata_v1"
+}

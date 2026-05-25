@@ -1,0 +1,14 @@
+{
+  "video_id": "kWIBe2hzd4M",
+  "channel_id": "UC52hytXteCKmuOzMViTK8_w",
+  "channel_name": "CdeCiencia",
+  "title": "Ásí aparecen los atascos fantasma",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\kWIBe2hzd4M.mp3",
+  "transcribed_at": "2026-05-09T05:49:33.430287+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 317,
+  "text_sha256": "9a084079cbf8483a4817da0e5973beb632eaa8285cfcc202bbdce170c35a1b9f",
+  "repo_schema_version": "transcript_metadata_v1"
+}

@@ -1,0 +1,62 @@
+{
+  "video_id": "kWIBe2hzd4M",
+  "language": "es",
+  "summary": "La dinámica de los coches en un círculo estable revela cómo una pequeña perturbación puede provocar un efecto en cadena, creando un atasco vehicular.",
+  "main_topics": [
+    "dinámica del tráfico",
+    "efecto de ondas en el tráfico",
+    "comportamiento del conductor"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Presentar el fenómeno del tráfico en círculo",
+      "summary": "Se explica la configuración inicial de los coches y su comportamiento."
+    },
+    {
+      "section": "Desarrollo",
+      "purpose": "Describir cómo ocurre la amplificación del atasco",
+      "summary": "Se detalla cómo una mínima desaceleración provoca una reacción en cadena entre los vehículos."
+    },
+    {
+      "section": "Conclusión",
+      "purpose": "Resumir el fenómeno del atasco",
+      "summary": "Se cierra con la observación de la ola de atasco que se desplaza."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "anecdote",
+    "hook_text": "Al principio todo parecía estable, pero bastaba con que uno frenara un poco.",
+    "why_it_works": "Capta la atención al mostrar cómo algo sencillo puede desencadenar un problema mayor."
+  },
+  "claims": [
+    {
+      "claim": "Una pequeña perturbación provoca un efecto en cadena en el tráfico.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Establecer sistemas de control de velocidad en filas de vehículos",
+    "Implementar técnicas de conducción para evitar frenadas bruscas"
+  ],
+  "audience": "Estudiantes y profesionales en estudios de tráfico y transporte.",
+  "tone": "informativo",
+  "content_style": "explicativo",
+  "retention_devices": [
+    "análisis de conducta",
+    "visualización de efectos en cadena"
+  ],
+  "title_supporting_quotes": [
+    "\"Una pequeña perturbación se amplificó y acabó formando una ola de atasco\""
+  ],
+  "creative_reuse_opportunities": [
+    "Infografía sobre cómo se producen los atascos",
+    "Video de demostración con simulaciones de tráfico"
+  ],
+  "risk_notes": [
+    "El fenómeno puede ser malinterpretado si no se contextualiza adecuadamente."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

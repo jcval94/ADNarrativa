@@ -1,0 +1,66 @@
+{
+  "video_id": "HtyVLX7aLuk",
+  "language": "es",
+  "summary": "El mensaje central del video invita a reflexionar sobre la importancia de las interacciones humanas profundas y la presencia en el momento, contrastando con la distracción que causan los dispositivos electrónicos como los teléfonos móviles.",
+  "main_topics": [
+    "Reflexión sobre la vida",
+    "Importancia de la presencia",
+    "Distracciones modernas",
+    "Relaciones interpersonales"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Plantear una reflexión sobre la vida en la vejez.",
+      "summary": "Se invita a imaginar cómo se verá la vida desde la perspectiva de un anciano, revisando los recuerdos."
+    },
+    {
+      "section": "Desarrollo",
+      "purpose": "Contrastar experiencias memorables con distracciones modernas.",
+      "summary": "Se menciona que los recuerdos más valiosos involucran conexiones humanas reales, no momentos virtuales."
+    },
+    {
+      "section": "Conclusión",
+      "purpose": "Hacer un llamado a la atención plena.",
+      "summary": "Se enfatiza que la distracción del celular roba la oportunidad de estar realmente presente en la vida."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Pregunta retórica",
+    "hook_text": "Imaginá que tenés 85 años, estás mirando para atrás...",
+    "why_it_works": "Invita a la reflexión personal y a conectar emocionalmente con la audiencia."
+  },
+  "claims": [
+    {
+      "claim": "Los recuerdos más valiosos se centran en las relaciones interpersonales.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "El uso excesivo del teléfono nos aleja de la presencia.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Practicar la atención plena en cada interacción.",
+    "Reducir el tiempo en dispositivos electrónicos durante encuentros sociales."
+  ],
+  "audience": "Personas que buscan mejorar sus relaciones interpersonales y mindfulness.",
+  "tone": "Reflexivo",
+  "content_style": "Conversacional",
+  "retention_devices": [
+    "Preguntas retóricas",
+    "Historias sobre la vida"
+  ],
+  "title_supporting_quotes": [
+    "El teléfono no solo nos roba el tiempo, nos roba la presencia."
+  ],
+  "creative_reuse_opportunities": [
+    "Desarrollar un artículo sobre mindfulness y relaciones.",
+    "Crear un podcast sobre experiencias de vida y atención plena."
+  ],
+  "risk_notes": [],
+  "schema_version": "transcript_insights_v1"
+}

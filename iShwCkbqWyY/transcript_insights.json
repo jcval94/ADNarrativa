@@ -1,0 +1,89 @@
+{
+  "video_id": "iShwCkbqWyY",
+  "language": "es",
+  "summary": "La historia de Capitán, un perro que permaneció fiel a la tumba de su dueño durante 11 años, sirve como punto de partida para explorar el extraordinario vínculo entre humanos y perros. Esta conexión trasciende el tiempo y la muerte, simbolizando una lealtad incondicional que ha evolucionado desde la prehistoria. Se analizan las habilidades únicas de los perros para comprender y conectar emocionalmente con los humanos, destacando su capacidad de interpretar el lenguaje, las emociones y sus impresionantes sentidos.",
+  "main_topics": [
+    "Lealtad de los perros",
+    "Vínculo entre especies",
+    "Evolución del perro doméstico",
+    "Comprensión emocional",
+    "Impacto de los perros en la vida humana"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción de Capitán",
+      "purpose": "Presentar la historia inspiradora de un perro fiel",
+      "summary": "Se narra cómo Capitán esperó durante años junto a la tumba de su dueño, demostrando una lealtad extraordinaria."
+    },
+    {
+      "section": "El pacto milenario",
+      "purpose": "Explorar los orígenes evolutivos del vínculo entre humanos y perros.",
+      "summary": "Se describe cómo los humanos y los lobos formaron un pacto de supervivencia, llevando a la domesticación."
+    },
+    {
+      "section": "El lenguaje secreto",
+      "purpose": "Investigar cómo los perros comprenden a los humanos.",
+      "summary": "Se habla sobre estudios que muestran cómo los perros procesan el lenguaje y las emociones humanas."
+    },
+    {
+      "section": "Viaje a la mente del perro",
+      "purpose": "Profundizar en la percepción sensorial de los perros.",
+      "summary": "Se explica cómo los perros experimentan el mundo a través de su olfato, oído y visión."
+    },
+    {
+      "section": "Impacto en la vida humana",
+      "purpose": "Analizar cómo los perros afectan emocionalmente a los humanos.",
+      "summary": "Se tocó el tema del vínculo emocional y los beneficios que los perros aportan a la salud y bienestar humano."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Emocional",
+    "hook_text": "La historia de Capitán, un perro que durmió durante 11 años sobre la tumba de su dueño.",
+    "why_it_works": "Captura inmediatamente la atención al apelar a la empatía y la curiosidad sobre la fidelidad de los animales."
+  },
+  "claims": [
+    {
+      "claim": "Los perros tienen la capacidad única de entender y leer emociones humanas.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "La relación entre humanos y perros comenzó como un pacto de supervivencia.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "Los perros pueden oler y responder a nuestras emociones, afectando su propio estado emocional.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Dedicar más tiempo a interactuar con nuestras mascotas.",
+    "Investigar sobre la evolución y la historia de los perros.",
+    "Considerar el impacto emocional que los perros tienen en nuestras vidas."
+  ],
+  "audience": "Amantes de los animales, dueños de perros, interesados en la psicología animal.",
+  "tone": "Inspirador y reflexivo",
+  "content_style": "Narrativo y conversacional",
+  "retention_devices": [
+    "Historias conmovedoras",
+    "Ciencia detrás del comportamiento animal",
+    "Preguntas retóricas para involucrar a la audiencia"
+  ],
+  "title_supporting_quotes": [
+    "El capitán nos demuestra día a día la fidelidad.",
+    "Hablamos de una lealtad que desafía toda lógica."
+  ],
+  "creative_reuse_opportunities": [
+    "Creación de un documental sobre la lealtad animal",
+    "Artículos sobre la ciencia del vínculo humano-animal",
+    "Charlas educativas en colegios sobre respeto y cuidado hacia los animales"
+  ],
+  "risk_notes": [
+    "Requiere sensibilidad al tratar temas de pérdida y duelo.",
+    "Posibilidad de cambiar la percepción de algunas personas sobre la relación con sus mascotas."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

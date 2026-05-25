@@ -1,0 +1,93 @@
+{
+  "video_id": "lI3Kicj7b-8",
+  "language": "es",
+  "summary": "El video expone la historia de la CIA en México, detallando cómo esta agencia ha operado en el país con cómplices a lo largo de los años. Se menciona el contexto actual de las operaciones ilegales bajo el embajador Ronald Johnson y se analizan las conexiones entre la CIA, el gobierno de Donald Trump y grupos de extrema derecha en México. Además, se discuten las implicaciones de estas operaciones en el marco del narcotráfico y la política mexicana.",
+  "main_topics": [
+    "La CIA y México",
+    "Operaciones ilegales",
+    "Narcotráfico",
+    "Extrema derecha",
+    "Corrupción",
+    "Influencias en la política"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Introducir el tema de la CIA en México",
+      "summary": "Se menciona la larga historia de la CIA operando en México y los cómplices que ha tenido."
+    },
+    {
+      "section": "Contexto actual",
+      "purpose": "Describir las actividades recientes de la CIA",
+      "summary": "Se habla de la llegada de Ronald Johnson como embajador y las intensificaciones de operaciones ilegales."
+    },
+    {
+      "section": "Análisis histórico",
+      "purpose": "Explorar las relaciones históricas de la CIA con autoridades y grupos en México",
+      "summary": "Se hace referencia a las alianzas de la CIA desde los años 60 con poderes locales y su impacto."
+    },
+    {
+      "section": "Implicaciones políticas",
+      "purpose": "Discutir el impacto en la política actual",
+      "summary": "Se examinan las presiones políticas actuales sobre el gobierno mexicano en relación con la CIA."
+    },
+    {
+      "section": "Conclusiones",
+      "purpose": "Recapitular la influencia de la CIA",
+      "summary": "Se concluye que la CIA sigue teniendo cómplices en México y que su influencia es significativa."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Provocativo",
+    "hook_text": "La CIA tiene muchos cómplices en México.",
+    "why_it_works": "Capta la atención al revelar una implicación seria sobre la influencia extranjera en asuntos internos."
+  },
+  "claims": [
+    {
+      "claim": "La CIA opera ilegalmente en México.",
+      "support_level": "explicit",
+      "risk": "alto"
+    },
+    {
+      "claim": "Los gobiernos estatales en México son cómplices de la CIA.",
+      "support_level": "weak",
+      "risk": "medio"
+    },
+    {
+      "claim": "Las operaciones de la CIA están relacionadas con el narcotráfico.",
+      "support_level": "implicit",
+      "risk": "alto"
+    }
+  ],
+  "examples": [
+    "Operaciones ilegales en Chihuahua",
+    "Relaciones con grupos de extrema derecha",
+    "Colaboración con el gobierno de Donald Trump"
+  ],
+  "actionable_ideas": [
+    "Investigar la presencia de agentes extranjeros en México.",
+    "Fomentar la transparencia en las relaciones entre gobiernos.",
+    "Promover la regulación de la influencia extranjera en política."
+  ],
+  "audience": "Ciudadanos interesados en la política y la historia de México.",
+  "tone": "Crítico e informativo",
+  "content_style": "Analítico y documental",
+  "retention_devices": [
+    "Anécdotas históricas",
+    "Citas de figuras relevantes",
+    "Datos impactantes"
+  ],
+  "title_supporting_quotes": [
+    "La CIA ha contado por décadas con cómplices en México.",
+    "Los corruptos defienden a los corruptos."
+  ],
+  "creative_reuse_opportunities": [
+    "Artículos sobre la historia de la CIA en Latinoamérica.",
+    "Documentales sobre narcotráfico y política en México."
+  ],
+  "risk_notes": [
+    "Posibilidad de controversia al abordar temas sensibles.",
+    "Reacción de los actores políticos mencionados."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

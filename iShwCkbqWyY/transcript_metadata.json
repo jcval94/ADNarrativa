@@ -1,0 +1,14 @@
+{
+  "video_id": "iShwCkbqWyY",
+  "channel_id": "UC5PwIMtLiIBCBhsu8f_-6UQ",
+  "channel_name": "Santiago Bilinkis",
+  "title": "Dejé de ver a los perros como antes por esta razón",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\iShwCkbqWyY.mp3",
+  "transcribed_at": "2026-05-24T20:04:35.186057+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 9025,
+  "text_sha256": "4070691362f19dfd932decfb3145dcf91940768d0755f15d9d2a6947d5ca4319",
+  "repo_schema_version": "transcript_metadata_v1"
+}

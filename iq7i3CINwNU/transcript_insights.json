@@ -1,0 +1,65 @@
+{
+  "video_id": "iq7i3CINwNU",
+  "language": "unknown",
+  "summary": "The transcript describes a remarkable goal scored by a player, highlighting their talent and instinctive reaction during a World Cup match.",
+  "main_topics": [
+    "World Cup 2014",
+    "Football Goals",
+    "Player Performance",
+    "Sports Commentary"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Goal Description",
+      "purpose": "To highlight the significance of the goal",
+      "summary": "The commentator expresses excitement over a brilliant goal scored by the player and emphasizes their talent."
+    },
+    {
+      "section": "Player Analysis",
+      "purpose": "To assess the player's skill and impact",
+      "summary": "The commentary praises the player's instinct and technical ability."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Emotional Appeal",
+    "hook_text": "Oh, what a goal! One of the greats!",
+    "why_it_works": "This statement captures attention by eliciting excitement and anticipation regarding the player's performance."
+  },
+  "claims": [
+    {
+      "claim": "The player is a star athlete.",
+      "support_level": "explicit",
+      "risk": "low"
+    },
+    {
+      "claim": "Scoring such a goal requires exceptional technical skill.",
+      "support_level": "implicit",
+      "risk": "medium"
+    }
+  ],
+  "examples": [
+    "A mark of a man, an instinctive reaction...",
+    "Few in the world could do that. Fewer would dare to try to do it."
+  ],
+  "actionable_ideas": [
+    "Highlight key moments in sports highlights.",
+    "Use enthusiastic commentary for player profiles."
+  ],
+  "audience": "Football fans, sports enthusiasts, general audience",
+  "tone": "Excited and Admiring",
+  "content_style": "Descriptive and Enthusiastic",
+  "retention_devices": [
+    "High-energy commentary",
+    "Emphasizing player rarity and skill"
+  ],
+  "title_supporting_quotes": [
+    "What a goal! One of the greats!",
+    "Technically superb and visionary."
+  ],
+  "creative_reuse_opportunities": [
+    "Sports highlight reels",
+    "Player motivational content"
+  ],
+  "risk_notes": [],
+  "schema_version": "transcript_insights_v1"
+}

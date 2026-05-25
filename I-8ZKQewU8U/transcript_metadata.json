@@ -1,0 +1,20 @@
+{
+  "video_id": "I-8ZKQewU8U",
+  "channel_id": "UC5PwIMtLiIBCBhsu8f_-6UQ",
+  "channel_name": "Santiago Bilinkis",
+  "title": "La mentira de los logros visibles",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\I-8ZKQewU8U.mp3",
+  "transcribed_at": "2026-05-24T20:04:45.065544+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 1664,
+  "text_sha256": "8210347d50319a33dd725e622c19a5a166175047935b9d9aa188225aa93f7e96",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\I-8ZKQewU8U\\transcript_segments.jsonl",
+  "segment_count": 26,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T20:07:53.959922+00:00",
+  "duration_seconds": 86.79000091552734
+}

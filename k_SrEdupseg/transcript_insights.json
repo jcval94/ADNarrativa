@@ -1,0 +1,65 @@
+{
+  "video_id": "k_SrEdupseg",
+  "language": "es",
+  "summary": "Un estudio revela que la presencia de un perro reduce el estrés y genera calma en situaciones estresantes más efectivamente que los amigos o parejas.",
+  "main_topics": [
+    "Estrés",
+    "Investigación sobre perros",
+    "Compañía animal"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción y planteamiento de la investigación",
+      "purpose": "Introducir el tema del estrés y la investigación realizada.",
+      "summary": "Un grupo de investigadores estudió cómo la presencia de diferentes acompañantes afecta el estrés en situaciones desafiantes."
+    },
+    {
+      "section": "Resultados de la investigación",
+      "purpose": "Describir los hallazgos significativos del estudio.",
+      "summary": "Se descubrió que los perros son los más efectivos para reducir reacciones de estrés en comparación con amigos y parejas."
+    },
+    {
+      "section": "Conclusión",
+      "purpose": "Resumir la importancia de la compañía incondicional de un perro.",
+      "summary": "La presencia de un perro proporciona un apoyo emocional sin expectativas, resultando en una mejor gestión del estrés."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Intriga",
+    "hook_text": "Hay algo que regula tu estrés mejor que nada y probablemente no tengas idea de qué es.",
+    "why_it_works": "Genera curiosidad sobre el tema y promete una revelación interesante que puede cambiar la perspectiva sobre el manejo del estrés."
+  },
+  "claims": [
+    {
+      "claim": "La presencia de un perro reduce el estrés más que la de un amigo o pareja.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "Los perros ofrecen apoyo incondicional sin expectativas.",
+      "support_level": "implicit",
+      "risk": "bajo"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Considera la compañía de un perro para reducir el estrés en situaciones difíciles.",
+    "Promueve la inclusión de mascotas en terapias de manejo del estrés."
+  ],
+  "audience": "Personas interesadas en manejo del estrés y bienestar emocional.",
+  "tone": "Informativo y reflexivo",
+  "content_style": "Narrativo y persuasivo",
+  "retention_devices": [
+    "Historias de estudios científicos",
+    "Encuestas del impacto emocional de mascotas"
+  ],
+  "title_supporting_quotes": [
+    "La presencia de un perro ayuda a bajar la reacción del cuerpo."
+  ],
+  "creative_reuse_opportunities": [
+    "Artículos sobre el bienestar con mascotas",
+    "Videos informativos sobre el impacto de los animales en la salud emocional"
+  ],
+  "risk_notes": [],
+  "schema_version": "transcript_insights_v1"
+}

@@ -1,0 +1,90 @@
+{
+  "video_id": "INmSlU8iNGk",
+  "language": "unknown",
+  "summary": "The speaker recounts a traumatic experience during a shooting incident, describing the chaos, fear, and aftermath as they were evacuated by the SWAT team.",
+  "main_topics": [
+    "Gunshots",
+    "Evacuation",
+    "Trauma",
+    "Fear",
+    "Incident aftermath"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Initial Incident",
+      "purpose": "Set the scene of chaos",
+      "summary": "The speaker hears gunshots and takes shelter with classmates."
+    },
+    {
+      "section": "SWAT team arrival",
+      "purpose": "Describe the responding authorities",
+      "summary": "SWAT teams instruct the students to open the door and evacuate."
+    },
+    {
+      "section": "Inside the mosque",
+      "purpose": "Illustrate the aftermath of the incident",
+      "summary": "Students witness destruction and chaos inside the mosque."
+    },
+    {
+      "section": "Emotional impact",
+      "purpose": "Convey the speaker's fear",
+      "summary": "The speaker describes feelings of fear and physical reactions to the trauma."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Emotional recounting",
+    "hook_text": "I heard like a bunch of bad stuff like gunshots.",
+    "why_it_works": "It immediately engages the audience with a sense of urgency and fear."
+  },
+  "claims": [
+    {
+      "claim": "Gunshots were heard during the incident.",
+      "support_level": "explicit",
+      "risk": "low"
+    },
+    {
+      "claim": "The SWAT team evacuated the students.",
+      "support_level": "explicit",
+      "risk": "low"
+    },
+    {
+      "claim": "The scene inside the mosque was chaotic and destructive.",
+      "support_level": "implicit",
+      "risk": "medium"
+    },
+    {
+      "claim": "The speaker experienced fear and physical symptoms.",
+      "support_level": "explicit",
+      "risk": "low"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Increase awareness and training for students on active shooter situations.",
+    "Develop mental health support programs for trauma survivors.",
+    "Encourage open discussions about fear and trauma in schools."
+  ],
+  "audience": "General public, especially those interested in safety during crises.",
+  "tone": "Serious, fearful, reflective",
+  "content_style": "Narrative, personal account",
+  "retention_devices": [
+    "Descriptive storytelling",
+    "Emotional engagement",
+    "Suspenseful recounting"
+  ],
+  "title_supporting_quotes": [
+    "We heard like 12 or like 16 gunshots.",
+    "My legs were shaking, my hands.",
+    "I felt a bit scared."
+  ],
+  "creative_reuse_opportunities": [
+    "Educational videos on crisis response.",
+    "Mental health awareness campaigns using personal stories.",
+    "Documentary on the effects of gun violence."
+  ],
+  "risk_notes": [
+    "Potential triggering content related to gun violence.",
+    "Need for sensitivity in discussions surrounding trauma."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

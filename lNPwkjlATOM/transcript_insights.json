@@ -1,0 +1,71 @@
+{
+  "video_id": "lNPwkjlATOM",
+  "language": "es",
+  "summary": "El video analiza cómo las redes sociales han evolucionado desde ser plataformas centradas en relaciones personales a convertirse en espacios donde el contenido viral es priorizado, especialmente con la llegada de TikTok.",
+  "main_topics": [
+    "Evolución de las redes sociales",
+    "Impacto de TikTok",
+    "Adicción a las redes sociales"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción a la evolución de las redes sociales",
+      "purpose": "Plantear la tesis sobre el cambio en las redes sociales",
+      "summary": "Las redes sociales originalmente conectaban a personas en un entorno digital basado en vínculos reales."
+    },
+    {
+      "section": "El impacto de TikTok",
+      "purpose": "Explicar cómo TikTok cambió la dinámica de las redes sociales",
+      "summary": "TikTok prioriza el contenido viral sobre el seguimiento de personas, aumentando la adicción del usuario."
+    },
+    {
+      "section": "Reflexión sobre la adicción",
+      "purpose": "Considerar los efectos psicológicos de esta evolución",
+      "summary": "La experiencia en TikTok es más adictiva que en otras redes debido a su enfoque en lo viral."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Pregunta retórica",
+    "hook_text": "¿sabés qué?",
+    "why_it_works": "Invita al espectador a reflexionar sobre la experiencia personal y a conectar con el mensaje."
+  },
+  "claims": [
+    {
+      "claim": "TikTok ha cambiado la naturaleza de las redes sociales al priorizar contenido viral.",
+      "support_level": "explicit",
+      "risk": "moderado"
+    },
+    {
+      "claim": "La adicción a TikTok es más intensa que en otras plataformas debido a su modelo.",
+      "support_level": "explicit",
+      "risk": "alto"
+    }
+  ],
+  "examples": [
+    "TikTok selecciona el contenido más viral en lugar de enfocarse en las relaciones de los usuarios."
+  ],
+  "actionable_ideas": [
+    "Reflexionar sobre cómo consumimos contenido en redes sociales.",
+    "Considerar las implicaciones de la adicción a ciertas plataformas."
+  ],
+  "audience": "Usuarios de redes sociales, especialmente jóvenes.",
+  "tone": "Crítico y reflexivo.",
+  "content_style": "Conversacional y analítico.",
+  "retention_devices": [
+    "Ejemplos personales",
+    "Cuestionamientos provocativos"
+  ],
+  "title_supporting_quotes": [
+    "\"Las redes sociales dejaron de ser sociales\"",
+    "\"TikTok decidió qué contenido es más viral para cautivarte\""
+  ],
+  "creative_reuse_opportunities": [
+    "Artículos sobre la evolución de las redes sociales",
+    "Debates sobre el impacto de las redes sociales en la salud mental"
+  ],
+  "risk_notes": [
+    "Potencial impacto en la salud mental de los jóvenes.",
+    "Dependencia de contenido adictivo."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

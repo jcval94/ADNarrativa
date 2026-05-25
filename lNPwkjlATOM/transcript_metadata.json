@@ -1,0 +1,14 @@
+{
+  "video_id": "lNPwkjlATOM",
+  "channel_id": "UC5PwIMtLiIBCBhsu8f_-6UQ",
+  "channel_name": "Santiago Bilinkis",
+  "title": "Las redes ya no te muestran a tus amigos… y hay un motivo",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\lNPwkjlATOM.mp3",
+  "transcribed_at": "2026-05-24T19:55:26.927963+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 1074,
+  "text_sha256": "1029cf7c45e430a4f118265f391baec648e055d001a60634dd496c15e67b770e",
+  "repo_schema_version": "transcript_metadata_v1"
+}

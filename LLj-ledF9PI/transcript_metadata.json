@@ -1,0 +1,20 @@
+{
+  "video_id": "LLj-ledF9PI",
+  "channel_id": "UCUyDOdBWhC1MCxEjC46d-zw",
+  "channel_name": "Alex Hormozi",
+  "title": "You're Going To Look Stupid",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\LLj-ledF9PI.mp3",
+  "transcribed_at": "2026-05-18T01:54:33.771429+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 664,
+  "text_sha256": "118a7b7e3b14d3954a4e9f371ca53d0eace85bc878211384c4a36a36cc5571e8",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\LLj-ledF9PI\\transcript_segments.jsonl",
+  "segment_count": 12,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T19:34:46.878375+00:00",
+  "duration_seconds": 35.91999816894531
+}

@@ -1,0 +1,71 @@
+{
+  "video_id": "HxqpSD1JreE",
+  "language": "es",
+  "summary": "La analogía entre el aprendizaje de los niños en el espacio público y su interacción con internet subraya la necesidad de acompañar y educar sobre los peligros en línea, que pueden ser mayores que los del mundo físico.",
+  "main_topics": [
+    "Interacción de niños con internet",
+    "Analogía del espacio público",
+    "Riesgos de internet",
+    "Necesidad de acompañamiento y educación"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción de la analogía",
+      "purpose": "Presentar el tema",
+      "summary": "Se introduce la comparación entre la libertad en la calle y el acceso a internet."
+    },
+    {
+      "section": "Educación sobre el espacio público",
+      "purpose": "Explicar el proceso de enseñanza",
+      "summary": "Se describe cómo los padres enseñan a los niños a navegar el espacio público de forma segura."
+    },
+    {
+      "section": "Riesgos de internet",
+      "purpose": "Resaltar la peligrosidad",
+      "summary": "Se explican los riesgos específicos que enfrenta un niño en internet, comparándolos con los riesgos en la calle."
+    },
+    {
+      "section": "Conclusión",
+      "purpose": "Llamado a la acción",
+      "summary": "Se enfatiza la necesidad de un acompañamiento y educación para los niños en su uso de internet."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Analogía",
+    "hook_text": "Cuando los chicos empiezan a salir solos por primeras a la calle.",
+    "why_it_works": "La analogía conecta emociones parentales y resalta la importancia de la vigilancia en ambos entornos."
+  },
+  "claims": [
+    {
+      "claim": "Internet es un territorio más peligroso que el espacio público.",
+      "support_level": "explicit",
+      "risk": "alto"
+    },
+    {
+      "claim": "Los niños deben ser acompañados y educados sobre el uso de internet.",
+      "support_level": "explicit",
+      "risk": "medio"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Implementar programas educativos sobre seguridad en internet.",
+    "Establecer reglas y supervisión para el uso de dispositivos por parte de los niños."
+  ],
+  "audience": "Padres y educadores",
+  "tone": "reflexivo",
+  "content_style": "informal",
+  "retention_devices": [
+    "Analogías",
+    "Preguntas retóricas"
+  ],
+  "title_supporting_quotes": [
+    "Internet es un territorio en muchos sentidos más peligroso que el espacio público."
+  ],
+  "creative_reuse_opportunities": [
+    "Desarrollo de materiales educativos basados en la analogía.",
+    "Charlas y talleres para padres sobre riesgos de internet."
+  ],
+  "risk_notes": [],
+  "schema_version": "transcript_insights_v1"
+}

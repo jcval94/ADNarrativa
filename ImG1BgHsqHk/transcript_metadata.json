@@ -1,0 +1,20 @@
+{
+  "video_id": "ImG1BgHsqHk",
+  "channel_id": "UCWBWgCD4oAqT3hUeq40SCUw",
+  "channel_name": "Sambucha",
+  "title": "Movie Scenes That Led To Lawsuits",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\ImG1BgHsqHk.mp3",
+  "transcribed_at": "2026-05-18T01:54:31.287314+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 1329,
+  "text_sha256": "8069ea1780f313697d7175b686e17fbf6b6c0baa2583f6a4fb72ef731c9ad3f1",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\ImG1BgHsqHk\\transcript_segments.jsonl",
+  "segment_count": 17,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T19:34:34.264933+00:00",
+  "duration_seconds": 57.560001373291016
+}

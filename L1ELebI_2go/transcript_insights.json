@@ -1,0 +1,91 @@
+{
+  "video_id": "L1ELebI_2go",
+  "language": "es",
+  "summary": "El relato cuenta la historia de un perro llamado Capitán, quien mostró una lealtad excepcional al permanecer junto a la tumba de su dueño, Miguel, durante 11 años tras su muerte. A pesar de las dificultades y condiciones adversas, Capitán nunca abandonó su vigilia, convirtiéndose en un símbolo de fidelidad y amor incondicional.",
+  "main_topics": [
+    "Lealtad animal",
+    "Amor incondicional",
+    "Relación humano-animal",
+    "Fidelidad",
+    "Superación del duelo"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción de Capitán",
+      "purpose": "Presentar al protagonista y su relación con Miguel.",
+      "summary": "Se introduce la historia de un perro mestizo llamado Capitán que fue regalado a Miguel Guzmán, estableciendo un vínculo incondicional."
+    },
+    {
+      "section": "La muerte de Miguel",
+      "purpose": "Describir el suceso que desencadena la historia.",
+      "summary": "Miguel fallece repentinamente y Capitán desaparece, generando preocupación en la familia."
+    },
+    {
+      "section": "Retorno al cementerio",
+      "purpose": "Mostar la devoción de Capitán.",
+      "summary": "Capitán reaparece en la tumba de Miguel durante la visita de la familia al cementerio."
+    },
+    {
+      "section": "La espera de Capitán",
+      "purpose": "Resaltar la lealtad del perro.",
+      "summary": "Capitán permanece 11 años junto a la tumba de Miguel, desafiando el frío, el hambre, y el tiempo."
+    },
+    {
+      "section": "Conclusión y reflexión",
+      "purpose": "Invitar a la reflexión sobre la relación entre humanos y animales.",
+      "summary": "La historia de Capitán plantea preguntas sobre los lazos invisibles que unen a un perro con su humano."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Emotivo",
+    "hook_text": "La lealtad más pura viene en cuatro patas.",
+    "why_it_works": "Engancha al espectador mediante la conexión emocional que genera la relación entre un perro y su dueño."
+  },
+  "claims": [
+    {
+      "claim": "Capitán mostró una lealtad excepcional al permanecer junto a la tumba de su dueño durante 11 años.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "La historia de Capitán simboliza el amor incondicional.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "Los perros pueden sentir y entender el duelo humano.",
+      "support_level": "implicit",
+      "risk": "medio"
+    }
+  ],
+  "examples": [
+    "La permanencia de Capitán durante 11 años junto a la tumba de Miguel.",
+    "La atención que recibió de los empleados del cementerio y un veterinario local."
+  ],
+  "actionable_ideas": [
+    "Fomentar la adopción de mascotas.",
+    "Crear conciencia sobre el vínculo emocional entre humanos y animales.",
+    "Promover historias de lealtad y amor incondicional."
+  ],
+  "audience": "Amantes de los animales y aquellos interesados en historias conmovedoras.",
+  "tone": "Emotivo y reflexivo.",
+  "content_style": "Narrativo y contemplativo.",
+  "retention_devices": [
+    "Preguntas reflexivas sobre la lealtad de los animales.",
+    "Detallada narrativa emotiva."
+  ],
+  "title_supporting_quotes": [
+    "\"La lealtad más pura viene en cuatro patas.\"",
+    "\"Capitán nos demuestra día a día la fidelidad.\"",
+    "\"Hablan de una lealtad que desafía toda lógica.\""
+  ],
+  "creative_reuse_opportunities": [
+    "Artículos sobre la lealtad de los animales.",
+    "Documentales sobre historias similares de mascotas.",
+    "Libros de cuentos inspirados en relatos de mascotas leales."
+  ],
+  "risk_notes": [
+    "La historia puede ser muy emotiva y provocar tristeza en algunos espectadores."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

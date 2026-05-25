@@ -1,0 +1,20 @@
+{
+  "video_id": "Lq15JrYGH-s",
+  "channel_id": "UCF0L4jd9LcSIxsj5gKITMqQ",
+  "channel_name": "Jaime Higuera",
+  "title": "Tienes que cuidar tu apariencia #shorts",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\Lq15JrYGH-s.mp3",
+  "transcribed_at": "2026-05-20T13:56:32.320484+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 818,
+  "text_sha256": "5281646d79693176dcce560fa7cb330793bbf029e2c8a845df5286d3554447e2",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\Lq15JrYGH-s\\transcript_segments.jsonl",
+  "segment_count": 9,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T19:34:52.341359+00:00",
+  "duration_seconds": 37.630001068115234
+}

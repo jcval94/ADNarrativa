@@ -1,0 +1,73 @@
+{
+  "video_id": "IGCKBKoplVE",
+  "language": "es",
+  "summary": "El relato aborda la historia de una mujer que, al afirmar que no puede tener SIDA por ser blanca, genera un escándalo viral en Twitter que arruina su vida profesional. Se discute sobre la repercusión de las malas decisiones en la era digital.",
+  "main_topics": [
+    "Impacto de las redes sociales",
+    "Consecuencias de los comentarios racistas",
+    "Viralidad en internet",
+    "Responsabilidad en la comunicación"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción de la historia",
+      "purpose": "Presentar el contexto y la protagonista",
+      "summary": "Se introduce la anécdota de una chica que hace un comentario insensible en Twitter sobre el SIDA."
+    },
+    {
+      "section": "Desarrollo del incidente",
+      "purpose": "Mostrar la escalada de la situación",
+      "summary": "Se narra cómo su tweet se convierte en viral mientras ella está de viaje, sin saber lo que sucede."
+    },
+    {
+      "section": "Consecuencias",
+      "purpose": "Ilustrar el impacto de sus palabras",
+      "summary": "Al llegar a Johannesburgo, enfrenta protestas y pierde su empleo, reflejando cómo las malas decisiones pueden devastar vidas."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "anécdota",
+    "hook_text": "Yo no puedo tener sida porque soy blanca.",
+    "why_it_works": "La frase insensible provoca curiosidad y sorpresa, atrayendo la atención sobre el tema del racismo y las consecuencias de la imprudencia en redes sociales."
+  },
+  "claims": [
+    {
+      "claim": "Las redes sociales amplifican las malas decisiones.",
+      "support_level": "explicit",
+      "risk": "moderado"
+    },
+    {
+      "claim": "Los comentarios racistas tienen repercusiones graves.",
+      "support_level": "explicit",
+      "risk": "alto"
+    }
+  ],
+  "examples": [
+    "La historia de la chica en Sudáfrica.",
+    "Manifestaciones en su contra por el tweet."
+  ],
+  "actionable_ideas": [
+    "Promover la educación sobre la responsabilidad en redes sociales.",
+    "Crear campañas para sensibilizar sobre el racismo y salud pública."
+  ],
+  "audience": "Personas interesadas en redes sociales y cuestiones de justicia social.",
+  "tone": "reflexivo y crítico",
+  "content_style": "narrativa",
+  "retention_devices": [
+    "anécdotas personales",
+    "preguntas retóricas"
+  ],
+  "title_supporting_quotes": [
+    "Ella después lo explica, intentó hacer una denuncia respecto de la injusticia...",
+    "su vida se deshizo en esa decisión estúpida."
+  ],
+  "creative_reuse_opportunities": [
+    "Crear un video educativo sobre el uso responsable de redes sociales.",
+    "Desarrollar contenido sobre la historia del SIDA y su relación con diferentes comunidades."
+  ],
+  "risk_notes": [
+    "El uso de ejemplos de racismo puede resultar sensible para algunas audiencias.",
+    "La viralidad de la información puede llevar a malentendidos."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

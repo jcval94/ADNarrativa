@@ -1,0 +1,20 @@
+{
+  "video_id": "IGCKBKoplVE",
+  "channel_id": "UC5PwIMtLiIBCBhsu8f_-6UQ",
+  "channel_name": "Santiago Bilinkis",
+  "title": "Subió a un avión con trabajo y aterrizó cancelada mundialmente",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\IGCKBKoplVE.mp3",
+  "transcribed_at": "2026-05-19T01:37:19.486273+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 1152,
+  "text_sha256": "e79e17a6b35f898a7cbc53c2094e1c714f79b33b942f1df4d40b067fa80665d4",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\IGCKBKoplVE\\transcript_segments.jsonl",
+  "segment_count": 33,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T19:34:22.614563+00:00",
+  "duration_seconds": 51.5
+}

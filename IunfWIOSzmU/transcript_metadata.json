@@ -1,0 +1,20 @@
+{
+  "video_id": "IunfWIOSzmU",
+  "channel_id": "UCEQXxiYxNZbym9Fad7-n2Lg",
+  "channel_name": "Doctor Fisión",
+  "title": "¿PUDO LLEGAR LA VIDA A LA TIERRA EN UN METEORITO DESDE MARTE? 🌌",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\IunfWIOSzmU.mp3",
+  "transcribed_at": "2026-05-19T01:37:43.286934+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 1318,
+  "text_sha256": "7803fcdf6598c0447554c53360538ec1715ebae96a9ed4d0b39fed30d84275e2",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\IunfWIOSzmU\\transcript_segments.jsonl",
+  "segment_count": 12,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T19:34:40.244862+00:00",
+  "duration_seconds": 64.76000213623047
+}

@@ -1,0 +1,14 @@
+{
+  "video_id": "iDaAkeF_-cQ",
+  "channel_id": "UC5PwIMtLiIBCBhsu8f_-6UQ",
+  "channel_name": "Santiago Bilinkis",
+  "title": "El GRAN ERROR del sistema educativo",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\iDaAkeF_-cQ.mp3",
+  "transcribed_at": "2026-05-24T19:54:59.819571+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 1167,
+  "text_sha256": "3f28743df9a9b29ca4611aa1cfc1a76b35bd82eb7c6ea05d4d8c5eb5f9bbb419",
+  "repo_schema_version": "transcript_metadata_v1"
+}
