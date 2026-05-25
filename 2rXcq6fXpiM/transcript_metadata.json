@@ -1,0 +1,20 @@
+{
+  "video_id": "2rXcq6fXpiM",
+  "channel_id": "UC30ajuhy8cViP2DiM1QLjmg",
+  "channel_name": "98grados",
+  "title": "¿Hay TANTA Diferencia? MacBook Pro vs Laptop Gamer (sin fanatismo)",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\2rXcq6fXpiM.mp3",
+  "transcribed_at": "2026-05-19T01:43:19.608097+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 34487,
+  "text_sha256": "4b47127f75940275dbf1f930531b6f317f88900aec67982bcdf33daa6a8263b9",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\2rXcq6fXpiM\\transcript_segments.jsonl",
+  "segment_count": 1704,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-21T13:59:03.592574+00:00",
+  "duration_seconds": 2181.25
+}

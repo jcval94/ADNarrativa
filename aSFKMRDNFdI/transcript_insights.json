@@ -1,0 +1,75 @@
+{
+  "video_id": "aSFKMRDNFdI",
+  "language": "es",
+  "summary": "El autor describe una experiencia donde usó un asistente de IA para hacer compras en línea basándose en una lista de compras. La IA demostró capacidad para navegar y seleccionar productos, lo que lleva a reflexionar sobre la creciente automatización de decisiones y la necesidad de adaptar interfaces para agentes de IA.",
+  "main_topics": [
+    "Uso de IA en compras en línea",
+    "Interacción con asistentes de IA",
+    "Automatización de decisiones",
+    "Desarrollo de interfaces para IA"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción a la experiencia",
+      "purpose": "Presentar el contexto de la historia",
+      "summary": "El narrador explica cómo utiliza un asistente de IA para hacer compras."
+    },
+    {
+      "section": "Interacción del asistente de IA",
+      "purpose": "Demonstrar las capacidades del asistente",
+      "summary": "El asistente examina varias páginas de supermercados y toma decisiones sobre compras."
+    },
+    {
+      "section": "Reflexión sobre la IA",
+      "purpose": "Ofrecer una perspectiva crítica",
+      "summary": "El narrador reflexiona sobre la naturaleza de la IA y su impacto en la toma de decisiones."
+    },
+    {
+      "section": "Implicaciones futuras",
+      "purpose": "Discutir las consecuencias de la IA en el futuro",
+      "summary": "Se plantea que las decisiones serán cada vez más automatizadas y la necesidad de adaptar interfaces para los agentes."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "anecdote",
+    "hook_text": "la IA que abre varias páginas web para elegir productos",
+    "why_it_works": "Captura la atención al presentar un caso concreto y relatable sobre el uso de IA en la vida diaria."
+  },
+  "claims": [
+    {
+      "claim": "Las decisiones de compra serán cada vez más tomadas por IA",
+      "support_level": "explicit",
+      "risk": "moderado"
+    },
+    {
+      "claim": "Habrá una necesidad de diseñar interfaces que agraden a los agentes de IA",
+      "support_level": "implicit",
+      "risk": "bajo"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Empresas deben adaptar sus sitios web para facilitar el uso por parte de IA.",
+    "Negocios deben prepararse para el aumento de decisiones automatizadas en sus operaciones."
+  ],
+  "audience": "Personas interesadas en tecnología y el futuro de la IA.",
+  "tone": "informal y reflexivo",
+  "content_style": "narrativo y analítico",
+  "retention_devices": [
+    "Historias personales",
+    "Ejemplos claros de uso de IA"
+  ],
+  "title_supporting_quotes": [
+    "'¿Eso no es pensar? Eso es actuar como si pensara.'",
+    "'Estamos ya en un camino donde más y más tareas van a ser hechas por agentes.'"
+  ],
+  "creative_reuse_opportunities": [
+    "Artículos sobre la automatización en compras",
+    "Videos explicativos sobre el diseño de interfaces para IA"
+  ],
+  "risk_notes": [
+    "Dependencia de la tecnología puede llevar a desconfianza en decisiones automatizadas.",
+    "Posibles problemas de privacidad en el manejo de datos por IA."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

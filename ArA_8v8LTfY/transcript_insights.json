@@ -1,0 +1,87 @@
+{
+  "video_id": "ArA_8v8LTfY",
+  "language": "es",
+  "summary": "El video discute la caída de los precios del mercado inmobiliario en China, destacando que los departamentos son ahora más asequibles que en años anteriores, en contraste con la situación en Occidente donde la mayoría vive endeudada.",
+  "main_topics": [
+    "Mercado inmobiliario en China",
+    "Precios de viviendas",
+    "Comparación entre China y Occidente",
+    "Sueño americano"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Presentar el tema de la catástrofe inmobiliaria en China.",
+      "summary": "Se menciona una caída drástica en los precios del mercado inmobiliario en China."
+    },
+    {
+      "section": "Datos sobre la propiedad en China",
+      "purpose": "Proporcionar contexto sobre la propiedad de vivienda.",
+      "summary": "Se indica que el 90% de la población en China es propietaria de su vivienda."
+    },
+    {
+      "section": "Contraste con Occidente",
+      "purpose": "Comparar las circunstancias económicas y de vivienda.",
+      "summary": "En Occidente, la mayoría vive con deudas a pesar de tener trabajos."
+    },
+    {
+      "section": "Ejemplo específico",
+      "purpose": "Ilustrar la asequibilidad en China.",
+      "summary": "Se da un ejemplo de un departamento en Shenzhen a un precio sorprendentemente bajo."
+    },
+    {
+      "section": "Cierre",
+      "purpose": "Reflexionar sobre el sueño americano.",
+      "summary": "Sugiere que mudarse a China podría ser visto como la nueva búsqueda del sueño americano."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Impactante estadística",
+    "hook_text": "Los precios promedios del mercado inmobiliario en China a niveles menores que 2006.",
+    "why_it_works": "Atrae la atención al destacar un cambio significativo y sorprendente en el mercado inmobiliario que contrasta con la percepción general sobre el mismo."
+  },
+  "claims": [
+    {
+      "claim": "Los precios de los departamentos en China son ahora más bajos que hace 20 años.",
+      "support_level": "explicit",
+      "risk": "moderado"
+    },
+    {
+      "claim": "El 90% de la población en China tiene casa propia.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "La mayoría de la gente en Occidente vive de su cheque del fin de mes y está endeudada.",
+      "support_level": "implicit",
+      "risk": "moderado"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Investigar las tendencias del mercado inmobiliario en diferentes países.",
+    "Comparar costos de vida y propiedad entre China y Occidente.",
+    "Considerar las implicaciones de la propiedad de vivienda en el bienestar económico."
+  ],
+  "audience": "Personas interesadas en economía y mercado inmobiliario.",
+  "tone": "Informativo y crítico.",
+  "content_style": "Directo con ejemplos claros.",
+  "retention_devices": [
+    "Datos estadísticos",
+    "Ejemplo concreto de un departamento",
+    "Contraste entre lifestyles"
+  ],
+  "title_supporting_quotes": [
+    "El sueño americano es mudarse a China."
+  ],
+  "creative_reuse_opportunities": [
+    "Crear contenido sobre inversiones en propiedades en China.",
+    "Hacer un video comparativo sobre la vivienda en diferentes países.",
+    "Publicar artículos sobre el impacto económico de la propiedad en el bienestar social."
+  ],
+  "risk_notes": [
+    "La afirmación sobre el 90% de propiedad podría no reflejar la realidad en todas las provincias chinas.",
+    "La situación financiera en Occidente puede tener matices que no se capturan en comparación directa."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

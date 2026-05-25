@@ -1,0 +1,83 @@
+{
+  "video_id": "-1wOnr7JsS4",
+  "language": "spanish",
+  "summary": "El video propone la creación de una caja negra emocional personal, inspirada en la caja negra de los aviones, para guardar recuerdos significativos y aprendizajes anuales. Se sugiere una serie de cinco preguntas para reflexionar sobre el año y conservar lo importante.",
+  "main_topics": [
+    "Memoria personal",
+    "Reflexión anual",
+    "Caja negra emocional",
+    "Aprendizajes",
+    "Recuerdos significativos"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Introducir la metáfora de la caja negra de los aviones",
+      "summary": "Se establece la idea de que podemos crear una versión emocional de la caja negra para almacenar recuerdos."
+    },
+    {
+      "section": "Propuesta",
+      "purpose": "Ofrecer una actividad anual",
+      "summary": "Se sugieren cinco preguntas para reflexionar una vez al año."
+    },
+    {
+      "section": "Beneficios",
+      "purpose": "Resaltar las ventajas de la práctica",
+      "summary": "La práctica ayuda a jerarquizar lo que es importante y rescatar momentos del olvido."
+    },
+    {
+      "section": "Cierre",
+      "purpose": "Motivar la acción",
+      "summary": "Se anima a la audiencia a implementar esta práctica en sus vidas."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Metáfora",
+    "hook_text": "Los aviones tienen algo que nosotros no tenemos, una caja negra...",
+    "why_it_works": "Captura la atención al comparar algo familiar (cajas negras de aviones) con un concepto personal, creando curiosidad."
+  },
+  "claims": [
+    {
+      "claim": "La creación de una caja negra emocional puede mejorar nuestra memoria personal.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "Reflexionar anualmente ayuda a jerarquizar experiencias y aprendizajes.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Crear una caja negra emocional anualmente.",
+    "Responder las cinco preguntas sugeridas.",
+    "Revisar las respuestas de años pasados.",
+    "Personalizar las preguntas según las propias experiencias.",
+    "Utilizar la práctica para mejorar la autoconciencia."
+  ],
+  "audience": "Personas interesadas en la auto-reflexión y el desarrollo personal",
+  "tone": "inspirador",
+  "content_style": "conversacional",
+  "retention_devices": [
+    "Uso de metáforas",
+    "Ejemplos concretos",
+    "Preguntas reflexivas"
+  ],
+  "title_supporting_quotes": [
+    "\"Crea tu propia caja negra emocional\"",
+    "\"Tu cerebro jerarquiza, decide qué vale la pena...\"",
+    "\"No podés controlar todo lo que tu memoria olvida...\""
+  ],
+  "creative_reuse_opportunities": [
+    "Desarrollar un taller sobre reflexión personal.",
+    "Crear contenido digital sobre memoria y autoevaluación.",
+    "Escribir un libro o un blog sobre el tema.",
+    "Hacer podcasts sobre desarrollo personal y memoria."
+  ],
+  "risk_notes": [
+    "El riesgo de superficialidad si las preguntas no se personalizan.",
+    "Posible resistencia a la reflexión anual por falta de tiempo."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

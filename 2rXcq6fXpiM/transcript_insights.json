@@ -1,0 +1,99 @@
+{
+  "video_id": "2rXcq6fXpiM",
+  "language": "es",
+  "summary": "El video compara exhaustivamente la MacBook Pro con una laptop gaming, analizando aspectos como calidad de construcción, rendimiento, pantalla, y temperatura. Se destacan las ventajas y desventajas de cada una, concluyendo que la MacBook es superior en edición de video, mientras que la laptop gaming ofrece mejor rendimiento en juegos.",
+  "main_topics": [
+    "Calidad de construcción",
+    "Rendimiento en juegos",
+    "Edición de video",
+    "Comparación de pantallas",
+    "Gestión de temperatura"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Presentar la temática del video.",
+      "summary": "El narrador comparte su felicidad por realizar la comparación entre una MacBook Pro y una laptop gaming."
+    },
+    {
+      "section": "Calidad de construcción",
+      "purpose": "Analizar la diferencia en materiales y diseño.",
+      "summary": "Se comparan los materiales y la ergonomía de ambas laptops, destacando ventajas de la MacBook Pro."
+    },
+    {
+      "section": "Rendimiento en juegos",
+      "purpose": "Evaluar la capacidad de juego de ambas laptops.",
+      "summary": "La laptop gaming supera a la MacBook Pro en FPS, pero se discuten las limitaciones de macOS para gaming."
+    },
+    {
+      "section": "Edición de video",
+      "purpose": "Comparar el rendimiento en software de edición.",
+      "summary": "La MacBook Pro es superior en edición de video, gracias a su optimización en programas como Final Cut Pro."
+    },
+    {
+      "section": "Temperatura",
+      "purpose": "Analizar la gestión de la temperatura en ambas laptops.",
+      "summary": "La MacBook Pro maneja mejor la temperatura, lo que podría aumentar su durabilidad."
+    },
+    {
+      "section": "Conclusiones",
+      "purpose": "Ofrecer una reflexión final sobre la elección entre ambas laptops.",
+      "summary": "El narrador concluye que, dependiendo del uso, una laptop gaming podría ser la mejor opción para la mayoría, pero la MacBook Pro ofrece experiencias inigualables en productividad y edición."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Personal Story",
+    "hook_text": "El narrador reflexiona sobre su crecimiento desde sus inicios como estudiante hasta tener una MacBook Pro.",
+    "why_it_works": "Conecta emocionalmente con la audiencia al compartir su trayectoria personal."
+  },
+  "claims": [
+    {
+      "claim": "La MacBook Pro es superior en edición de video.",
+      "support_level": "explicit",
+      "risk": "moderate"
+    },
+    {
+      "claim": "La laptop gaming supera a la MacBook en rendimiento de juegos.",
+      "support_level": "explicit",
+      "risk": "low"
+    },
+    {
+      "claim": "El diseño metálico de la MacBook la hace más duradera.",
+      "support_level": "implicit",
+      "risk": "low"
+    }
+  ],
+  "examples": [
+    "Comparación entre temperaturas de ambas laptops.",
+    "Demostración de FPS en juegos como Minecraft.",
+    "Ejecución de software de edición de video en ambas laptops."
+  ],
+  "actionable_ideas": [
+    "Considerar tus necesidades de uso al elegir entre una laptop gaming y una MacBook Pro.",
+    "Evaluar la inversión en accesorios como adaptadores USB-C para la MacBook.",
+    "Investigar mejores opciones de software de edición según tu flujo de trabajo."
+  ],
+  "audience": "Espectadores interesados en tecnología, gaming, y edición de video.",
+  "tone": "Conversacional y reflexivo",
+  "content_style": "Comparativo y analítico",
+  "retention_devices": [
+    "Narración dinámica",
+    "Instrucciones visuales sobre comparativas",
+    "Análisis de resultados con gráficos"
+  ],
+  "title_supporting_quotes": [
+    "La MacBook Pro tiene un rendimiento inigualable en edición.",
+    "Jugar en macOS es complicado por su arquitectura.",
+    "Los detalles de la MacBook son una inversión real."
+  ],
+  "creative_reuse_opportunities": [
+    "Videos cortos explicando ventajas de cada laptop.",
+    "Artículos sobre elección de laptops para productividad vs gaming.",
+    "Tutoriales de optimización de temperatura en laptops."
+  ],
+  "risk_notes": [
+    "Las comparaciones pueden ser subjetivas.",
+    "La experiencia del usuario puede variar según el flujo de trabajo."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

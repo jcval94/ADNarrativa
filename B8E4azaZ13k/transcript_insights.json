@@ -1,0 +1,85 @@
+{
+  "video_id": "B8E4azaZ13k",
+  "language": "es",
+  "summary": "El video explora la diferencia entre el sueño y la vigilia, destacando aspectos únicos de los sueños como la ausencia de elementos de la vida real (celulares y espejos) y la naturaleza de los sueños como escenarios donde ocurren situaciones raras y bizarras.",
+  "main_topics": [
+    "Diferencias entre sueños y realidad",
+    "Características de los sueños",
+    "Sueños recurrentes"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Plantear una pregunta sobre el estado de conciencia.",
+      "summary": "Se pregunta si el espectador está despierto o soñando."
+    },
+    {
+      "section": "Características de los sueños",
+      "purpose": "Identificar lo que ocurre en los sueños.",
+      "summary": "Se mencionan situaciones comunes en sueños, como caídas y la ruptura de dientes."
+    },
+    {
+      "section": "Contraste con la realidad",
+      "purpose": "Resaltar lo que no sucede en los sueños.",
+      "summary": "Los celulares, espejos, lectura y escritura no están presentes en los sueños."
+    },
+    {
+      "section": "Conclusión",
+      "purpose": "Ofrecer un criterio para distinguir entre sueño y vigilia.",
+      "summary": "Se sugieren acciones para determinar si uno está despierto, como mirar el celular o el espejo."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Pregunta retórica",
+    "hook_text": "¿Están despiertos o soñando en este momento?",
+    "why_it_works": "Capta la atención del público al hacer que reflexionen sobre su propio estado de conciencia."
+  },
+  "claims": [
+    {
+      "claim": "En los sueños no hay celulares.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "Los sueños suelen contener situaciones bizarras.",
+      "support_level": "implicit",
+      "risk": "moderado"
+    },
+    {
+      "claim": "No se pueden leer ni escribir en los sueños.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    }
+  ],
+  "examples": [
+    "Saliste en bolas.",
+    "Caída de un lugar alto.",
+    "Se rompen y se caen los dientes."
+  ],
+  "actionable_ideas": [
+    "Haz un chequeo de realidad al mirar tu celular.",
+    "Observa si puedes reflejarte en un espejo.",
+    "Intenta leer algo para verificar tu estado de consciencia."
+  ],
+  "audience": "Personas interesadas en la psicología del sueño y la experiencia onírica.",
+  "tone": "Reflexivo y ligero.",
+  "content_style": "Conversacional y accesible.",
+  "retention_devices": [
+    "Preguntas retóricas",
+    "Ejemplos sorprendentes",
+    "Contraste entre realidad y sueños"
+  ],
+  "title_supporting_quotes": [
+    "Las cosas que ocurren en los sueños son raras y bizarras.",
+    "En los sueños no te miras al espejo."
+  ],
+  "creative_reuse_opportunities": [
+    "Desarrollar un artículo sobre la psicología de los sueños.",
+    "Crear un video educativo sobre la interpretación de sueños."
+  ],
+  "risk_notes": [
+    "Posible confusión sobre la naturaleza de los sueños.",
+    "Generalización de experiencias oníricas que pueden variar entre individuos."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

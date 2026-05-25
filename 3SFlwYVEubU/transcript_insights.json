@@ -1,0 +1,69 @@
+{
+  "video_id": "3SFlwYVEubU",
+  "language": "es",
+  "summary": "El video presenta la historia del símbolo igual (=), introducido por Robert Recorde en 1557, destacando su origen y la evolución del símbolo a lo largo del tiempo.",
+  "main_topics": [
+    "Historia del símbolo igual",
+    "Robert Recorde",
+    "Evolución de la notación matemática"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción del símbolo igual",
+      "purpose": "Presentar el contexto histórico",
+      "summary": "Se explica la necesidad de un símbolo para expresar igualdad en matemáticas."
+    },
+    {
+      "section": "Contribución de Robert Recorde",
+      "purpose": "Detallar quién introdujo el símbolo",
+      "summary": "Se menciona a Robert Recorde y su elección de dos líneas paralelas para representar igualdad."
+    },
+    {
+      "section": "Evolución del símbolo",
+      "purpose": "Mostrar cómo ha cambiado el símbolo",
+      "summary": "Se discute cómo el símbolo original era más largo y se simplificó con el tiempo."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Curiosidad histórica",
+    "hook_text": "Hace siglos, cuando se quería expresar igualdad...",
+    "why_it_works": "Comienza con un enfoque intrigante sobre la historia de un símbolo familiar, captando el interés del espectador."
+  },
+  "claims": [
+    {
+      "claim": "Robert Recorde introdujo el símbolo igual en 1557.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "El símbolo igual ha evolucionado desde su introducción.",
+      "support_level": "implicit",
+      "risk": "bajo"
+    }
+  ],
+  "examples": [
+    "El uso de dos líneas paralelas como símbolo de igualdad."
+  ],
+  "actionable_ideas": [
+    "Explorar otros símbolos matemáticos y su historia.",
+    "Investigar la vida y obra de Robert Recorde."
+  ],
+  "audience": "Estudiantes de matemáticas y entusiastas de la historia de la matemática.",
+  "tone": "Informativo",
+  "content_style": "Narrativo",
+  "retention_devices": [
+    "Datos históricos interesantes",
+    "Evolución visual del símbolo"
+  ],
+  "title_supporting_quotes": [
+    "No podía haber dos cosas más iguales que dos líneas paralelas de la misma longitud."
+  ],
+  "creative_reuse_opportunities": [
+    "Crear una infografía sobre la historia de los símbolos matemáticos.",
+    "Desarrollar un video educativo sobre la evolución de la matemática."
+  ],
+  "risk_notes": [
+    "La información histórica puede no ser del todo precisa sin referencias adecuadas."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

@@ -1,0 +1,69 @@
+{
+  "video_id": "4LFP-oTXUN8",
+  "language": "es",
+  "summary": "El video examina la absurdidad de las noticias sobre Irán utilizando 'delfines kamikaze', contrastándolo con la falta de arrestos en el caso de Ghislaine Maxwell, quien fue condenada por tráfico de personas y cuyos clientes no han enfrentado juicio.",
+  "main_topics": [
+    "noticias absurdas",
+    "caso Ghislaine Maxwell",
+    "distracción mediática"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Introducir el tema de las noticias absurdas.",
+      "summary": "Se presenta la historia de los delfines kamikaze de Irán como una forma de distracción."
+    },
+    {
+      "section": "Casos de tráfico",
+      "purpose": "Criticar la falta de acciones legales sobre ciertos individuos.",
+      "summary": "Se destaca que Ghislaine Maxwell ha estado en prisión por años sin que sus clientes sean arrestados."
+    },
+    {
+      "section": "Conclusión",
+      "purpose": "Reflejar la frustración sobre la situación actual.",
+      "summary": "Refuerza la idea de que las noticias son ridículas y se utilizan para desviar la atención del público."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Pregunta retórica",
+    "hook_text": "¿A dónde ha llegado la guerra?",
+    "why_it_works": "Captura la atención del espectador y establece un tono crítico desde el inicio."
+  },
+  "claims": [
+    {
+      "claim": "Irán está usando delfines kamikaze.",
+      "support_level": "weak",
+      "risk": "desinformación potencial."
+    },
+    {
+      "claim": "Nadie de la lista de clientes de Ghislaine Maxwell ha sido arrestado.",
+      "support_level": "explicit",
+      "risk": "posible indignación pública."
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Investigar más sobre el caso de Ghislaine Maxwell.",
+    "Cuestionar la veracidad de las noticias que consumimos.",
+    "Promover la discusión sobre la manipulación mediática."
+  ],
+  "audience": "Espectadores interesados en temas de actualidad y crítica social.",
+  "tone": "Crítico y sarcástico.",
+  "content_style": "Informal y provocativo.",
+  "retention_devices": [
+    "Preguntas retóricas",
+    "Repetición para énfasis"
+  ],
+  "title_supporting_quotes": [
+    "Cero arrestos. Cero arrestos."
+  ],
+  "creative_reuse_opportunities": [
+    "Crear un video de análisis sobre desinformación en los medios.",
+    "Un podcast sobre casos de tráfico de personas."
+  ],
+  "risk_notes": [
+    "Provocar desinformación sobre temas sensibles.",
+    "El sarcasmo puede ser malinterpretado."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

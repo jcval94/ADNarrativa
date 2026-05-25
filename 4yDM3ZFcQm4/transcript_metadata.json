@@ -1,0 +1,20 @@
+{
+  "video_id": "4yDM3ZFcQm4",
+  "channel_id": "UCUyDOdBWhC1MCxEjC46d-zw",
+  "channel_name": "Alex Hormozi",
+  "title": "\"Am I Selling The Wrong Thing?\"",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\4yDM3ZFcQm4.mp3",
+  "transcribed_at": "2026-05-20T05:05:09.822564+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 1942,
+  "text_sha256": "c28c5f72f71c812d18dcaab30f2e10c2c954941b0360ec6fbf6d832d38e638a5",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\4yDM3ZFcQm4\\transcript_segments.jsonl",
+  "segment_count": 60,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T19:14:14.023081+00:00",
+  "duration_seconds": 109.83000183105469
+}

@@ -1,0 +1,20 @@
+{
+  "video_id": "6F9wx2w-3_c",
+  "channel_id": "UCTv-XvfzLX3i4IGWAm4sbmA",
+  "channel_name": "LALIGA EA SPORTS",
+  "title": "Las últimas palabras de Lewandowski. 🥲🫶",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\6F9wx2w-3_c.mp3",
+  "transcribed_at": "2026-05-20T05:04:42.369231+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 784,
+  "text_sha256": "f75179eacee129798bc719f70f8b1de55b436a6f967149bdc5d74f2119f57e19",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\6F9wx2w-3_c\\transcript_segments.jsonl",
+  "segment_count": 13,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T19:14:26.093134+00:00",
+  "duration_seconds": 121.4800033569336
+}

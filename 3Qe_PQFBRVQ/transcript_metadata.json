@@ -1,0 +1,20 @@
+{
+  "video_id": "3Qe_PQFBRVQ",
+  "channel_id": "UC4mg-nKTVI9CWodPPqB5d3A",
+  "channel_name": "Luna Martínez ",
+  "title": "LOS SUEÑOS MAS INQUIETANTES DE MIS SUBS..👀😰| Luna Martínez",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\3Qe_PQFBRVQ.mp3",
+  "transcribed_at": "2026-05-19T01:44:46.309840+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 27633,
+  "text_sha256": "c129706159acb950ea0135bb89ce58170ad42297dc1f14549dc8023c4774a81c",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\3Qe_PQFBRVQ\\transcript_segments.jsonl",
+  "segment_count": 841,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T19:13:48.307106+00:00",
+  "duration_seconds": 1884.8699951171875
+}

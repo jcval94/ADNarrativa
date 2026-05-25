@@ -1,0 +1,20 @@
+{
+  "video_id": "0QtQXR__SpY",
+  "channel_id": "UCZRsSEs1OX74qBh0x5T22tg",
+  "channel_name": "EL CACHONDO",
+  "title": "GENTE con 0 DE IQ CAPTADA en CAMARA #3",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\0QtQXR__SpY.mp3",
+  "transcribed_at": "2026-05-09T05:51:09.640214+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 8285,
+  "text_sha256": "cd84f5cfbaac48cd91f193659d570011586467d8d4197c12d6f37227f7af9e20",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\0QtQXR__SpY\\transcript_segments.jsonl",
+  "segment_count": 316,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-21T13:56:29.130489+00:00",
+  "duration_seconds": 722.0700073242188
+}

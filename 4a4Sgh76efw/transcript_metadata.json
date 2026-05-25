@@ -1,0 +1,20 @@
+{
+  "video_id": "4a4Sgh76efw",
+  "channel_id": "UC5PwIMtLiIBCBhsu8f_-6UQ",
+  "channel_name": "Santiago Bilinkis",
+  "title": "La verdad oscura detrás de las razas de perros",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\4a4Sgh76efw.mp3",
+  "transcribed_at": "2026-05-24T20:03:17.354662+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 912,
+  "text_sha256": "ecdf9f1d2129c81a95c361f2dee6809e3ed575a86aab16a7c57dd5717d5f1199",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\4a4Sgh76efw\\transcript_segments.jsonl",
+  "segment_count": 12,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T20:05:52.215153+00:00",
+  "duration_seconds": 50.59000015258789
+}

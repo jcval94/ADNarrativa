@@ -1,0 +1,95 @@
+{
+  "video_id": "0QtQXR__SpY",
+  "language": "es",
+  "summary": "El video aborda la falta de entendimiento del arte moderno y la interacción social en plataformas como Facebook, sumando anécdotas humorísticas sobre errores humanos y la vida cotidiana.",
+  "main_topics": [
+    "Arte moderno",
+    "Interacción en redes sociales",
+    "Errores cotidianos"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Presentar el video y crear un ambiente relajado.",
+      "summary": "El creador habla sobre su situación de grabación y problemas de audio previos."
+    },
+    {
+      "section": "Reflexión sobre el arte",
+      "purpose": "Criticar el arte moderno.",
+      "summary": "Comenta sobre la confusión en el arte contemporáneo y su incomprensión."
+    },
+    {
+      "section": "Interacción en redes sociales",
+      "purpose": "Ilustrar la ridiculización de comentarios en plataformas sociales.",
+      "summary": "Ejemplos de comentarios inapropiados y la ignorancia de algunos usuarios."
+    },
+    {
+      "section": "Errores en la cocina",
+      "purpose": "Hacer reír a la audiencia con situaciones cotidianas.",
+      "summary": "Se relata la experiencia de una persona metiendo una bolsa en el microondas."
+    },
+    {
+      "section": "Comentarios erróneos",
+      "purpose": "Criticar la desinformación en redes sociales.",
+      "summary": "Un usuario corrige erróneamente a otro en un video, destacando la falta de conocimiento."
+    },
+    {
+      "section": "Cierre",
+      "purpose": "Reflexionar sobre la astucia y errores de la juventud.",
+      "summary": "Un alumno minando Bitcoin en su escuela como un ejemplo de ingenio."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Humor",
+    "hook_text": "Soy bastante boludo y bueno, di vuelta la persiana.",
+    "why_it_works": "El uso del humor y la autocrítica hace que el espectador se sienta identificado y atraído a continuar viendo."
+  },
+  "claims": [
+    {
+      "claim": "El arte moderno está perdido.",
+      "support_level": "explicit",
+      "risk": "Bajo"
+    },
+    {
+      "claim": "Los errores humanos son comunes y divertidos.",
+      "support_level": "explicit",
+      "risk": "Bajo"
+    },
+    {
+      "claim": "Las interacciones en redes pueden ser ridículas.",
+      "support_level": "implicit",
+      "risk": "Bajo"
+    }
+  ],
+  "examples": [
+    "Una persona mete una bolsa al microondas y recibe advertencias.",
+    "Un individuo cree que es similar a Justin Bieber."
+  ],
+  "actionable_ideas": [
+    "Aceptar críticas sobre lo que no entiendas.",
+    "Tomar en cuenta consejos útiles de otros.",
+    "Informarse antes de hacer afirmaciones."
+  ],
+  "audience": "Jóvenes y adultos interesados en humor y crítica social.",
+  "tone": "Informal y humorístico",
+  "content_style": "Conversacional y directo",
+  "retention_devices": [
+    "Anécdotas humorísticas",
+    "Críticas sarcásticas",
+    "Autoironia"
+  ],
+  "title_supporting_quotes": [
+    "El arte es algo que a lo largo de la historia humana fue increíble.",
+    "Siempre digo lo mismo, en este video hay gente boluda, pero yo soy el principal boludo."
+  ],
+  "creative_reuse_opportunities": [
+    "Resumir argumentos sobre arte moderno en un formato breve.",
+    "Crear memes a partir de comentarios graciosos.",
+    "Elaborar videos sobre errores comunes en la cocina."
+  ],
+  "risk_notes": [
+    "La crítica al arte moderno puede ser polarizante.",
+    "Los comentarios sobre redes pueden provocar reacciones negativas."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

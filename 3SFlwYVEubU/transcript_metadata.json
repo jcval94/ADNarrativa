@@ -1,0 +1,20 @@
+{
+  "video_id": "3SFlwYVEubU",
+  "channel_id": "UC52hytXteCKmuOzMViTK8_w",
+  "channel_name": "CdeCiencia",
+  "title": "¿De donde viene el símbolo de igual?",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\3SFlwYVEubU.mp3",
+  "transcribed_at": "2026-05-15T01:24:10.877023+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 416,
+  "text_sha256": "fc893027f7e9b510c32087961e4fc09fc842c0a6a19d5bfa8c202e7dc6fa6dbd",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\3SFlwYVEubU\\transcript_segments.jsonl",
+  "segment_count": 5,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T19:13:52.787206+00:00",
+  "duration_seconds": 25.649999618530273
+}

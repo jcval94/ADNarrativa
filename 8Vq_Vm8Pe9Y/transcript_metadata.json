@@ -1,0 +1,20 @@
+{
+  "video_id": "8Vq_Vm8Pe9Y",
+  "channel_id": "UC1viRct91s1a3Z5yvk7FJXw",
+  "channel_name": "Diego Ruzzarin",
+  "title": "''Honduras Gate'' el nuevo plan de U.S.A e Israel para desestabilizar gobiernos.",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\8Vq_Vm8Pe9Y.mp3",
+  "transcribed_at": "2026-05-09T05:40:31.423615+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 2490,
+  "text_sha256": "849cd1bbe3aba06375ea133fa1feb61b512aee684012bf2043c744a0698fdd28",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\8Vq_Vm8Pe9Y\\transcript_segments.jsonl",
+  "segment_count": 34,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T19:14:46.626168+00:00",
+  "duration_seconds": 154.17999267578125
+}

@@ -1,0 +1,68 @@
+{
+  "video_id": "AkI8KyvktaY",
+  "language": "spanish",
+  "summary": "El video compara el desarrollo de la inteligencia artificial general con el uso de armas nucleares por Estados Unidos en la Segunda Guerra Mundial, sugiriendo que el dominio en tecnología puede llevar a acciones agresivas y desarticuladoras contra enemigos potenciales.",
+  "main_topics": [
+    "inteligencia artificial",
+    "armas nucleares",
+    "hegemonía tecnológica",
+    "estrategias de poder"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción a la comparación",
+      "purpose": "Establecer un paralelismo entre la IA y la bomba atómica",
+      "summary": "Se inicia el discurso hablando sobre el uso de bombas atómicas al final de la guerra."
+    },
+    {
+      "section": "Justificación del uso de armas nucleares",
+      "purpose": "Entender las motivaciones detrás del uso de la fuerza",
+      "summary": "Se explica que el uso de la bomba fue para mostrar dominio."
+    },
+    {
+      "section": "Reflexión sobre la IA",
+      "purpose": "Advertir sobre los peligros de la hegemonía en tecnología",
+      "summary": "Se plantea que el dominador en IA podría desarticular a sus adversarios."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Comparación histórica",
+    "hook_text": "La comparación entre la IA y la bomba atómica.",
+    "why_it_works": "Esto capta la atención del público al invocar un momento dramático y crítico de la historia."
+  },
+  "claims": [
+    {
+      "claim": "El dominio en inteligencia artificial puede llevar a la agresión hacia rivales.",
+      "support_level": "explicit",
+      "risk": "alto"
+    },
+    {
+      "claim": "El uso de bombas atómicas tuvo motivaciones estratégicas para marcar poder.",
+      "support_level": "explicit",
+      "risk": "alto"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Desarrollar marcos éticos para el uso de la inteligencia artificial.",
+    "Fomentar un diálogo internacional sobre la regulación de tecnologías críticas."
+  ],
+  "audience": "Profesionales en tecnología, investigadores y académicos.",
+  "tone": "reflexivo y alerta",
+  "content_style": "analítico",
+  "retention_devices": [
+    "historias históricas",
+    "emetaforas contundentes"
+  ],
+  "title_supporting_quotes": [
+    "Porque necesito marcar la cancha. Miren lo que tenemos."
+  ],
+  "creative_reuse_opportunities": [
+    "Artículos sobre la historia de la tecnología y su impacto social.",
+    "Charlas o debates sobre ética en IA y seguridad global."
+  ],
+  "risk_notes": [
+    "Posible desinformación si no se contextualiza la narrativa histórica."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

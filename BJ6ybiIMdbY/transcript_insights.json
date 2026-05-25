@@ -1,0 +1,74 @@
+{
+  "video_id": "BJ6ybiIMdbY",
+  "language": "es",
+  "summary": "El video enfatiza la importancia de la constancia y el enfoque a largo plazo en lugar de buscar gratificación instantánea. Se anima al espectador a comprometerse con un proyecto o habilidad por un periodo prolongado para destacar entre otros que buscan resultados rápidos.",
+  "main_topics": [
+    "Constancia",
+    "Enfoque a largo plazo",
+    "Desarrollo personal",
+    "Diferenciación",
+    "Estrategias de éxito"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Presentar la idea principal sobre la constancia.",
+      "summary": "Se plantea un reto a los jóvenes sobre cómo utilizar su tiempo y habilidades."
+    },
+    {
+      "section": "Desarrollo",
+      "purpose": "Argumentar la importancia de pensar a largo plazo.",
+      "summary": "Se compara la estrategia de construcción constante con la búsqueda de resultados inmediatos."
+    },
+    {
+      "section": "Conclusión",
+      "purpose": "Reiterar el mensaje clave y motivar al espectador.",
+      "summary": "Se anima a la audiencia a comprometerse con una elección a largo plazo."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Pregunta retórica",
+    "hook_text": "¿dónde crees que terminas?",
+    "why_it_works": "Engancha al espectador haciéndolo reflexionar sobre su propio futuro en comparación con los demás."
+  },
+  "claims": [
+    {
+      "claim": "La constancia supera a la búsqueda de resultados inmediatos.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "Pensar a largo plazo es escaso entre los jóvenes.",
+      "support_level": "implicit",
+      "risk": "medio"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Dedicar al menos dos horas al día a desarrollar una habilidad.",
+    "Elegir un proyecto y comprometerse a largo plazo con él.",
+    "Evitar saltar de idea en idea."
+  ],
+  "audience": "Jóvenes buscando orientación sobre desarrollo personal y profesional.",
+  "tone": "Inspirador",
+  "content_style": "Motivacional y directo",
+  "retention_devices": [
+    "Preguntas retóricas",
+    "Estadísticas implícitas",
+    "Llamadas a la acción"
+  ],
+  "title_supporting_quotes": [
+    "Pensar a largo plazo no es paciencia por ser paciente, es una estrategia.",
+    "Casi nadie más de tu edad lo está haciendo."
+  ],
+  "creative_reuse_opportunities": [
+    "Desarrollo de contenido sobre estrategias de constancia.",
+    "Talleres o cursos sobre compromiso a largo plazo.",
+    "Artículos sobre el impacto de la gratificación instantánea."
+  ],
+  "risk_notes": [
+    "Algunos espectadores pueden no estar listos para aceptar un cambio de mentalidad.",
+    "Puede haber resistencia a comprometerse a largo plazo."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

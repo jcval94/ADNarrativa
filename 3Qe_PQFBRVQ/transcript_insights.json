@@ -1,0 +1,85 @@
+{
+  "video_id": "3Qe_PQFBRVQ",
+  "language": "es",
+  "summary": "Luna, la anfitriona, explora el tema de los sueños y experiencias paranormales, solicitando historias de sus seguidores y compartiendo sueños propios. Se habla de varias experiencias relacionadas con sueños recurrentes y significados, así como de la influencia de la brujería y el tarot. Además, se menciona un patrocinador y se anima a la audiencia a participar enviando sus anécdotas.",
+  "main_topics": [
+    "Sueños",
+    "Experiencias paranormales",
+    "Brujería",
+    "Narraciones de usuarios",
+    "Patrocinios"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Presentar el tema del video y atraer la atención de la audiencia.",
+      "summary": "Luna se introduce y habla sobre el regreso de los temas paranormales al canal."
+    },
+    {
+      "section": "Petición de historias",
+      "purpose": "Involucrar a la audiencia solicitando sus experiencias.",
+      "summary": "Se pide a los espectadores que envíen sus historias de sueños a una dirección de correo electrónico."
+    },
+    {
+      "section": "Patrocinio de Skillshare",
+      "purpose": "Promocionar una plataforma de aprendizaje.",
+      "summary": "Luna habla sobre las clases en Skillshare y cómo pueden ayudar en el desarrollo creativo."
+    },
+    {
+      "section": "Historias de sueños",
+      "purpose": "Compartir y analizar anécdotas sobre sueños.",
+      "summary": "Luna presenta varias historias de sueños enviadas por sus seguidores."
+    },
+    {
+      "section": "Cierre",
+      "purpose": "Terminar el video y motivar a las personas a seguir interactuando.",
+      "summary": "Luna agradece a los espectadores y anima a enviar más historias."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Pregunta/invitación a la participación",
+    "hook_text": "Quisiera que me mandaran su mejor historia de brujería.",
+    "why_it_works": "Involucra a la audiencia y les motiva a compartir sus experiencias, creando una conexión más profunda."
+  },
+  "claims": [
+    {
+      "claim": "Los sueños pueden tener significados más profundos relacionados con la vida personal.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "Las experiencias de sueños repetidos son comunes entre las personas.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    }
+  ],
+  "examples": [
+    "La historia de un sueño recurrente en un centro comercial.",
+    "Experiencias de sueños relacionados con baños y vulnerabilidad."
+  ],
+  "actionable_ideas": [
+    "Enviar historias de sueños o experiencias paranormales.",
+    "Explorar el contenido de Skillshare para aprender nuevas habilidades.",
+    "Participar en la discusión y comentar sobre experiencias similares."
+  ],
+  "audience": "Entusiastas de lo paranormal y seguidores de la youtuber.",
+  "tone": "Conversacional y entusiasta",
+  "content_style": "Informal y personal",
+  "retention_devices": [
+    "Preguntas a la audiencia",
+    "Historias intrigantes",
+    "Análisis personal de experiencias"
+  ],
+  "title_supporting_quotes": [
+    "La idea es que tengamos al menos un vídeo de temática paranormal slash misterio al mes."
+  ],
+  "creative_reuse_opportunities": [
+    "Desarrollar una serie sobre significados de sueños.",
+    "Crear contenido educativo sobre brujería y tarot."
+  ],
+  "risk_notes": [
+    "Mensajes personales pueden no resonar con todos.",
+    "La temática puede no atraer a quienes no creen en lo paranormal."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

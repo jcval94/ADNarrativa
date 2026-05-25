@@ -1,0 +1,20 @@
+{
+  "video_id": "48SDCMT55I4",
+  "channel_id": "UC5PwIMtLiIBCBhsu8f_-6UQ",
+  "channel_name": "Santiago Bilinkis",
+  "title": "Este juego hace fallar a la mayoría",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\48SDCMT55I4.mp3",
+  "transcribed_at": "2026-05-24T20:05:25.714890+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 1244,
+  "text_sha256": "82cd5c2862814a2fa978f7e5a3c9c74e09d857d0e56f79d91ecb8926977ec0c1",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\48SDCMT55I4\\transcript_segments.jsonl",
+  "segment_count": 25,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T20:05:48.280195+00:00",
+  "duration_seconds": 62.689998626708984
+}

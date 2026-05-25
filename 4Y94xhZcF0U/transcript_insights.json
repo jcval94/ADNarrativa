@@ -1,0 +1,83 @@
+{
+  "video_id": "4Y94xhZcF0U",
+  "language": "es",
+  "summary": "El video reflexiona sobre la alta inteligencia emocional, enfocándose en la empatía cognitiva, que permite comprender el comportamiento de los demás y reconocer su dolor, a pesar de sufrir daño. Se destaca la importancia de establecer límites para proteger la propia paz emocional.",
+  "main_topics": [
+    "Inteligencia emocional",
+    "Empatía cognitiva",
+    "Establecimiento de límites",
+    "Perdón y paz emocional"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción a la inteligencia emocional",
+      "purpose": "Presentar el concepto de inteligencia emocional y empatía cognitiva.",
+      "summary": "Se define la inteligencia emocional como la incapacidad de odiar completamente a otros, entendiendo sus motivaciones."
+    },
+    {
+      "section": "El dolor detrás del comportamiento",
+      "purpose": "Explicar cómo la comprensión del dolor ajeno afecta nuestras emociones.",
+      "summary": "Se menciona el dolor infantil y el miedo que pueden motivar comportamientos negativos como el sarcasmo y la traición."
+    },
+    {
+      "section": "La lucha interna",
+      "purpose": "Describir la lucha entre la comprensión y el enojo.",
+      "summary": "Se ilustra la agonía de entender a los demás mientras se sufre, y el deseo de ser entendido a su vez."
+    },
+    {
+      "section": "Conclusión sobre la paz emocional",
+      "purpose": "Reflejar la necesidad de proteger la paz personal.",
+      "summary": "A pesar de comprender a los demás, se enfatiza que uno puede perdonar sin necesidad de mantener relaciones dañinas."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Declaración impactante",
+    "hook_text": "Una de las mayores señales de alta inteligencia emocional es ser incapaz de odiar o rechazar completamente a alguien.",
+    "why_it_works": "Capta la atención al desafiar expectativas comunes sobre las emociones y relaciones, invitando a una reflexión más profunda."
+  },
+  "claims": [
+    {
+      "claim": "La empatía cognitiva es un rasgo de alta inteligencia emocional.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "Entender el dolor ajeno no significa aceptar su comportamiento.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "Es posible perdonar a otros y aún así priorizar la paz personal.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Practicar la empatía cognitiva al interactuar con otros.",
+    "Establecer límites claros para proteger la paz emocional.",
+    "Reflexionar sobre propias heridas y cómo éstas afectan a otros."
+  ],
+  "audience": "Personas interesadas en desarrollo personal y emocional.",
+  "tone": "Reflexivo y empático",
+  "content_style": "Conversacional y educativo",
+  "retention_devices": [
+    "Preguntas retóricas",
+    "Ejemplos de la vida cotidiana",
+    "Narrativa personal"
+  ],
+  "title_supporting_quotes": [
+    "Entiendes las razones detrás de su comportamiento.",
+    "Puedes perdonar la humanidad de alguien, y aún así proteger tu paz."
+  ],
+  "creative_reuse_opportunities": [
+    "Desarrollar talleres sobre inteligencia emocional.",
+    "Crear contenido en redes sociales sobre empatía y límites.",
+    "Escribir un libro o artículo sobre el tema."
+  ],
+  "risk_notes": [
+    "El contenido puede no resonar con quienes niegan la complejidad emocional.",
+    "Puede ser interpretado de manera errónea como justificación para el mal comportamiento."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

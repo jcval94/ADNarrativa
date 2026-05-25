@@ -1,0 +1,20 @@
+{
+  "video_id": "9uEU6bWB6_4",
+  "channel_id": "UCUyDOdBWhC1MCxEjC46d-zw",
+  "channel_name": "Alex Hormozi",
+  "title": "\"Should I sell my business?\"",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\9uEU6bWB6_4.mp3",
+  "transcribed_at": "2026-05-20T05:02:16.956058+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 1542,
+  "text_sha256": "9bfe3a62de571629de8ad31ea634f3b7659319cf5313185fbd1b1bb4697e12bc",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\9uEU6bWB6_4\\transcript_segments.jsonl",
+  "segment_count": 51,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T19:15:04.429085+00:00",
+  "duration_seconds": 89.4800033569336
+}

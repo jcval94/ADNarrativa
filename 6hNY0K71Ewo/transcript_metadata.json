@@ -1,0 +1,20 @@
+{
+  "video_id": "6hNY0K71Ewo",
+  "channel_id": "UC5PwIMtLiIBCBhsu8f_-6UQ",
+  "channel_name": "Santiago Bilinkis",
+  "title": "El \"pecado\" de no ganar",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\6hNY0K71Ewo.mp3",
+  "transcribed_at": "2026-05-13T05:39:29.066632+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 1193,
+  "text_sha256": "6c1ca5f01d5e56c8942f503e78b5a62ed311f1e7a8b0444dda00ada06a00646d",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\6hNY0K71Ewo\\transcript_segments.jsonl",
+  "segment_count": 26,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T19:14:31.281657+00:00",
+  "duration_seconds": 59.900001525878906
+}

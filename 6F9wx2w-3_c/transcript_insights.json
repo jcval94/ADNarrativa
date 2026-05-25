@@ -1,0 +1,66 @@
+{
+  "video_id": "6F9wx2w-3_c",
+  "language": "es",
+  "summary": "El orador expresa su agradecimiento hacia el club de fútbol Barcelona, sus compañeros y la afición, mientras se despide tras cuatro años en el club.",
+  "main_topics": [
+    "Agradecimiento al club",
+    "Despedida emocional",
+    "Orgullo por los logros",
+    "Conexión con la afición"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Saludo y establecimiento del tono emocional.",
+      "summary": "El orador agradece a la audiencia por su presencia."
+    },
+    {
+      "section": "Reconocimiento al club",
+      "purpose": "Expresar agradecimiento por el apoyo recibido.",
+      "summary": "Menciona su impresión del club y el cariño de la afición."
+    },
+    {
+      "section": "Agradecimientos a compañeros y entrenadores",
+      "purpose": "Reconocer la contribución de otros.",
+      "summary": "Da gracias a sus compañeros y personal del club."
+    },
+    {
+      "section": "Reflexión sobre su tiempo en el club",
+      "purpose": "Compartir su orgullo y los momentos vividos.",
+      "summary": "Destaca los logros y momentos importantes de los últimos cuatro años."
+    },
+    {
+      "section": "Despedida",
+      "purpose": "Cerrar su discurso de manera emotiva.",
+      "summary": "Se despide, reafirmando su amor por el club."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Emocional",
+    "hook_text": "Nunca olvidaré cuando cantabais mi nombre.",
+    "why_it_works": "Conecta emocionalmente al evocar recuerdos significativos y la relación con los aficionados."
+  },
+  "claims": [],
+  "examples": [],
+  "actionable_ideas": [],
+  "audience": "Aficionados del fútbol, especialmente del FC Barcelona.",
+  "tone": "Emotivo y agradecido.",
+  "content_style": "Conversacional y personal.",
+  "retention_devices": [
+    "Repetición de agradecimientos",
+    "Frases emotivas",
+    "Referencia a momentos compartidos"
+  ],
+  "title_supporting_quotes": [
+    "Hoy me despido en el estadio, pero siempre llevaré al Barcelona en mi corazón.",
+    "Una vez cule, siempre cule."
+  ],
+  "creative_reuse_opportunities": [
+    "Resumir el discurso en un video homenaje.",
+    "Crear publicaciones emotivas para redes sociales."
+  ],
+  "risk_notes": [
+    "Posiblemente muy sentimental para algunos o pudo percibirse como triste."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

@@ -1,0 +1,78 @@
+{
+  "video_id": "5OPXXtUC3x0",
+  "language": "es",
+  "summary": "El video compara el rendimiento de dos PCs: una más antigua y otra más reciente, discutiendo si la diferencia de precio justifica el aumento en el rendimiento.",
+  "main_topics": [
+    "Comparación de PCs",
+    "Rendimiento de hardware",
+    "Relación costo-beneficio",
+    "Gaming en diferentes configuraciones"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Introducir el tema de la comparación entre PCs viejas y nuevas.",
+      "summary": "Se presenta una PC antigua y otra nueva, con un análisis de sus especificaciones y precios."
+    },
+    {
+      "section": "Comparación de Rendimiento",
+      "purpose": "Demostrar el rendimiento en juegos de ambas PCs.",
+      "summary": "Se muestra que ambas PCs pueden manejar juegos a tasas de FPS satisfactorias, enfatizando que la PC más antigua puede igualar el rendimiento de la nueva en ciertas condiciones."
+    },
+    {
+      "section": "Conclusión",
+      "purpose": "Reflexionar sobre la necesidad de gastar más dinero.",
+      "summary": "Se concluye que no siempre es necesario gastar mucho para disfrutar de buenos juegos."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Pregunta retórica",
+    "hook_text": "¿De verdad hay tanta diferencia?",
+    "why_it_works": "Invita a la curiosidad del espectador sobre la premisa del video."
+  },
+  "claims": [
+    {
+      "claim": "Un buen procesador viejo puede igualar el rendimiento de uno nuevo.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "No es necesario gastar mucho para jugar bien.",
+      "support_level": "implicit",
+      "risk": "medio"
+    },
+    {
+      "claim": "La diferencia de precios entre AM4 y AM5 es significativa.",
+      "support_level": "weak",
+      "risk": "bajo"
+    }
+  ],
+  "examples": [
+    "Comparación de FPS en ambas PCs mientras se juega."
+  ],
+  "actionable_ideas": [
+    "Considerar el rendimiento en lugar de la edad del hardware al comprar.",
+    "Explorar configuraciones de PC que sean más económicas pero efectivas.",
+    "Utilizar procesadores más antiguos para juegos modernos sin comprometer la experiencia."
+  ],
+  "audience": "Gamer interesados en hardware y compra de PCs.",
+  "tone": "Informal y didáctico",
+  "content_style": "Enfocado en comparación y análisis práctico.",
+  "retention_devices": [
+    "Estadísticas de rendimiento visualizadas",
+    "Demostraciones en tiempo real de juegos"
+  ],
+  "title_supporting_quotes": [
+    "Es una mejora significativa, pero no es como que antes no hubiera podido jugar."
+  ],
+  "creative_reuse_opportunities": [
+    "Crear videos adicionales sobre actualizaciones de hardware.",
+    "Hacer guías de compra basadas en configuración de hardware.",
+    "Comparativos entre otros componentes de PCs."
+  ],
+  "risk_notes": [
+    "Puede subestimar las capacidades de hardware más antiguo.",
+    "Dependencia de condiciones específicas de rendimiento que pueden no ser comunes para todos los usuarios."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

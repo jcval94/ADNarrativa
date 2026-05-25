@@ -1,0 +1,20 @@
+{
+  "video_id": "AkI8KyvktaY",
+  "channel_id": "UC5PwIMtLiIBCBhsu8f_-6UQ",
+  "channel_name": "Santiago Bilinkis",
+  "title": "IA General: ¿Es la nueva bomba atómica?",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\AkI8KyvktaY.mp3",
+  "transcribed_at": "2026-05-24T19:52:53.040390+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 1153,
+  "text_sha256": "f19d9481b05832fa1c3f081fda0748723609972fb2970d9c7800721504e40522",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\AkI8KyvktaY\\transcript_segments.jsonl",
+  "segment_count": 22,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T20:05:57.497747+00:00",
+  "duration_seconds": 48.779998779296875
+}

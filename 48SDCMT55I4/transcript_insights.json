@@ -1,0 +1,86 @@
+{
+  "video_id": "48SDCMT55I4",
+  "language": "es",
+  "summary": "El video presenta un problema de lógica relacionado con el costo de una raqueta y una pelota, enfatizando cómo la intuición puede llevarnos a respuestas incorrectas. Se explica que la intuición no siempre es confiable, especialmente en contextos donde no tenemos experiencia y la decisión debe fundamentarse en el pensamiento racional.",
+  "main_topics": [
+    "Problema de lógica",
+    "Intuición vs. raciocinio",
+    "Toma de decisiones",
+    "Contextos previsibles"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción al problema",
+      "purpose": "Presentar un reto lógico que parece simple.",
+      "summary": "Se plantea la pregunta sobre el costo de la raqueta y la pelota, introduciendo la discrepancia en las respuestas comunes."
+    },
+    {
+      "section": "Explicación de errores frecuentes",
+      "purpose": "Identificar por qué las personas fallan en la respuesta.",
+      "summary": "Se discute cómo la intuición inicial puede ser engañosa y cómo eso afecta la toma de decisiones."
+    },
+    {
+      "section": "Diferenciación entre pálpitos e intuiciones",
+      "purpose": "Clarificar conceptos relacionados con la intuición.",
+      "summary": "Se explican las diferencias entre pálpitos y una intuición genuina basada en la experiencia."
+    },
+    {
+      "section": "Aplicación del concepto en el contexto del juego",
+      "purpose": "Ilustrar el riesgo de confiar en la intuición en contextos impredecibles.",
+      "summary": "Se da un ejemplo del casino para mostrar cómo la intuición puede fallar en situaciones de azar."
+    },
+    {
+      "section": "Conclusión",
+      "purpose": "Refuerzo de un principio sobre la intuición.",
+      "summary": "Se establece que es importante discernir cuándo confiar en la intuición y cuándo basarse en el análisis racional."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Retórica",
+    "hook_text": "La raqueta cuesta un dólar más que la pelota. ¿Cuánto cuesta la pelota?",
+    "why_it_works": "Plantea un problema desafiante que intriga al espectador y le hace cuestionar su respuesta intuitiva."
+  },
+  "claims": [
+    {
+      "claim": "La mayoría de las personas falla en calcular el costo correcto.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "La intuición puede llevar a decisiones incorrectas en contextos no especializados.",
+      "support_level": "explicit",
+      "risk": "moderado"
+    }
+  ],
+  "examples": [
+    "Ejemplo de la raqueta y la pelota",
+    "Ejemplo del casino y la ruleta"
+  ],
+  "actionable_ideas": [
+    "Cuestiona tus intuiciones en problemas complejos.",
+    "Desarrolla un enfoque basado en datos para tomar decisiones.",
+    "Practica el pensamiento crítico antes de actuar."
+  ],
+  "audience": "Personas interesadas en la toma de decisiones y la psicología del comportamiento.",
+  "tone": "Didáctico e informativo",
+  "content_style": "Narrativo con ejemplos prácticos",
+  "retention_devices": [
+    "Preguntas retóricas",
+    "Ejemplos cotidianos",
+    "Desafíos mentales"
+  ],
+  "title_supporting_quotes": [
+    "La intuición es una conclusión veloz basada en patrones obtenidos de la experiencia.",
+    "No importa cuán fuerte sea tu certeza, solo confía en tu intuición en contextos previsibles."
+  ],
+  "creative_reuse_opportunities": [
+    "Adaptar el ejemplo para talleres de habilidades de toma de decisiones.",
+    "Usar el contenido en cursos sobre pensamiento crítico.",
+    "Crear infografías que expliquen la diferencia entre intuición y raciocinio."
+  ],
+  "risk_notes": [
+    "Riesgo de malinterpretar el valor de la intuición en decisiones importantes.",
+    "Posibilidad de sobreconfianza en la intuición en situaciones clave."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

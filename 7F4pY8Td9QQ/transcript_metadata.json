@@ -1,0 +1,20 @@
+{
+  "video_id": "7F4pY8Td9QQ",
+  "channel_id": "UCHnyfMqiRRG1u-2MsSQLbXA",
+  "channel_name": "Veritasium",
+  "title": "How does a sewing machine work?",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\7F4pY8Td9QQ.mp3",
+  "transcribed_at": "2026-05-13T05:39:02.117957+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 971,
+  "text_sha256": "b7bc0bc4b420ec390fd05c4a8ed192103e60d386bdc406a2536ba5d9b0de35be",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\7F4pY8Td9QQ\\transcript_segments.jsonl",
+  "segment_count": 25,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T19:14:37.244699+00:00",
+  "duration_seconds": 72.20999908447266
+}

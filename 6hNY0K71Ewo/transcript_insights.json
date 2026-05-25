@@ -1,0 +1,78 @@
+{
+  "video_id": "6hNY0K71Ewo",
+  "language": "Spanish",
+  "summary": "El video discute las presiones y críticas que enfrentan los atletas, utilizando el ejemplo de una nadadora argentina que se siente afectada por los comentarios en redes tras su actuación en los Juegos Olímpicos. Se destaca la importancia de apoyar a los deportistas en lugar de criticarlos.",
+  "main_topics": [
+    "Presión en los atletas",
+    "Críticas en redes sociales",
+    "Apoyo a deportistas",
+    "Experiencia olímpica"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción",
+      "purpose": "Establecer el contexto de los desafíos en el deporte",
+      "summary": "Presenta la dificultad de llegar a ser un atleta de élite y las críticas que reciben."
+    },
+    {
+      "section": "Ejemplo de Peñatielo",
+      "purpose": "Ilustrar el impacto emocional de las críticas en los deportistas",
+      "summary": "Describe la experiencia de la nadadora argentina en los Juegos Olímpicos y sus sentimientos al enfrentar la derrota."
+    },
+    {
+      "section": "Reflexión sobre redes sociales",
+      "purpose": "Criticar la crueldad de los comentarios en línea",
+      "summary": "Comenta sobre la naturaleza cruel de las redes sociales y la necesidad de apoyo."
+    },
+    {
+      "section": "Cierre",
+      "purpose": "Invitar a la auto-reflexión",
+      "summary": "Concluye con un llamado a trabajar en uno mismo frente a las críticas."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Emoción",
+    "hook_text": "La nadadora argentina, Peñatielo, llega al Juego Olímpico, pierde y ella cuenta que cuando toca el borde y sabe que perdió, lo primero que siente es lo que le van a pegar en redes.",
+    "why_it_works": "Genera empatía al mostrar las emociones de los deportistas y la presión de las críticas."
+  },
+  "claims": [
+    {
+      "claim": "Las redes son muy crueles con los atletas.",
+      "support_level": "explicit",
+      "risk": "Moderado"
+    },
+    {
+      "claim": "Es fundamental apoyar a los deportistas en lugar de criticarlos.",
+      "support_level": "implicit",
+      "risk": "Bajo"
+    }
+  ],
+  "examples": [
+    "La experiencia de Peñatielo en los Juegos Olímpicos."
+  ],
+  "actionable_ideas": [
+    "Fomentar un entorno de apoyo para los atletas.",
+    "Promover la empatía en redes sociales.",
+    "Reflexionar sobre cómo se critican las actuaciones deportivas."
+  ],
+  "audience": "Interesados en deportes y críticas en redes sociales.",
+  "tone": "Reflexivo y crítico",
+  "content_style": "Informal y conversacional",
+  "retention_devices": [
+    "Historias personales",
+    "Preguntas retóricas",
+    "Ejemplos concretos"
+  ],
+  "title_supporting_quotes": [
+    "¿Cómo vivís en un mundo donde cualquier persona puede despreciarte públicamente de manera impune?"
+  ],
+  "creative_reuse_opportunities": [
+    "Crear contenido sobre el impacto de las redes sociales en la salud mental de los atletas.",
+    "Entrevistas con deportistas sobre sus experiencias con críticas."
+  ],
+  "risk_notes": [
+    "Posible controversia al tratar la crítica en redes sociales.",
+    "Reacción negativa de personas que critican a los deportistas."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

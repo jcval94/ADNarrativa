@@ -1,0 +1,20 @@
+{
+  "video_id": "B8E4azaZ13k",
+  "channel_id": "UC5PwIMtLiIBCBhsu8f_-6UQ",
+  "channel_name": "Santiago Bilinkis",
+  "title": "El truco para saber si estás dormido o despierto",
+  "source_type": "audio_file",
+  "source_uri_or_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\audio_sources\\B8E4azaZ13k.mp3",
+  "transcribed_at": "2026-05-13T05:40:40.163472+00:00",
+  "transcription_model": "gpt-4o-mini-transcribe",
+  "language": null,
+  "text_char_count": 950,
+  "text_sha256": "4b0a0525c044fea69578e5ac4db275d416c538de0ee0d5c3d6fb1a5abad0a2d6",
+  "repo_schema_version": "transcript_metadata_v2",
+  "segments_path": "C:\\Users\\ASUS\\Documents\\GitHub\\ytb_history\\data\\transcripts\\videos\\B8E4azaZ13k\\transcript_segments.jsonl",
+  "segment_count": 16,
+  "timestamp_granularity": "segment",
+  "timestamp_model": "whisper-1",
+  "timestamps_generated_at": "2026-05-24T19:15:13.403163+00:00",
+  "duration_seconds": 47.25
+}

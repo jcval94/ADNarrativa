@@ -1,0 +1,76 @@
+{
+  "video_id": "3QLkDi3e9j4",
+  "language": "es",
+  "summary": "El video discute las implicaciones de la automatización y la IA en el futuro del trabajo, presentando tres perspectivas extremas: una apocalíptica que predice un alto desempleo, otra ultraoptimista que anticipa un futuro sin trabajo, y una tercera que cree que no habrá cambios significativos.",
+  "main_topics": [
+    "Impacto de la automatización",
+    "Desempleo causado por IA",
+    "Perspectivas sobre el futuro del trabajo"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción a la automatización",
+      "purpose": "Presentar la idea central sobre la automatización y su impacto en la sociedad.",
+      "summary": "La automatización promete generar más tiempo en la sociedad futura, pero las implicaciones son inciertas."
+    },
+    {
+      "section": "Tres perspectivas sobre la automatización",
+      "purpose": "Explorar diferentes opiniones sobre el futuro laboral.",
+      "summary": "Se presentan tres bandos: apocalíptico, optimista y neutral, cada uno con su idea del futuro del trabajo."
+    },
+    {
+      "section": "Reflexión sobre el tiempo y el trabajo",
+      "purpose": "Analizar la paradoja del tiempo en el contexto de la automatización.",
+      "summary": "A pesar de tener más tiempo, la inmersión en tareas puede llevar a menos reflexión y creatividad."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Pregunta retórica",
+    "hook_text": "Uno creería que la automatización en todas sus formas genera una sociedad con más tiempo.",
+    "why_it_works": "Inicia la discusión cuestionando una creencia común, generando interés sobre el impacto real de la automatización."
+  },
+  "claims": [
+    {
+      "claim": "La automatización llevará a un alto desempleo.",
+      "support_level": "explicit",
+      "risk": "alto"
+    },
+    {
+      "claim": "La automatización permitirá dedicar más tiempo a tareas elevadas.",
+      "support_level": "implicit",
+      "risk": "medio"
+    },
+    {
+      "claim": "No habrá cambios significativos tras la automatización.",
+      "support_level": "weak",
+      "risk": "bajo"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Considerar la educación y formación en nuevas habilidades.",
+    "Analizar las oportunidades que la automatización puede ofrecer.",
+    "Fomentar el debate sobre el futuro del trabajo y la IA."
+  ],
+  "audience": "Personas interesadas en tecnología y futuro laboral.",
+  "tone": "Reflexivo",
+  "content_style": "Informal y provocador",
+  "retention_devices": [
+    "Preguntas retóricas",
+    "Ejemplos de personalidades conocidas",
+    "Contraste entre perspectivas"
+  ],
+  "title_supporting_quotes": [
+    "Jeffrey Hinton pronostica 99% de desempleo.",
+    "Elon Musk dice que todo será espectacular."
+  ],
+  "creative_reuse_opportunities": [
+    "Artículos sobre automatización y el futuro del trabajo.",
+    "Debates y paneles sobre el impacto de la IA."
+  ],
+  "risk_notes": [
+    "Posibles impactos en la economía por el desempleo elevado.",
+    "Necesidad de adaptar la educación ante cambios laborales."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

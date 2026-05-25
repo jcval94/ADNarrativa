@@ -1,0 +1,76 @@
+{
+  "video_id": "8Vq_Vm8Pe9Y",
+  "language": "es",
+  "summary": "El video discute la condena del ex presidente hondureño Juan Orlando Hernández y su posterior perdón por Donald Trump, insinuando una intervención de Israel en este proceso. También se presenta la implicación de una red de desinformación con apoyo de Israel y Estados Unidos para desacreditar gobiernos progresistas en América Latina.",
+  "main_topics": [
+    "Condena de Juan Orlando Hernández",
+    "Perdón por Donald Trump",
+    "Intervención de Israel",
+    "Desinformación en América Latina",
+    "Desacreditación de gobiernos progresistas"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción sobre Hernández",
+      "purpose": "Presentar el contexto del ex presidente",
+      "summary": "Se menciona que Hernández fue condenado por tráfico de drogas y armas."
+    },
+    {
+      "section": "El perdón presidencial",
+      "purpose": "Destacar el perdón otorgado por Trump",
+      "summary": "Se informa que Hernández fue perdonado en 2025, con supuesta intervención israelí."
+    },
+    {
+      "section": "Consecuencias de la intervención",
+      "purpose": "Describir los efectos políticos",
+      "summary": "Se discute un canal de noticias falsas para atacar a líderes progresistas en América Latina."
+    },
+    {
+      "section": "Conclusiones",
+      "purpose": "Reflexionar sobre el papel de grupos de poder",
+      "summary": "Se critica cómo el capital manipula la información para sostener sus intereses."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Intriga política",
+    "hook_text": "¿Para qué la intervención de Israel en el perdón de Hernández?",
+    "why_it_works": "Genera curiosidad sobre las conexiones geopolíticas y su impacto en la política latinoamericana."
+  },
+  "claims": [
+    {
+      "claim": "La intervención de Israel en el perdón a Hernández.",
+      "support_level": "implicit",
+      "risk": "medio"
+    },
+    {
+      "claim": "Red de desinformación contra gobiernos progresistas.",
+      "support_level": "explicit",
+      "risk": "alto"
+    }
+  ],
+  "examples": [],
+  "actionable_ideas": [
+    "Investigar más sobre las conexiones políticas entre Israel y América Latina.",
+    "Fomentar la verificación de información para combatir noticias falsas."
+  ],
+  "audience": "Personas interesadas en política internacional y América Latina.",
+  "tone": "Crítico y reflexivo",
+  "content_style": "Informativo y analítico",
+  "retention_devices": [
+    "Datos sorprendentes sobre la intervención política.",
+    "Menciones a figuras conocidas como Hernández y Trump."
+  ],
+  "title_supporting_quotes": [
+    "Juan Orlando Hernández admitió la intervención de Israel en su perdón.",
+    "Se destapó una red de noticias falsas para desacreditar a líderes progresistas."
+  ],
+  "creative_reuse_opportunities": [
+    "Hacer un documental sobre la intervención de potencias en América Latina.",
+    "Crear infografías sobre la desinformación y sus efectos en la política."
+  ],
+  "risk_notes": [
+    "Las implicaciones de estos eventos pueden generar tensiones internacionales.",
+    "La exposición de información sensible puede tener repercusiones para los países involucrados."
+  ],
+  "schema_version": "transcript_insights_v1"
+}

@@ -1,0 +1,92 @@
+{
+  "video_id": "4a4Sgh76efw",
+  "language": "es",
+  "summary": "El video discute la manipulación genética de los perros por parte del ser humano, destacando cómo la selección de rasgos ha producido una diversidad extrema que, sin embargo, ha traído consigo graves problemas de salud en muchas razas.",
+  "main_topics": [
+    "Manipulación genética de perros",
+    "Diversidad de razas",
+    "Problemas de salud en perros",
+    "Consecuencias de la selección artificial"
+  ],
+  "narrative_structure": [
+    {
+      "section": "Introducción a la diversidad de razas",
+      "purpose": "Presentar el tema",
+      "summary": "Se introducen las más de 400 versiones de perros resultantes de la intervención humana."
+    },
+    {
+      "section": "Proceso de selección",
+      "purpose": "Explicar cómo se crearon las razas",
+      "summary": "Se explica el proceso de elegir ciertos rasgos y exagerarlos para obtener diferentes razas."
+    },
+    {
+      "section": "Costo de la diversidad",
+      "purpose": "Advertir sobre las consecuencias",
+      "summary": "Se discute el alto costo en la salud de los perros debido a esta manipulación."
+    },
+    {
+      "section": "Contraste entre estética y sufrimiento",
+      "purpose": "Reflexionar sobre las implicaciones éticas",
+      "summary": "Se plantea la disonancia entre lo que consideramos tierno y el sufrimiento detrás de las razas."
+    },
+    {
+      "section": "Lealtad de los perros",
+      "purpose": "Cerrar con un mensaje positivo",
+      "summary": "A pesar de los errores humanos, los perros siguen siendo leales."
+    }
+  ],
+  "hook_analysis": {
+    "hook_type": "Intriga",
+    "hook_text": "Aplanamos hocicos, estiramos orejas.",
+    "why_it_works": "La provocativa descripción atrae la curiosidad sobre cómo la manipulación física afecta a los perros."
+  },
+  "claims": [
+    {
+      "claim": "La diversidad de razas de perros es resultado de intervención humana.",
+      "support_level": "explicit",
+      "risk": "bajo"
+    },
+    {
+      "claim": "Esta manipulación ha causado problemas de salud en muchas razas.",
+      "support_level": "explicit",
+      "risk": "medio"
+    },
+    {
+      "claim": "La percepción estética no considera el sufrimiento de los perros.",
+      "support_level": "implicit",
+      "risk": "alto"
+    }
+  ],
+  "examples": [
+    "Algunos perros no pueden respirar bien.",
+    "Otros tienen caderas que se desgastan.",
+    "Otros presentan orejas que se les infectan."
+  ],
+  "actionable_ideas": [
+    "Promover la adopción de razas mixtas.",
+    "Educar sobre la responsabilidad en la crianza de perros.",
+    "Fomentar la ética en la selección de razas."
+  ],
+  "audience": "Propietarios de perros y amantes de los animales",
+  "tone": "Reflexivo y crítico",
+  "content_style": "Informativo y persuasivo",
+  "retention_devices": [
+    "Estadísticas impactantes",
+    "Ejemplos visuales de razas",
+    "Preguntas retóricas que invitan a reflexionar"
+  ],
+  "title_supporting_quotes": [
+    "Ese experimento evolutivo sin precedentes tiene un precio altísimo.",
+    "Lo que vemos como tierno muchas veces es sufrimiento."
+  ],
+  "creative_reuse_opportunities": [
+    "Artículos sobre salud canina.",
+    "Documentales sobre la cría responsable de perros.",
+    "Charlas en eventos de adopción de perros."
+  ],
+  "risk_notes": [
+    "Advertir sobre la posible controversia en la crianza de razas.",
+    "Necesidad de un enfoque ético y responsable en la selección de mascotas."
+  ],
+  "schema_version": "transcript_insights_v1"
+}
