@@ -1,0 +1,20 @@
+{
+  "relation_types": [
+    "ANS",
+    "SUP",
+    "EXPL",
+    "ELAB",
+    "EXMP",
+    "ANLG",
+    "CONTR",
+    "REFUT",
+    "RISK",
+    "SOLV",
+    "SEQ",
+    "SUM",
+    "CALL",
+    "CAUSE",
+    "COND"
+  ],
+  "patterns": []
+}

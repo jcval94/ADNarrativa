@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/narrative_dna/gold.schema.json",
+  "title": "NarrativeDNAGoldRecord",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "gold_id",
+    "gold_type",
+    "unit",
+    "taxonomy_version_effective",
+    "prompt_version_effective",
+    "validator_version_effective"
+  ],
+  "properties": {
+    "gold_id": { "type": "string" },
+    "gold_type": {
+      "type": "string",
+      "enum": [
+        "human_gold",
+        "synthetic_gold_high_confidence",
+        "synthetic_gold_medium_confidence",
+        "synthetic_gold_rejected"
+      ]
+    },
+    "unit": { "type": "object" },
+    "taxonomy_version_effective": { "type": "string" },
+    "prompt_version_effective": { "type": "string" },
+    "validator_version_effective": { "type": "string" }
+  }
+}

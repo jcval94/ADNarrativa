@@ -1,0 +1,24 @@
+{
+  "chain_patterns": [
+    {
+      "id": "question_answer",
+      "relations": [
+        "ANS"
+      ]
+    },
+    {
+      "id": "risk_solution",
+      "relations": [
+        "RISK",
+        "SOLV"
+      ]
+    },
+    {
+      "id": "claim_support_explanation",
+      "relations": [
+        "SUP",
+        "EXPL"
+      ]
+    }
+  ]
+}

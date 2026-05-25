@@ -1,0 +1,15 @@
+{
+  "enabled": true,
+  "default_threshold": 0.82,
+  "top_k": 10,
+  "compare_fields": [
+    "functions",
+    "primary_function",
+    "emotion_expressed",
+    "emotion_intensity",
+    "stance",
+    "certainty",
+    "final_notation"
+  ],
+  "conflict_policy": "mark_needs_review"
+}

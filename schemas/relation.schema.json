@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/narrative_dna/relation.schema.json",
+  "title": "NarrativeDNARelation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "relation_id",
+    "source_unit_id",
+    "target_unit_id",
+    "relation_type",
+    "evidence_spans",
+    "confidence",
+    "taxonomy_version_effective",
+    "prompt_version_effective",
+    "validator_version_effective"
+  ],
+  "properties": {
+    "run_id": { "type": "string" },
+    "relation_id": { "type": "string" },
+    "source_unit_id": { "type": "string" },
+    "target_unit_id": { "type": "string" },
+    "relation_type": {
+      "type": "string",
+      "enum": [
+        "ANS",
+        "SUP",
+        "EXPL",
+        "ELAB",
+        "EXMP",
+        "ANLG",
+        "CONTR",
+        "REFUT",
+        "RISK",
+        "SOLV",
+        "SEQ",
+        "SUM",
+        "CALL",
+        "CAUSE",
+        "COND"
+      ]
+    },
+    "evidence_spans": { "type": "array", "items": { "type": "object" } },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "taxonomy_version_effective": { "type": "string" },
+    "prompt_version_effective": { "type": "string" },
+    "validator_version_effective": { "type": "string" }
+  }
+}

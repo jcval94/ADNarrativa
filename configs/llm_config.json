@@ -1,0 +1,26 @@
+{
+  "enabled": false,
+  "provider": "openai",
+  "client_module": "src/narrative_dna/llm_client.py",
+  "models": {
+    "main_classifier": {
+      "model": "gpt-5.5",
+      "reasoning_effort": "medium",
+      "temperature": 0.1
+    },
+    "adjudicator": {
+      "model": "gpt-5.5",
+      "reasoning_effort": "high",
+      "temperature": 0.0
+    }
+  },
+  "cache": {
+    "enabled": true,
+    "key_fields": [
+      "input_hash",
+      "taxonomy_version_effective",
+      "prompt_version_effective",
+      "validator_version_effective"
+    ]
+  }
+}

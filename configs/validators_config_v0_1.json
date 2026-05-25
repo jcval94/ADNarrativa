@@ -1,0 +1,20 @@
+{
+  "validator_version": "v0_1",
+  "rules": [
+    {
+      "id": "N_exclusive",
+      "severity": "error",
+      "description": "N must not coexist with other narrative functions."
+    },
+    {
+      "id": "notation_derivation",
+      "severity": "error",
+      "description": "final_notation must be derived from validated JSON fields."
+    },
+    {
+      "id": "effective_versions_required",
+      "severity": "error",
+      "description": "Important JSON, JSONL, and MD outputs must include effective versions."
+    }
+  ]
+}

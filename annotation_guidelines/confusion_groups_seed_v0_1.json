@@ -1,0 +1,19 @@
+{
+  "taxonomy_version": "v0_1",
+  "confusion_groups": [
+    {
+      "id": "claim_opinion",
+      "labels": [
+        "K",
+        "O"
+      ]
+    },
+    {
+      "id": "evidence_example",
+      "labels": [
+        "D",
+        "E"
+      ]
+    }
+  ]
+}

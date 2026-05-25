@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/narrative_dna/taxonomy.schema.json",
+  "title": "NarrativeDNATaxonomy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "taxonomy_version",
+    "function_codes",
+    "relation_types"
+  ],
+  "properties": {
+    "taxonomy_version": { "type": "string" },
+    "reserved_stable_version": { "type": "string" },
+    "function_codes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "relation_types": {
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "notes": { "type": "string" }
+  }
+}

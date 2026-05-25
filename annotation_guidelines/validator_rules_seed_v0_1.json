@@ -1,0 +1,8 @@
+{
+  "validator_version": "v0_1",
+  "rules": [
+    "N_exclusive",
+    "notation_derivation",
+    "effective_versions_required"
+  ]
+}

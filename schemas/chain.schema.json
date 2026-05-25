@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/narrative_dna/chain.schema.json",
+  "title": "NarrativeDNAChain",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "chain_id",
+    "unit_ids",
+    "relation_ids",
+    "chain_type",
+    "taxonomy_version_effective",
+    "prompt_version_effective",
+    "validator_version_effective"
+  ],
+  "properties": {
+    "run_id": { "type": "string" },
+    "chain_id": { "type": "string" },
+    "unit_ids": { "type": "array", "items": { "type": "string" } },
+    "relation_ids": { "type": "array", "items": { "type": "string" } },
+    "chain_type": { "type": "string" },
+    "taxonomy_version_effective": { "type": "string" },
+    "prompt_version_effective": { "type": "string" },
+    "validator_version_effective": { "type": "string" }
+  }
+}

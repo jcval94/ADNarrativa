@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/narrative_dna/document.schema.json",
+  "title": "NarrativeDNADocument",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "document_id",
+    "text",
+    "taxonomy_version_effective",
+    "prompt_version_effective",
+    "validator_version_effective"
+  ],
+  "properties": {
+    "run_id": { "type": "string", "minLength": 1 },
+    "document_id": { "type": "string", "minLength": 1 },
+    "source_path": { "type": "string" },
+    "source_type": { "type": "string" },
+    "text": { "type": "string" },
+    "segments": { "type": "array", "items": { "type": "object" } },
+    "metadata": { "type": "object" },
+    "normalization_flags": { "type": "array", "items": { "type": "string" } },
+    "taxonomy_version_effective": { "type": "string" },
+    "prompt_version_effective": { "type": "string" },
+    "validator_version_effective": { "type": "string" }
+  }
+}

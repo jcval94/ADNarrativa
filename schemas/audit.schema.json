@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/narrative_dna/audit.schema.json",
+  "title": "NarrativeDNAAuditReport",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "summary",
+    "taxonomy_version_effective",
+    "prompt_version_effective",
+    "validator_version_effective"
+  ],
+  "properties": {
+    "run_id": { "type": "string" },
+    "summary": { "type": "object" },
+    "validator_flags": { "type": "array", "items": { "type": "object" } },
+    "similarity_conflicts": { "type": "array", "items": { "type": "object" } },
+    "taxonomy_version_effective": { "type": "string" },
+    "prompt_version_effective": { "type": "string" },
+    "validator_version_effective": { "type": "string" }
+  }
+}

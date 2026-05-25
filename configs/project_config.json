@@ -1,0 +1,12 @@
+{
+  "project_name": "narrative_dna",
+  "default_taxonomy_version": "v0_1",
+  "default_prompt_version": "v0_1",
+  "default_validator_version": "v0_1",
+  "output_dir": "outputs",
+  "required_effective_versions": [
+    "taxonomy_version_effective",
+    "prompt_version_effective",
+    "validator_version_effective"
+  ]
+}

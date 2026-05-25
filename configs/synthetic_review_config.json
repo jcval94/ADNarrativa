@@ -1,0 +1,30 @@
+{
+  "enabled": false,
+  "reviewers": [
+    {
+      "name": "divergent_reviewer_a",
+      "temperature": 0.9
+    },
+    {
+      "name": "divergent_reviewer_b",
+      "temperature": 1.0
+    },
+    {
+      "name": "taxonomy_strict_reviewer",
+      "temperature": 0.7
+    }
+  ],
+  "aggregator": {
+    "name": "synthetic_aggregator",
+    "temperature": 0.1,
+    "policy": "conservative"
+  },
+  "final_adjudicator": {
+    "name": "synthetic_final_adjudicator",
+    "temperature": 0.0,
+    "policy": "most_conservative"
+  },
+  "promotion": {
+    "regression_allowed_status": "synthetic_gold_high_confidence"
+  }
+}

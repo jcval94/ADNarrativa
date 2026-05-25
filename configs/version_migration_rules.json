@@ -1,0 +1,11 @@
+{
+  "base_version": "v0_1",
+  "reserved_stable_version": "v1_0",
+  "rules": [
+    {
+      "from_version": "v0_1",
+      "to_version": "v1_0",
+      "migration_notes": "Reserved for the post-audit stable taxonomy consolidation in step 5."
+    }
+  ]
+}
