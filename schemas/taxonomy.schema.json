@@ -1,27 +1,111 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.local/narrative_dna/taxonomy.schema.json",
-  "title": "NarrativeDNATaxonomy",
-  "type": "object",
+  "$defs": {
+    "FunctionCode": {
+      "enum": [
+        "A",
+        "K",
+        "O",
+        "F",
+        "Y",
+        "D",
+        "Q",
+        "P",
+        "R",
+        "E",
+        "H",
+        "G",
+        "C",
+        "B",
+        "X",
+        "T",
+        "M",
+        "L",
+        "Z",
+        "S",
+        "I",
+        "U",
+        "V",
+        "N"
+      ],
+      "title": "FunctionCode",
+      "type": "string"
+    },
+    "RelationType": {
+      "enum": [
+        "ANS",
+        "SUP",
+        "EXPL",
+        "ELAB",
+        "EXMP",
+        "ANLG",
+        "CONTR",
+        "REFUT",
+        "RISK",
+        "SOLV",
+        "SEQ",
+        "SUM",
+        "CALL",
+        "CAUSE",
+        "COND"
+      ],
+      "title": "RelationType",
+      "type": "string"
+    }
+  },
   "additionalProperties": false,
+  "properties": {
+    "taxonomy_version": {
+      "minLength": 1,
+      "title": "Taxonomy Version",
+      "type": "string"
+    },
+    "reserved_stable_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reserved Stable Version"
+    },
+    "function_codes": {
+      "items": {
+        "$ref": "#/$defs/FunctionCode"
+      },
+      "minItems": 1,
+      "title": "Function Codes",
+      "type": "array"
+    },
+    "relation_types": {
+      "items": {
+        "$ref": "#/$defs/RelationType"
+      },
+      "minItems": 1,
+      "title": "Relation Types",
+      "type": "array"
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Notes"
+    }
+  },
   "required": [
     "taxonomy_version",
     "function_codes",
     "relation_types"
   ],
-  "properties": {
-    "taxonomy_version": { "type": "string" },
-    "reserved_stable_version": { "type": "string" },
-    "function_codes": {
-      "type": "array",
-      "items": { "type": "string" },
-      "uniqueItems": true
-    },
-    "relation_types": {
-      "type": "array",
-      "items": { "type": "string" },
-      "uniqueItems": true
-    },
-    "notes": { "type": "string" }
-  }
+  "title": "TaxonomyDefinition",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
 }

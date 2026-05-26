@@ -1,9 +1,309 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.local/narrative_dna/audit.schema.json",
-  "title": "NarrativeDNAAuditReport",
-  "type": "object",
+  "$defs": {
+    "ClusterInstability": {
+      "additionalProperties": false,
+      "properties": {
+        "cluster_id": {
+          "minLength": 1,
+          "title": "Cluster Id",
+          "type": "string"
+        },
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "unit_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Unit Ids",
+          "type": "array"
+        },
+        "instability_score": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Instability Score",
+          "type": "number"
+        },
+        "dominant_labels": {
+          "items": {
+            "$ref": "#/$defs/FunctionCode"
+          },
+          "title": "Dominant Labels",
+          "type": "array"
+        },
+        "conflicting_labels": {
+          "items": {
+            "$ref": "#/$defs/FunctionCode"
+          },
+          "title": "Conflicting Labels",
+          "type": "array"
+        },
+        "needs_review": {
+          "default": true,
+          "title": "Needs Review",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "cluster_id",
+        "run_id",
+        "unit_ids",
+        "instability_score"
+      ],
+      "title": "ClusterInstability",
+      "type": "object"
+    },
+    "FunctionCode": {
+      "enum": [
+        "A",
+        "K",
+        "O",
+        "F",
+        "Y",
+        "D",
+        "Q",
+        "P",
+        "R",
+        "E",
+        "H",
+        "G",
+        "C",
+        "B",
+        "X",
+        "T",
+        "M",
+        "L",
+        "Z",
+        "S",
+        "I",
+        "U",
+        "V",
+        "N"
+      ],
+      "title": "FunctionCode",
+      "type": "string"
+    },
+    "SimilarityConflict": {
+      "additionalProperties": false,
+      "properties": {
+        "conflict_id": {
+          "minLength": 1,
+          "title": "Conflict Id",
+          "type": "string"
+        },
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "unit_id_a": {
+          "minLength": 1,
+          "title": "Unit Id A",
+          "type": "string"
+        },
+        "unit_id_b": {
+          "minLength": 1,
+          "title": "Unit Id B",
+          "type": "string"
+        },
+        "similarity": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Similarity",
+          "type": "number"
+        },
+        "differing_fields": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Differing Fields",
+          "type": "array"
+        },
+        "explanation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Explanation"
+        },
+        "needs_review": {
+          "default": true,
+          "title": "Needs Review",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "conflict_id",
+        "run_id",
+        "unit_id_a",
+        "unit_id_b",
+        "similarity",
+        "differing_fields"
+      ],
+      "title": "SimilarityConflict",
+      "type": "object"
+    },
+    "ValidatorFlag": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/ValidatorSeverity"
+        },
+        "message": {
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        },
+        "field": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Field"
+        }
+      },
+      "required": [
+        "rule_id",
+        "severity",
+        "message"
+      ],
+      "title": "ValidatorFlag",
+      "type": "object"
+    },
+    "ValidatorSeverity": {
+      "enum": [
+        "info",
+        "warning",
+        "error"
+      ],
+      "title": "ValidatorSeverity",
+      "type": "string"
+    },
+    "ValidatorSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "run_id": {
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
+        "validator_version": {
+          "minLength": 1,
+          "title": "Validator Version",
+          "type": "string"
+        },
+        "total_units": {
+          "minimum": 0,
+          "title": "Total Units",
+          "type": "integer"
+        },
+        "total_flags": {
+          "minimum": 0,
+          "title": "Total Flags",
+          "type": "integer"
+        },
+        "errors": {
+          "minimum": 0,
+          "title": "Errors",
+          "type": "integer"
+        },
+        "warnings": {
+          "minimum": 0,
+          "title": "Warnings",
+          "type": "integer"
+        },
+        "infos": {
+          "minimum": 0,
+          "title": "Infos",
+          "type": "integer"
+        },
+        "flags_by_rule": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Flags By Rule",
+          "type": "object"
+        }
+      },
+      "required": [
+        "run_id",
+        "validator_version",
+        "total_units",
+        "total_flags",
+        "errors",
+        "warnings",
+        "infos"
+      ],
+      "title": "ValidatorSummary",
+      "type": "object"
+    }
+  },
   "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
+    "summary": {
+      "$ref": "#/$defs/ValidatorSummary"
+    },
+    "validator_flags": {
+      "items": {
+        "$ref": "#/$defs/ValidatorFlag"
+      },
+      "title": "Validator Flags",
+      "type": "array"
+    },
+    "similarity_conflicts": {
+      "items": {
+        "$ref": "#/$defs/SimilarityConflict"
+      },
+      "title": "Similarity Conflicts",
+      "type": "array"
+    },
+    "cluster_instabilities": {
+      "items": {
+        "$ref": "#/$defs/ClusterInstability"
+      },
+      "title": "Cluster Instabilities",
+      "type": "array"
+    },
+    "taxonomy_version_effective": {
+      "minLength": 1,
+      "title": "Taxonomy Version Effective",
+      "type": "string"
+    },
+    "prompt_version_effective": {
+      "minLength": 1,
+      "title": "Prompt Version Effective",
+      "type": "string"
+    },
+    "validator_version_effective": {
+      "minLength": 1,
+      "title": "Validator Version Effective",
+      "type": "string"
+    }
+  },
   "required": [
     "run_id",
     "summary",
@@ -11,13 +311,7 @@
     "prompt_version_effective",
     "validator_version_effective"
   ],
-  "properties": {
-    "run_id": { "type": "string" },
-    "summary": { "type": "object" },
-    "validator_flags": { "type": "array", "items": { "type": "object" } },
-    "similarity_conflicts": { "type": "array", "items": { "type": "object" } },
-    "taxonomy_version_effective": { "type": "string" },
-    "prompt_version_effective": { "type": "string" },
-    "validator_version_effective": { "type": "string" }
-  }
+  "title": "AuditReport",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
 }

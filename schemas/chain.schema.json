@@ -1,27 +1,99 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.local/narrative_dna/chain.schema.json",
-  "title": "NarrativeDNAChain",
-  "type": "object",
   "additionalProperties": false,
-  "required": [
-    "run_id",
-    "chain_id",
-    "unit_ids",
-    "relation_ids",
-    "chain_type",
-    "taxonomy_version_effective",
-    "prompt_version_effective",
-    "validator_version_effective"
-  ],
   "properties": {
-    "run_id": { "type": "string" },
-    "chain_id": { "type": "string" },
-    "unit_ids": { "type": "array", "items": { "type": "string" } },
-    "relation_ids": { "type": "array", "items": { "type": "string" } },
-    "chain_type": { "type": "string" },
-    "taxonomy_version_effective": { "type": "string" },
-    "prompt_version_effective": { "type": "string" },
-    "validator_version_effective": { "type": "string" }
-  }
+    "chain_id": {
+      "minLength": 1,
+      "title": "Chain Id",
+      "type": "string"
+    },
+    "document_id": {
+      "minLength": 1,
+      "title": "Document Id",
+      "type": "string"
+    },
+    "chain_type": {
+      "minLength": 1,
+      "title": "Chain Type",
+      "type": "string"
+    },
+    "unit_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Unit Ids",
+      "type": "array"
+    },
+    "relation_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Relation Ids",
+      "type": "array"
+    },
+    "notation_sequence": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Notation Sequence",
+      "type": "array"
+    },
+    "start_unit_id": {
+      "minLength": 1,
+      "title": "Start Unit Id",
+      "type": "string"
+    },
+    "end_unit_id": {
+      "minLength": 1,
+      "title": "End Unit Id",
+      "type": "string"
+    },
+    "score": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Score",
+      "type": "number"
+    },
+    "narrative_function": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Narrative Function"
+    },
+    "evidence_summary": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Evidence Summary"
+    },
+    "needs_review": {
+      "default": false,
+      "title": "Needs Review",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "chain_id",
+    "document_id",
+    "chain_type",
+    "unit_ids",
+    "start_unit_id",
+    "end_unit_id",
+    "score"
+  ],
+  "title": "NarrativeChain",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
 }

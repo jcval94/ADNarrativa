@@ -234,178 +234,6 @@
       "title": "Method",
       "type": "string"
     },
-    "NarrativeChain": {
-      "additionalProperties": false,
-      "properties": {
-        "chain_id": {
-          "minLength": 1,
-          "title": "Chain Id",
-          "type": "string"
-        },
-        "document_id": {
-          "minLength": 1,
-          "title": "Document Id",
-          "type": "string"
-        },
-        "chain_type": {
-          "minLength": 1,
-          "title": "Chain Type",
-          "type": "string"
-        },
-        "unit_ids": {
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1,
-          "title": "Unit Ids",
-          "type": "array"
-        },
-        "relation_ids": {
-          "items": {
-            "type": "string"
-          },
-          "title": "Relation Ids",
-          "type": "array"
-        },
-        "notation_sequence": {
-          "items": {
-            "type": "string"
-          },
-          "title": "Notation Sequence",
-          "type": "array"
-        },
-        "start_unit_id": {
-          "minLength": 1,
-          "title": "Start Unit Id",
-          "type": "string"
-        },
-        "end_unit_id": {
-          "minLength": 1,
-          "title": "End Unit Id",
-          "type": "string"
-        },
-        "score": {
-          "maximum": 1,
-          "minimum": 0,
-          "title": "Score",
-          "type": "number"
-        },
-        "narrative_function": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Narrative Function"
-        },
-        "evidence_summary": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Evidence Summary"
-        },
-        "needs_review": {
-          "default": false,
-          "title": "Needs Review",
-          "type": "boolean"
-        }
-      },
-      "required": [
-        "chain_id",
-        "document_id",
-        "chain_type",
-        "unit_ids",
-        "start_unit_id",
-        "end_unit_id",
-        "score"
-      ],
-      "title": "NarrativeChain",
-      "type": "object"
-    },
-    "NarrativeRelation": {
-      "additionalProperties": false,
-      "properties": {
-        "relation_id": {
-          "minLength": 1,
-          "title": "Relation Id",
-          "type": "string"
-        },
-        "document_id": {
-          "minLength": 1,
-          "title": "Document Id",
-          "type": "string"
-        },
-        "source_unit_id": {
-          "minLength": 1,
-          "title": "Source Unit Id",
-          "type": "string"
-        },
-        "target_unit_id": {
-          "minLength": 1,
-          "title": "Target Unit Id",
-          "type": "string"
-        },
-        "relation_type": {
-          "$ref": "#/$defs/RelationType"
-        },
-        "confidence": {
-          "maximum": 1,
-          "minimum": 0,
-          "title": "Confidence",
-          "type": "number"
-        },
-        "method": {
-          "$ref": "#/$defs/Method"
-        },
-        "evidence_spans": {
-          "items": {
-            "$ref": "#/$defs/EvidenceSpan"
-          },
-          "title": "Evidence Spans",
-          "type": "array"
-        },
-        "rejected_relation_types": {
-          "items": {
-            "$ref": "#/$defs/RelationType"
-          },
-          "title": "Rejected Relation Types",
-          "type": "array"
-        },
-        "validator_flags": {
-          "items": {
-            "$ref": "#/$defs/ValidatorFlag"
-          },
-          "title": "Validator Flags",
-          "type": "array"
-        },
-        "needs_review": {
-          "default": false,
-          "title": "Needs Review",
-          "type": "boolean"
-        }
-      },
-      "required": [
-        "relation_id",
-        "document_id",
-        "source_unit_id",
-        "target_unit_id",
-        "relation_type",
-        "confidence",
-        "method"
-      ],
-      "title": "NarrativeRelation",
-      "type": "object"
-    },
     "NarrativeUnit": {
       "additionalProperties": false,
       "properties": {
@@ -732,27 +560,6 @@
       "title": "RejectedLabel",
       "type": "object"
     },
-    "RelationType": {
-      "enum": [
-        "ANS",
-        "SUP",
-        "EXPL",
-        "ELAB",
-        "EXMP",
-        "ANLG",
-        "CONTR",
-        "REFUT",
-        "RISK",
-        "SOLV",
-        "SEQ",
-        "SUM",
-        "CALL",
-        "CAUSE",
-        "COND"
-      ],
-      "title": "RelationType",
-      "type": "string"
-    },
     "ReviewStatus": {
       "enum": [
         "accepted",
@@ -761,44 +568,6 @@
         "pending"
       ],
       "title": "ReviewStatus",
-      "type": "string"
-    },
-    "SegmentationInfo": {
-      "additionalProperties": false,
-      "properties": {
-        "strategy": {
-          "minLength": 1,
-          "title": "Strategy",
-          "type": "string"
-        },
-        "unit_count": {
-          "minimum": 0,
-          "title": "Unit Count",
-          "type": "integer"
-        },
-        "notes": {
-          "items": {
-            "type": "string"
-          },
-          "title": "Notes",
-          "type": "array"
-        }
-      },
-      "required": [
-        "strategy",
-        "unit_count"
-      ],
-      "title": "SegmentationInfo",
-      "type": "object"
-    },
-    "SourceType": {
-      "enum": [
-        "txt",
-        "json",
-        "jsonl",
-        "unknown"
-      ],
-      "title": "SourceType",
       "type": "string"
     },
     "Stance": {
@@ -810,6 +579,72 @@
       ],
       "title": "Stance",
       "type": "string"
+    },
+    "SyntheticDecision": {
+      "enum": [
+        "accept",
+        "revise",
+        "reject",
+        "needs_review"
+      ],
+      "title": "SyntheticDecision",
+      "type": "string"
+    },
+    "SyntheticReviewerOutput": {
+      "additionalProperties": false,
+      "properties": {
+        "review_item_id": {
+          "minLength": 1,
+          "title": "Review Item Id",
+          "type": "string"
+        },
+        "reviewer_id": {
+          "minLength": 1,
+          "title": "Reviewer Id",
+          "type": "string"
+        },
+        "decision": {
+          "$ref": "#/$defs/SyntheticDecision"
+        },
+        "proposed_unit": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NarrativeUnit"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "rationale": {
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "validator_flags": {
+          "items": {
+            "$ref": "#/$defs/ValidatorFlag"
+          },
+          "title": "Validator Flags",
+          "type": "array"
+        }
+      },
+      "required": [
+        "review_item_id",
+        "reviewer_id",
+        "decision",
+        "confidence",
+        "rationale"
+      ],
+      "title": "SyntheticReviewerOutput",
+      "type": "object"
     },
     "ValidatorFlag": {
       "additionalProperties": false,
@@ -860,73 +695,47 @@
   },
   "additionalProperties": false,
   "properties": {
-    "document_id": {
+    "review_item_id": {
       "minLength": 1,
-      "title": "Document Id",
+      "title": "Review Item Id",
       "type": "string"
     },
-    "source_path": {
+    "decisions": {
+      "items": {
+        "$ref": "#/$defs/SyntheticReviewerOutput"
+      },
+      "minItems": 1,
+      "title": "Decisions",
+      "type": "array"
+    },
+    "aggregate_decision": {
+      "$ref": "#/$defs/SyntheticDecision"
+    },
+    "confidence": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Confidence",
+      "type": "number"
+    },
+    "rationale": {
       "minLength": 1,
-      "title": "Source Path",
+      "title": "Rationale",
       "type": "string"
     },
-    "source_type": {
-      "$ref": "#/$defs/SourceType"
-    },
-    "language": {
-      "maxLength": 16,
-      "minLength": 2,
-      "title": "Language",
-      "type": "string"
-    },
-    "metadata": {
-      "additionalProperties": true,
-      "title": "Metadata",
-      "type": "object"
-    },
-    "segmentation": {
-      "$ref": "#/$defs/SegmentationInfo"
-    },
-    "units": {
-      "items": {
-        "$ref": "#/$defs/NarrativeUnit"
-      },
-      "title": "Units",
-      "type": "array"
-    },
-    "relations": {
-      "items": {
-        "$ref": "#/$defs/NarrativeRelation"
-      },
-      "title": "Relations",
-      "type": "array"
-    },
-    "chains": {
-      "items": {
-        "$ref": "#/$defs/NarrativeChain"
-      },
-      "title": "Chains",
-      "type": "array"
-    },
-    "document_metrics": {
-      "additionalProperties": true,
-      "title": "Document Metrics",
-      "type": "object"
-    },
-    "audit_summary": {
-      "additionalProperties": true,
-      "title": "Audit Summary",
-      "type": "object"
+    "needs_final_adjudication": {
+      "title": "Needs Final Adjudication",
+      "type": "boolean"
     }
   },
   "required": [
-    "document_id",
-    "source_path",
-    "source_type",
-    "language",
-    "segmentation"
+    "review_item_id",
+    "decisions",
+    "aggregate_decision",
+    "confidence",
+    "rationale",
+    "needs_final_adjudication"
   ],
-  "title": "NarrativeDocument",
+  "title": "SyntheticAggregatedReview",
   "type": "object",
   "$schema": "https://json-schema.org/draft/2020-12/schema"
 }

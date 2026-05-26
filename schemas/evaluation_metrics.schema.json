@@ -1,0 +1,78 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
+    "gold_path": {
+      "minLength": 1,
+      "title": "Gold Path",
+      "type": "string"
+    },
+    "functions_exact_match": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Functions Exact Match",
+      "type": "number"
+    },
+    "primary_function_accuracy": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Primary Function Accuracy",
+      "type": "number"
+    },
+    "multilabel_jaccard": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Multilabel Jaccard",
+      "type": "number"
+    },
+    "micro_f1": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Micro F1",
+      "type": "number"
+    },
+    "macro_f1": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Macro F1",
+      "type": "number"
+    },
+    "validator_violation_rate": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Validator Violation Rate",
+      "type": "number"
+    },
+    "needs_review_rate": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Needs Review Rate",
+      "type": "number"
+    },
+    "similarity_conflict_rate": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Similarity Conflict Rate",
+      "type": "number"
+    }
+  },
+  "required": [
+    "run_id",
+    "gold_path",
+    "functions_exact_match",
+    "primary_function_accuracy",
+    "multilabel_jaccard",
+    "micro_f1",
+    "macro_f1",
+    "validator_violation_rate",
+    "needs_review_rate",
+    "similarity_conflict_rate"
+  ],
+  "title": "EvaluationMetrics",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

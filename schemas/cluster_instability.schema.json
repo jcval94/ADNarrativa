@@ -1,0 +1,89 @@
+{
+  "$defs": {
+    "FunctionCode": {
+      "enum": [
+        "A",
+        "K",
+        "O",
+        "F",
+        "Y",
+        "D",
+        "Q",
+        "P",
+        "R",
+        "E",
+        "H",
+        "G",
+        "C",
+        "B",
+        "X",
+        "T",
+        "M",
+        "L",
+        "Z",
+        "S",
+        "I",
+        "U",
+        "V",
+        "N"
+      ],
+      "title": "FunctionCode",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "cluster_id": {
+      "minLength": 1,
+      "title": "Cluster Id",
+      "type": "string"
+    },
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
+    "unit_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Unit Ids",
+      "type": "array"
+    },
+    "instability_score": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Instability Score",
+      "type": "number"
+    },
+    "dominant_labels": {
+      "items": {
+        "$ref": "#/$defs/FunctionCode"
+      },
+      "title": "Dominant Labels",
+      "type": "array"
+    },
+    "conflicting_labels": {
+      "items": {
+        "$ref": "#/$defs/FunctionCode"
+      },
+      "title": "Conflicting Labels",
+      "type": "array"
+    },
+    "needs_review": {
+      "default": true,
+      "title": "Needs Review",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "cluster_id",
+    "run_id",
+    "unit_ids",
+    "instability_score"
+  ],
+  "title": "ClusterInstability",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

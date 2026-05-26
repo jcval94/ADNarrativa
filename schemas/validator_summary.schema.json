@@ -1,0 +1,59 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
+    "validator_version": {
+      "minLength": 1,
+      "title": "Validator Version",
+      "type": "string"
+    },
+    "total_units": {
+      "minimum": 0,
+      "title": "Total Units",
+      "type": "integer"
+    },
+    "total_flags": {
+      "minimum": 0,
+      "title": "Total Flags",
+      "type": "integer"
+    },
+    "errors": {
+      "minimum": 0,
+      "title": "Errors",
+      "type": "integer"
+    },
+    "warnings": {
+      "minimum": 0,
+      "title": "Warnings",
+      "type": "integer"
+    },
+    "infos": {
+      "minimum": 0,
+      "title": "Infos",
+      "type": "integer"
+    },
+    "flags_by_rule": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Flags By Rule",
+      "type": "object"
+    }
+  },
+  "required": [
+    "run_id",
+    "validator_version",
+    "total_units",
+    "total_flags",
+    "errors",
+    "warnings",
+    "infos"
+  ],
+  "title": "ValidatorSummary",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

@@ -1,0 +1,67 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "conflict_id": {
+      "minLength": 1,
+      "title": "Conflict Id",
+      "type": "string"
+    },
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
+    "unit_id_a": {
+      "minLength": 1,
+      "title": "Unit Id A",
+      "type": "string"
+    },
+    "unit_id_b": {
+      "minLength": 1,
+      "title": "Unit Id B",
+      "type": "string"
+    },
+    "similarity": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Similarity",
+      "type": "number"
+    },
+    "differing_fields": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Differing Fields",
+      "type": "array"
+    },
+    "explanation": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Explanation"
+    },
+    "needs_review": {
+      "default": true,
+      "title": "Needs Review",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "conflict_id",
+    "run_id",
+    "unit_id_a",
+    "unit_id_b",
+    "similarity",
+    "differing_fields"
+  ],
+  "title": "SimilarityConflict",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

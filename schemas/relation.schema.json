@@ -1,28 +1,98 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.local/narrative_dna/relation.schema.json",
-  "title": "NarrativeDNARelation",
-  "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "run_id",
-    "relation_id",
-    "source_unit_id",
-    "target_unit_id",
-    "relation_type",
-    "evidence_spans",
-    "confidence",
-    "taxonomy_version_effective",
-    "prompt_version_effective",
-    "validator_version_effective"
-  ],
-  "properties": {
-    "run_id": { "type": "string" },
-    "relation_id": { "type": "string" },
-    "source_unit_id": { "type": "string" },
-    "target_unit_id": { "type": "string" },
-    "relation_type": {
-      "type": "string",
+  "$defs": {
+    "EvidenceSpan": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "char_start": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Char Start"
+        },
+        "char_end": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Char End"
+        },
+        "start_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start Ms"
+        },
+        "end_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Ms"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "EvidenceSpan",
+      "type": "object"
+    },
+    "Method": {
+      "enum": [
+        "none",
+        "heuristic",
+        "llm",
+        "adjudicated",
+        "synthetic",
+        "derived",
+        "manual"
+      ],
+      "title": "Method",
+      "type": "string"
+    },
+    "RelationType": {
       "enum": [
         "ANS",
         "SUP",
@@ -39,12 +109,128 @@
         "CALL",
         "CAUSE",
         "COND"
-      ]
+      ],
+      "title": "RelationType",
+      "type": "string"
     },
-    "evidence_spans": { "type": "array", "items": { "type": "object" } },
-    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
-    "taxonomy_version_effective": { "type": "string" },
-    "prompt_version_effective": { "type": "string" },
-    "validator_version_effective": { "type": "string" }
-  }
+    "ValidatorFlag": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/ValidatorSeverity"
+        },
+        "message": {
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        },
+        "field": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Field"
+        }
+      },
+      "required": [
+        "rule_id",
+        "severity",
+        "message"
+      ],
+      "title": "ValidatorFlag",
+      "type": "object"
+    },
+    "ValidatorSeverity": {
+      "enum": [
+        "info",
+        "warning",
+        "error"
+      ],
+      "title": "ValidatorSeverity",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "relation_id": {
+      "minLength": 1,
+      "title": "Relation Id",
+      "type": "string"
+    },
+    "document_id": {
+      "minLength": 1,
+      "title": "Document Id",
+      "type": "string"
+    },
+    "source_unit_id": {
+      "minLength": 1,
+      "title": "Source Unit Id",
+      "type": "string"
+    },
+    "target_unit_id": {
+      "minLength": 1,
+      "title": "Target Unit Id",
+      "type": "string"
+    },
+    "relation_type": {
+      "$ref": "#/$defs/RelationType"
+    },
+    "confidence": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Confidence",
+      "type": "number"
+    },
+    "method": {
+      "$ref": "#/$defs/Method"
+    },
+    "evidence_spans": {
+      "items": {
+        "$ref": "#/$defs/EvidenceSpan"
+      },
+      "title": "Evidence Spans",
+      "type": "array"
+    },
+    "rejected_relation_types": {
+      "items": {
+        "$ref": "#/$defs/RelationType"
+      },
+      "title": "Rejected Relation Types",
+      "type": "array"
+    },
+    "validator_flags": {
+      "items": {
+        "$ref": "#/$defs/ValidatorFlag"
+      },
+      "title": "Validator Flags",
+      "type": "array"
+    },
+    "needs_review": {
+      "default": false,
+      "title": "Needs Review",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "relation_id",
+    "document_id",
+    "source_unit_id",
+    "target_unit_id",
+    "relation_type",
+    "confidence",
+    "method"
+  ],
+  "title": "NarrativeRelation",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
 }

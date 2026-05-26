@@ -1,0 +1,54 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
+    "total_review_items": {
+      "minimum": 0,
+      "title": "Total Review Items",
+      "type": "integer"
+    },
+    "high_confidence_count": {
+      "minimum": 0,
+      "title": "High Confidence Count",
+      "type": "integer"
+    },
+    "medium_confidence_count": {
+      "minimum": 0,
+      "title": "Medium Confidence Count",
+      "type": "integer"
+    },
+    "rejected_count": {
+      "minimum": 0,
+      "title": "Rejected Count",
+      "type": "integer"
+    },
+    "inter_reviewer_agreement": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Inter Reviewer Agreement",
+      "type": "number"
+    },
+    "adjudicator_agreement": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Adjudicator Agreement",
+      "type": "number"
+    }
+  },
+  "required": [
+    "run_id",
+    "total_review_items",
+    "high_confidence_count",
+    "medium_confidence_count",
+    "rejected_count",
+    "inter_reviewer_agreement",
+    "adjudicator_agreement"
+  ],
+  "title": "SyntheticReliabilityMetrics",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

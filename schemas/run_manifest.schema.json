@@ -1,0 +1,80 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
+    "created_at_utc": {
+      "format": "date-time",
+      "title": "Created At Utc",
+      "type": "string"
+    },
+    "project_version": {
+      "minLength": 1,
+      "title": "Project Version",
+      "type": "string"
+    },
+    "taxonomy_version": {
+      "minLength": 1,
+      "title": "Taxonomy Version",
+      "type": "string"
+    },
+    "validator_version": {
+      "minLength": 1,
+      "title": "Validator Version",
+      "type": "string"
+    },
+    "prompt_version": {
+      "minLength": 1,
+      "title": "Prompt Version",
+      "type": "string"
+    },
+    "input_dir": {
+      "minLength": 1,
+      "title": "Input Dir",
+      "type": "string"
+    },
+    "output_dir": {
+      "minLength": 1,
+      "title": "Output Dir",
+      "type": "string"
+    },
+    "config_snapshot": {
+      "additionalProperties": true,
+      "title": "Config Snapshot",
+      "type": "object"
+    },
+    "llm_config_snapshot": {
+      "additionalProperties": true,
+      "title": "Llm Config Snapshot",
+      "type": "object"
+    },
+    "git_commit": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Git Commit"
+    }
+  },
+  "required": [
+    "run_id",
+    "created_at_utc",
+    "project_version",
+    "taxonomy_version",
+    "validator_version",
+    "prompt_version",
+    "input_dir",
+    "output_dir"
+  ],
+  "title": "ProjectRunManifest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}
