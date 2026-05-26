@@ -1,8 +1,215 @@
 {
   "validator_version": "v0_1",
+  "taxonomy_version_effective": "v0_1",
+  "prompt_version_effective": "v0_1",
+  "validator_version_effective": "v0_1",
   "rules": [
-    "N_exclusive",
-    "notation_derivation",
-    "effective_versions_required"
+    {
+      "rule_id": "N_exclusive",
+      "severity": "error",
+      "description": "N no puede coexistir con ninguna otra función.",
+      "applies_to": [
+        "functions"
+      ],
+      "implemented": false,
+      "expected_behavior": "N no puede coexistir con ninguna otra función."
+    },
+    {
+      "rule_id": "K_inherits_A",
+      "severity": "warning",
+      "description": "K hereda A; A debe guardarse como inherited_function.",
+      "applies_to": [
+        "functions",
+        "inherited_functions"
+      ],
+      "implemented": false,
+      "expected_behavior": "K hereda A; A debe guardarse como inherited_function."
+    },
+    {
+      "rule_id": "D_requires_evidence",
+      "severity": "error",
+      "description": "D requiere evidencia concreta en evidence_spans.",
+      "applies_to": [
+        "functions",
+        "evidence_spans"
+      ],
+      "implemented": false,
+      "expected_behavior": "D requiere evidencia concreta en evidence_spans."
+    },
+    {
+      "rule_id": "Q_requires_attribution",
+      "severity": "error",
+      "description": "Q requiere fuente, hablante o atribución recuperable.",
+      "applies_to": [
+        "functions",
+        "evidence_spans"
+      ],
+      "implemented": false,
+      "expected_behavior": "Q requiere fuente, hablante o atribución recuperable."
+    },
+    {
+      "rule_id": "R_requires_anchor",
+      "severity": "error",
+      "description": "R exige pregunta cercana explícita, implícita clara o relación ANS.",
+      "applies_to": [
+        "functions",
+        "relations"
+      ],
+      "implemented": false,
+      "expected_behavior": "R exige pregunta cercana explícita, implícita clara o relación ANS."
+    },
+    {
+      "rule_id": "Y_requires_causal_mechanism",
+      "severity": "error",
+      "description": "Y exige explicación causal o mecanismo.",
+      "applies_to": [
+        "functions",
+        "logic"
+      ],
+      "implemented": false,
+      "expected_behavior": "Y exige explicación causal o mecanismo."
+    },
+    {
+      "rule_id": "illustrative_boundary_required",
+      "severity": "warning",
+      "description": "E, H y G deben justificar su frontera.",
+      "applies_to": [
+        "functions",
+        "rejected_labels"
+      ],
+      "implemented": false,
+      "expected_behavior": "E, H y G deben justificar su frontera."
+    },
+    {
+      "rule_id": "action_boundary_required",
+      "severity": "warning",
+      "description": "S, I y U deben justificar su frontera.",
+      "applies_to": [
+        "functions",
+        "rejected_labels"
+      ],
+      "implemented": false,
+      "expected_behavior": "S, I y U deben justificar su frontera."
+    },
+    {
+      "rule_id": "contrast_boundary_required",
+      "severity": "warning",
+      "description": "C, B y X deben justificar su frontera.",
+      "applies_to": [
+        "functions",
+        "rejected_labels"
+      ],
+      "implemented": false,
+      "expected_behavior": "C, B y X deben justificar su frontera."
+    },
+    {
+      "rule_id": "structural_boundary_required",
+      "severity": "warning",
+      "description": "T, M, L y Z deben justificar su frontera.",
+      "applies_to": [
+        "functions",
+        "rejected_labels"
+      ],
+      "implemented": false,
+      "expected_behavior": "T, M, L y Z deben justificar su frontera."
+    },
+    {
+      "rule_id": "emotion_mentioned_vs_expressed",
+      "severity": "error",
+      "description": "Una emoción mencionada no equivale a emoción expresada.",
+      "applies_to": [
+        "emotion_expressed",
+        "emotions_mentioned"
+      ],
+      "implemented": false,
+      "expected_behavior": "Una emoción mencionada no equivale a emoción expresada."
+    },
+    {
+      "rule_id": "neutral_vs_light_emotion",
+      "severity": "warning",
+      "description": "Emoción leve requiere evidencia expresiva observable.",
+      "applies_to": [
+        "emotion_expressed",
+        "emotion_intensity"
+      ],
+      "implemented": false,
+      "expected_behavior": "Emoción leve requiere evidencia expresiva observable."
+    },
+    {
+      "rule_id": "stance_requires_target_when_non_neutral",
+      "severity": "warning",
+      "description": "Una postura no neutral debe declarar target cuando sea recuperable.",
+      "applies_to": [
+        "stance",
+        "target"
+      ],
+      "implemented": false,
+      "expected_behavior": "Una postura no neutral debe declarar target cuando sea recuperable."
+    },
+    {
+      "rule_id": "V_orthogonal",
+      "severity": "info",
+      "description": "V es ortogonal y puede coexistir con muchas funciones.",
+      "applies_to": [
+        "functions"
+      ],
+      "implemented": false,
+      "expected_behavior": "V es ortogonal y puede coexistir con muchas funciones."
+    },
+    {
+      "rule_id": "possible_overlabeling",
+      "severity": "warning",
+      "description": "Más de cinco funciones activa revisión por sobre-etiquetado.",
+      "applies_to": [
+        "functions",
+        "needs_review"
+      ],
+      "implemented": false,
+      "expected_behavior": "Más de cinco funciones activa revisión por sobre-etiquetado."
+    },
+    {
+      "rule_id": "evidence_or_rule_required",
+      "severity": "error",
+      "description": "Toda etiqueta final requiere evidence_spans o regla clara.",
+      "applies_to": [
+        "functions",
+        "evidence_spans",
+        "validator_flags"
+      ],
+      "implemented": false,
+      "expected_behavior": "Toda etiqueta final requiere evidence_spans o regla clara."
+    },
+    {
+      "rule_id": "rejected_confusable_labels",
+      "severity": "warning",
+      "description": "Toda etiqueta confundible rechazada debe registrarse.",
+      "applies_to": [
+        "rejected_labels"
+      ],
+      "implemented": false,
+      "expected_behavior": "Toda etiqueta confundible rechazada debe registrarse."
+    },
+    {
+      "rule_id": "notation_derivation",
+      "severity": "error",
+      "description": "final_notation debe derivarse del JSON validado.",
+      "applies_to": [
+        "final_notation"
+      ],
+      "implemented": false,
+      "expected_behavior": "final_notation debe derivarse del JSON validado."
+    },
+    {
+      "rule_id": "effective_versions_required",
+      "severity": "error",
+      "description": "Todo output importante debe incluir versiones efectivas.",
+      "applies_to": [
+        "taxonomy_version_effective",
+        "prompt_version_effective",
+        "validator_version_effective"
+      ],
+      "implemented": false,
+      "expected_behavior": "Todo output importante debe incluir versiones efectivas."
+    }
   ]
 }

@@ -1,11 +1,20 @@
 {
   "base_version": "v0_1",
   "reserved_stable_version": "v1_0",
+  "taxonomy_version_effective": "v0_1",
+  "prompt_version_effective": "v0_1",
+  "validator_version_effective": "v0_1",
   "rules": [
     {
       "from_version": "v0_1",
       "to_version": "v1_0",
-      "migration_notes": "Reserved for the post-audit stable taxonomy consolidation in step 5."
+      "migration_notes": "Consolidar definiciones tras auditoría adversarial; resolver issues críticos y altos; endurecer fronteras; convertir pares semilla validados en fixtures de regresión.",
+      "expected_criteria": [
+        "confusable_with apunta a códigos existentes",
+        "cada función conserva ejemplos y pares suficientes",
+        "toda regla nueva tiene prueba o par mínimo",
+        "sólo synthetic_gold_high_confidence se usa en regresión"
+      ]
     }
   ]
 }

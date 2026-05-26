@@ -55,15 +55,17 @@ class Certainty(str, Enum):
 
 
 class EmotionCode(str, Enum):
-    NONE = "none"
+    NEUTRAL = "N"
+    JOY_ENTHUSIASM = "A"
+    LOVE_ADMIRATION = "L"
+    CALM_TRUST = "C"
     SURPRISE = "S"
-    ENTHUSIASM = "E"
-    CALM = "C"
-    ANGER = "A"
-    FEAR = "F"
-    JOY = "J"
-    TRUST = "T"
-    INTEREST = "I"
+    ANGER_INDIGNATION = "E"
+    FEAR_ANXIETY = "M"
+    SADNESS_DISAPPOINTMENT = "T"
+    DISGUST_CONTEMPT = "D"
+    FRUSTRATION_RESIGNATION = "F"
+    IRONY_SARCASM = "I"
 
 
 class Stance(str, Enum):

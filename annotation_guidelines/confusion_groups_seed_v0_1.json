@@ -1,18 +1,134 @@
 {
   "taxonomy_version": "v0_1",
+  "taxonomy_version_effective": "v0_1",
+  "prompt_version_effective": "v0_1",
+  "validator_version_effective": "v0_1",
   "confusion_groups": [
     {
-      "id": "claim_opinion",
+      "group_id": "CG_A_K_O",
       "labels": [
+        "A",
         "K",
         "O"
+      ],
+      "decision_rule_id": "DT_A_K_O",
+      "validator_rule_ids": [
+        "K_inherits_A",
+        "rejected_confusable_labels"
       ]
     },
     {
-      "id": "evidence_example",
+      "group_id": "CG_P_R_Y",
+      "labels": [
+        "P",
+        "R",
+        "Y"
+      ],
+      "decision_rule_id": "DT_P_R_Y",
+      "validator_rule_ids": [
+        "R_requires_anchor",
+        "Y_requires_causal_mechanism"
+      ]
+    },
+    {
+      "group_id": "CG_D_A_K_Q",
       "labels": [
         "D",
-        "E"
+        "A",
+        "K",
+        "Q"
+      ],
+      "decision_rule_id": "DT_D_A_K_Q",
+      "validator_rule_ids": [
+        "D_requires_evidence",
+        "Q_requires_attribution"
+      ]
+    },
+    {
+      "group_id": "CG_E_H_G",
+      "labels": [
+        "E",
+        "H",
+        "G"
+      ],
+      "decision_rule_id": "DT_E_H_G",
+      "validator_rule_ids": [
+        "illustrative_boundary_required"
+      ]
+    },
+    {
+      "group_id": "CG_S_I_U",
+      "labels": [
+        "S",
+        "I",
+        "U"
+      ],
+      "decision_rule_id": "DT_S_I_U",
+      "validator_rule_ids": [
+        "action_boundary_required"
+      ]
+    },
+    {
+      "group_id": "CG_C_B_X",
+      "labels": [
+        "C",
+        "B",
+        "X"
+      ],
+      "decision_rule_id": "DT_C_B_X",
+      "validator_rule_ids": [
+        "contrast_boundary_required"
+      ]
+    },
+    {
+      "group_id": "CG_T_M_L_Z",
+      "labels": [
+        "T",
+        "M",
+        "L",
+        "Z"
+      ],
+      "decision_rule_id": "DT_T_M_L_Z",
+      "validator_rule_ids": [
+        "structural_boundary_required"
+      ]
+    },
+    {
+      "group_id": "CG_EMOTION_EXPRESSED_MENTIONED",
+      "labels": [
+        "emotion_expressed",
+        "emotions_mentioned"
+      ],
+      "decision_rule_id": "DT_EMOTION_EXPRESSED_MENTIONED",
+      "validator_rule_ids": [
+        "emotion_mentioned_vs_expressed"
+      ]
+    },
+    {
+      "group_id": "CG_NEUTRAL_LIGHT_EMOTION",
+      "labels": [
+        "N",
+        "A",
+        "C",
+        "S",
+        "F"
+      ],
+      "decision_rule_id": "DT_NEUTRAL_LIGHT_EMOTION",
+      "validator_rule_ids": [
+        "neutral_vs_light_emotion"
+      ]
+    },
+    {
+      "group_id": "CG_STANCE",
+      "labels": [
+        "positive",
+        "negative",
+        "mixed",
+        "neutral"
+      ],
+      "decision_rule_id": "DT_STANCE",
+      "validator_rule_ids": [
+        "stance_requires_target_when_non_neutral"
       ]
     }
   ]

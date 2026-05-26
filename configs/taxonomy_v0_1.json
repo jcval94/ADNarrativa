@@ -1,6 +1,19 @@
 {
   "taxonomy_version": "v0_1",
+  "taxonomy_version_effective": "v0_1",
+  "prompt_version_effective": "v0_1",
+  "validator_version_effective": "v0_1",
   "reserved_stable_version": "v1_0",
+  "source_of_truth": "json",
+  "notation": {
+    "template": "(FUNCIONES)[CERTEZA]_EMOCIÓNINTENSIDAD{POSTURA}",
+    "derived_only": true,
+    "examples": [
+      "(P+V)_S1{0}",
+      "(K+Y)!_E2{-}",
+      "(S+I+U)_C1{+}"
+    ]
+  },
   "function_codes": [
     "A",
     "K",
@@ -27,6 +40,1606 @@
     "V",
     "N"
   ],
+  "functions": [
+    {
+      "code": "A",
+      "name": "afirmación simple",
+      "layer": "core",
+      "definition": "Declara un hecho o estado sin elevarlo a tesis disputable.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de afirmación simple.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como afirmación simple.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "es",
+        "hay",
+        "ocurre"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "K",
+        "O",
+        "D"
+      ],
+      "boundary_rules": [
+        "Separar A de K, O, D por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "SUP",
+        "ELAB",
+        "SEQ"
+      ],
+      "positive_examples": [
+        "El documento tiene versión.",
+        "Ejemplo positivo adicional para afirmación simple con evidencia explícita."
+      ],
+      "negative_examples": [
+        "Esto demuestra que el flujo actual no escala.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "El documento tiene versión. / Esto demuestra que el flujo actual no escala."
+      ]
+    },
+    {
+      "code": "K",
+      "name": "claim fuerte",
+      "layer": "core",
+      "definition": "Tesis o afirmación central que requiere justificación.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de claim fuerte.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como claim fuerte.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "demuestra",
+        "prueba",
+        "por eso"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "A",
+        "O",
+        "D"
+      ],
+      "boundary_rules": [
+        "Separar K de A, O, D por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [
+        {
+          "function": "A",
+          "reason": "Todo claim fuerte implica afirmación simple."
+        }
+      ],
+      "allowed_relations": [
+        "SUP",
+        "EXPL",
+        "REFUT",
+        "CAUSE"
+      ],
+      "positive_examples": [
+        "Esto demuestra que el flujo actual no escala.",
+        "Ejemplo positivo adicional para claim fuerte con evidencia explícita."
+      ],
+      "negative_examples": [
+        "El documento tiene versión.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Esto demuestra que el flujo actual no escala. / El documento tiene versión."
+      ]
+    },
+    {
+      "code": "O",
+      "name": "opinión/interpretación",
+      "layer": "core",
+      "definition": "Juicio, lectura subjetiva o interpretación.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de opinión/interpretación.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como opinión/interpretación.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "creo",
+        "me parece",
+        "para mí"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "A",
+        "K",
+        "E"
+      ],
+      "boundary_rules": [
+        "Separar O de A, K, E por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "ELAB",
+        "CONTR",
+        "SUP"
+      ],
+      "positive_examples": [
+        "Me parece que esa salida es confusa.",
+        "Ejemplo positivo adicional para opinión/interpretación con evidencia explícita."
+      ],
+      "negative_examples": [
+        "El documento tiene versión.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Me parece que esa salida es confusa. / El documento tiene versión."
+      ]
+    },
+    {
+      "code": "F",
+      "name": "definición",
+      "layer": "core",
+      "definition": "Explica el significado, alcance o categoría de un término.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de definición.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como definición.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "se define como",
+        "significa",
+        "llamamos"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "A",
+        "Y",
+        "E"
+      ],
+      "boundary_rules": [
+        "Separar F de A, Y, E por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "ELAB",
+        "EXMP"
+      ],
+      "positive_examples": [
+        "Una métrica es una medida cuantificable.",
+        "Ejemplo positivo adicional para definición con evidencia explícita."
+      ],
+      "negative_examples": [
+        "El documento tiene versión.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Una métrica es una medida cuantificable. / El documento tiene versión."
+      ]
+    },
+    {
+      "code": "Y",
+      "name": "explicación causal",
+      "layer": "logic",
+      "definition": "Explica causa, mecanismo o razón.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de explicación causal.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como explicación causal.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "porque",
+        "se debe a",
+        "provoca"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "R",
+        "A",
+        "D"
+      ],
+      "boundary_rules": [
+        "Separar Y de R, A, D por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "CAUSE",
+        "EXPL",
+        "COND"
+      ],
+      "positive_examples": [
+        "Falla porque el schema permite campos extra.",
+        "Ejemplo positivo adicional para explicación causal con evidencia explícita."
+      ],
+      "negative_examples": [
+        "La respuesta corta es que falta evidencia.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Falla porque el schema permite campos extra. / La respuesta corta es que falta evidencia."
+      ]
+    },
+    {
+      "code": "D",
+      "name": "dato/evidencia",
+      "layer": "support",
+      "definition": "Aporta evidencia concreta, cifra u observación verificable.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de dato/evidencia.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como dato/evidencia.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "42%",
+        "según el informe",
+        "medimos"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "A",
+        "K",
+        "Q"
+      ],
+      "boundary_rules": [
+        "Separar D de A, K, Q por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "SUP",
+        "EXMP",
+        "CAUSE"
+      ],
+      "positive_examples": [
+        "El reporte registra 42 casos.",
+        "Ejemplo positivo adicional para dato/evidencia con evidencia explícita."
+      ],
+      "negative_examples": [
+        "El documento tiene versión.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "El reporte registra 42 casos. / El documento tiene versión."
+      ]
+    },
+    {
+      "code": "Q",
+      "name": "cita/voz externa",
+      "layer": "support",
+      "definition": "Introduce voz ajena, cita o paráfrasis atribuida.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de cita/voz externa.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como cita/voz externa.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "según",
+        "dijo",
+        "afirma"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "D",
+        "K",
+        "A"
+      ],
+      "boundary_rules": [
+        "Separar Q de D, K, A por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "SUP",
+        "REFUT",
+        "ELAB"
+      ],
+      "positive_examples": [
+        "Según Ana, la validación falló.",
+        "Ejemplo positivo adicional para cita/voz externa con evidencia explícita."
+      ],
+      "negative_examples": [
+        "El reporte registra 42 casos.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Según Ana, la validación falló. / El reporte registra 42 casos."
+      ]
+    },
+    {
+      "code": "P",
+      "name": "pregunta",
+      "layer": "dialogic",
+      "definition": "Formula interrogación explícita o retórica.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de pregunta.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como pregunta.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "qué",
+        "por qué",
+        "?"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "R",
+        "Y",
+        "V"
+      ],
+      "boundary_rules": [
+        "Separar P de R, Y, V por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "ANS",
+        "CALL",
+        "SEQ"
+      ],
+      "positive_examples": [
+        "¿Por qué falla esta validación?",
+        "Ejemplo positivo adicional para pregunta con evidencia explícita."
+      ],
+      "negative_examples": [
+        "La respuesta corta es que falta evidencia.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "¿Por qué falla esta validación? / La respuesta corta es que falta evidencia."
+      ]
+    },
+    {
+      "code": "R",
+      "name": "respuesta",
+      "layer": "dialogic",
+      "definition": "Responde una pregunta explícita cercana o implícita clara.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de respuesta.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como respuesta.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "la respuesta es",
+        "sí",
+        "no"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "P",
+        "Y",
+        "A"
+      ],
+      "boundary_rules": [
+        "Separar R de P, Y, A por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "ANS",
+        "EXPL",
+        "ELAB"
+      ],
+      "positive_examples": [
+        "La respuesta corta es que falta evidencia.",
+        "Ejemplo positivo adicional para respuesta con evidencia explícita."
+      ],
+      "negative_examples": [
+        "¿Por qué falla esta validación?",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "La respuesta corta es que falta evidencia. / ¿Por qué falla esta validación?"
+      ]
+    },
+    {
+      "code": "E",
+      "name": "ejemplo",
+      "layer": "illustrative",
+      "definition": "Caso concreto breve que ilustra una idea general.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de ejemplo.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como ejemplo.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "por ejemplo",
+        "un caso",
+        "digamos"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "H",
+        "G",
+        "D"
+      ],
+      "boundary_rules": [
+        "Separar E de H, G, D por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "EXMP",
+        "ELAB"
+      ],
+      "positive_examples": [
+        "Por ejemplo, una unidad sin span debe revisarse.",
+        "Ejemplo positivo adicional para ejemplo con evidencia explícita."
+      ],
+      "negative_examples": [
+        "Ayer etiquetamos una unidad, falló y aprendimos la frontera.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Por ejemplo, una unidad sin span debe revisarse. / Ayer etiquetamos una unidad, falló y aprendimos la frontera."
+      ]
+    },
+    {
+      "code": "H",
+      "name": "historia/anécdota",
+      "layer": "illustrative",
+      "definition": "Relato con actores, secuencia temporal y aprendizaje.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de historia/anécdota.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como historia/anécdota.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "ayer",
+        "una vez",
+        "cuando"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "E",
+        "G",
+        "D"
+      ],
+      "boundary_rules": [
+        "Separar H de E, G, D por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "EXMP",
+        "ELAB",
+        "SEQ"
+      ],
+      "positive_examples": [
+        "Ayer etiquetamos una unidad, falló y aprendimos la frontera.",
+        "Ejemplo positivo adicional para historia/anécdota con evidencia explícita."
+      ],
+      "negative_examples": [
+        "Por ejemplo, una unidad sin span debe revisarse.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Ayer etiquetamos una unidad, falló y aprendimos la frontera. / Por ejemplo, una unidad sin span debe revisarse."
+      ]
+    },
+    {
+      "code": "G",
+      "name": "analogía/comparación",
+      "layer": "illustrative",
+      "definition": "Compara dominios para transferir estructura o intuición.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de analogía/comparación.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como analogía/comparación.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "como",
+        "parecido a",
+        "funciona como"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "E",
+        "H",
+        "C"
+      ],
+      "boundary_rules": [
+        "Separar G de E, H, C por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "ANLG",
+        "EXPL",
+        "ELAB"
+      ],
+      "positive_examples": [
+        "El schema funciona como una aduana.",
+        "Ejemplo positivo adicional para analogía/comparación con evidencia explícita."
+      ],
+      "negative_examples": [
+        "Por ejemplo, una unidad sin span debe revisarse.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "El schema funciona como una aduana. / Por ejemplo, una unidad sin span debe revisarse."
+      ]
+    },
+    {
+      "code": "C",
+      "name": "contraste/giro",
+      "layer": "contrast",
+      "definition": "Marca oposición, giro argumental o comparación adversativa.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de contraste/giro.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como contraste/giro.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "pero",
+        "sin embargo",
+        "aunque"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "B",
+        "X",
+        "O"
+      ],
+      "boundary_rules": [
+        "Separar C de B, X, O por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "CONTR",
+        "ELAB"
+      ],
+      "positive_examples": [
+        "Funciona, pero todavía no es auditable.",
+        "Ejemplo positivo adicional para contraste/giro con evidencia explícita."
+      ],
+      "negative_examples": [
+        "Eso no demuestra causalidad.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Funciona, pero todavía no es auditable. / Eso no demuestra causalidad."
+      ]
+    },
+    {
+      "code": "B",
+      "name": "objeción/refutación",
+      "layer": "contrast",
+      "definition": "Cuestiona, niega o refuta una tesis o argumento.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de objeción/refutación.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como objeción/refutación.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "eso no prueba",
+        "es falso",
+        "no se sigue"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "C",
+        "X",
+        "K"
+      ],
+      "boundary_rules": [
+        "Separar B de C, X, K por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "REFUT",
+        "CONTR",
+        "SUP"
+      ],
+      "positive_examples": [
+        "Eso no demuestra causalidad.",
+        "Ejemplo positivo adicional para objeción/refutación con evidencia explícita."
+      ],
+      "negative_examples": [
+        "Funciona, pero todavía no es auditable.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Eso no demuestra causalidad. / Funciona, pero todavía no es auditable."
+      ]
+    },
+    {
+      "code": "X",
+      "name": "advertencia/riesgo",
+      "layer": "contrast",
+      "definition": "Señala peligro, daño potencial o condición de fallo.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de advertencia/riesgo.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como advertencia/riesgo.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "cuidado",
+        "riesgo",
+        "puede fallar"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "C",
+        "B",
+        "S"
+      ],
+      "boundary_rules": [
+        "Separar X de C, B, S por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "RISK",
+        "COND",
+        "SOLV"
+      ],
+      "positive_examples": [
+        "Si no versionamos prompts, habrá drift.",
+        "Ejemplo positivo adicional para advertencia/riesgo con evidencia explícita."
+      ],
+      "negative_examples": [
+        "Funciona, pero todavía no es auditable.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Si no versionamos prompts, habrá drift. / Funciona, pero todavía no es auditable."
+      ]
+    },
+    {
+      "code": "T",
+      "name": "transición",
+      "layer": "structural",
+      "definition": "Mueve el discurso entre temas o pasos.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de transición.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como transición.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "ahora",
+        "pasemos",
+        "sigamos"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "M",
+        "L",
+        "Z"
+      ],
+      "boundary_rules": [
+        "Separar T de M, L, Z por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "SEQ",
+        "ELAB"
+      ],
+      "positive_examples": [
+        "Ahora pasemos al segundo punto.",
+        "Ejemplo positivo adicional para transición con evidencia explícita."
+      ],
+      "negative_examples": [
+        "Quiero aclarar por qué uso esta frontera.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Ahora pasemos al segundo punto. / Quiero aclarar por qué uso esta frontera."
+      ]
+    },
+    {
+      "code": "M",
+      "name": "metacomentario",
+      "layer": "structural",
+      "definition": "Comenta la estructura, propósito o modo del propio discurso.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de metacomentario.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como metacomentario.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "quiero aclarar",
+        "voy a explicar",
+        "en este punto"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "T",
+        "L",
+        "Z"
+      ],
+      "boundary_rules": [
+        "Separar M de T, L, Z por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "ELAB",
+        "CALL"
+      ],
+      "positive_examples": [
+        "Quiero aclarar por qué uso esta frontera.",
+        "Ejemplo positivo adicional para metacomentario con evidencia explícita."
+      ],
+      "negative_examples": [
+        "Ahora pasemos al segundo punto.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Quiero aclarar por qué uso esta frontera. / Ahora pasemos al segundo punto."
+      ]
+    },
+    {
+      "code": "L",
+      "name": "lista/enumeración",
+      "layer": "structural",
+      "definition": "Enumera elementos, pasos o criterios.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de lista/enumeración.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como lista/enumeración.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "primero",
+        "segundo",
+        "tres cosas"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "T",
+        "M",
+        "I"
+      ],
+      "boundary_rules": [
+        "Separar L de T, M, I por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "SEQ",
+        "ELAB"
+      ],
+      "positive_examples": [
+        "Hay tres reglas: validar, versionar y auditar.",
+        "Ejemplo positivo adicional para lista/enumeración con evidencia explícita."
+      ],
+      "negative_examples": [
+        "Ahora pasemos al segundo punto.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Hay tres reglas: validar, versionar y auditar. / Ahora pasemos al segundo punto."
+      ]
+    },
+    {
+      "code": "Z",
+      "name": "cierre/conclusión",
+      "layer": "structural",
+      "definition": "Resume, concluye o cierra una sección o argumento.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de cierre/conclusión.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como cierre/conclusión.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "en resumen",
+        "por tanto",
+        "para cerrar"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "K",
+        "T",
+        "L"
+      ],
+      "boundary_rules": [
+        "Separar Z de K, T, L por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "SUM",
+        "SEQ"
+      ],
+      "positive_examples": [
+        "En resumen, JSON es la fuente de verdad.",
+        "Ejemplo positivo adicional para cierre/conclusión con evidencia explícita."
+      ],
+      "negative_examples": [
+        "Esto demuestra que el flujo actual no escala.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "En resumen, JSON es la fuente de verdad. / Esto demuestra que el flujo actual no escala."
+      ]
+    },
+    {
+      "code": "S",
+      "name": "solución/recomendación",
+      "layer": "action",
+      "definition": "Propone remedio, alternativa o recomendación.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de solución/recomendación.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como solución/recomendación.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "recomiendo",
+        "conviene",
+        "la solución es"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "I",
+        "U",
+        "X"
+      ],
+      "boundary_rules": [
+        "Separar S de I, U, X por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "SOLV",
+        "CALL",
+        "COND"
+      ],
+      "positive_examples": [
+        "Conviene bajar confianza y revisar.",
+        "Ejemplo positivo adicional para solución/recomendación con evidencia explícita."
+      ],
+      "negative_examples": [
+        "Ejecuta pytest antes del commit.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Conviene bajar confianza y revisar. / Ejecuta pytest antes del commit."
+      ]
+    },
+    {
+      "code": "I",
+      "name": "instrucción/paso operativo",
+      "layer": "action",
+      "definition": "Indica una acción concreta o procedimiento ejecutable.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de instrucción/paso operativo.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como instrucción/paso operativo.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "haz",
+        "abre",
+        "ejecuta"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "S",
+        "U",
+        "L"
+      ],
+      "boundary_rules": [
+        "Separar I de S, U, L por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "CALL",
+        "SEQ",
+        "SOLV"
+      ],
+      "positive_examples": [
+        "Ejecuta pytest antes del commit.",
+        "Ejemplo positivo adicional para instrucción/paso operativo con evidencia explícita."
+      ],
+      "negative_examples": [
+        "Conviene bajar confianza y revisar.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Ejecuta pytest antes del commit. / Conviene bajar confianza y revisar."
+      ]
+    },
+    {
+      "code": "U",
+      "name": "utilidad/aprendizaje",
+      "layer": "action",
+      "definition": "Explica beneficio, utilidad, aprendizaje o valor práctico.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de utilidad/aprendizaje.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como utilidad/aprendizaje.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "sirve para",
+        "ayuda a",
+        "permite"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "S",
+        "I",
+        "Z"
+      ],
+      "boundary_rules": [
+        "Separar U de S, I, Z por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "ELAB",
+        "SOLV"
+      ],
+      "positive_examples": [
+        "Esto ayuda a detectar inconsistencias.",
+        "Ejemplo positivo adicional para utilidad/aprendizaje con evidencia explícita."
+      ],
+      "negative_examples": [
+        "Conviene bajar confianza y revisar.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Esto ayuda a detectar inconsistencias. / Conviene bajar confianza y revisar."
+      ]
+    },
+    {
+      "code": "V",
+      "name": "llamada al espectador",
+      "layer": "action",
+      "definition": "Interpela directamente al oyente o pide participación.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de llamada al espectador.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como llamada al espectador.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "mira",
+        "imagina",
+        "pregúntate"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "P",
+        "I",
+        "S"
+      ],
+      "boundary_rules": [
+        "Separar V de P, I, S por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [
+        "CALL",
+        "ANS"
+      ],
+      "positive_examples": [
+        "Pregúntate qué evidencia sostiene esto.",
+        "Ejemplo positivo adicional para llamada al espectador con evidencia explícita."
+      ],
+      "negative_examples": [
+        "¿Por qué falla esta validación?",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "Pregúntate qué evidencia sostiene esto. / ¿Por qué falla esta validación?"
+      ]
+    },
+    {
+      "code": "N",
+      "name": "no clasificado",
+      "layer": "fallback",
+      "definition": "Unidad sin función narrativa suficiente o no interpretable con confianza.",
+      "when_to_use": [
+        "Usar cuando la unidad cumple la función de no clasificado.",
+        "Debe existir evidencia textual o regla explícita."
+      ],
+      "when_not_to_use": [
+        "No usar por una señal lexical aislada si domina otra función.",
+        "No usar si una etiqueta confundible explica mejor la unidad."
+      ],
+      "positive_tests": [
+        "La unidad puede justificarse como no clasificado.",
+        "La decisión puede explicarse con evidence_spans o validator_flags."
+      ],
+      "negative_tests": [
+        "La unidad cambia de etiqueta si se retira una palabra superficial.",
+        "La unidad requiere inferencia no soportada."
+      ],
+      "required_evidence": [
+        "span textual suficiente",
+        "razón de frontera cuando haya confusión"
+      ],
+      "common_lexical_signals": [
+        "[inaudible]",
+        "...",
+        "fragmento cortado"
+      ],
+      "misleading_lexical_signals": [
+        "señal aislada fuera de contexto",
+        "intensidad retórica sin función compatible"
+      ],
+      "confusable_with": [
+        "A",
+        "T",
+        "M"
+      ],
+      "boundary_rules": [
+        "Separar N de A, T, M por función discursiva, no sólo vocabulario."
+      ],
+      "priority_rules": [
+        "Preferir precisión y marcar needs_review si la frontera sigue ambigua."
+      ],
+      "inheritance": [],
+      "allowed_relations": [],
+      "positive_examples": [
+        "[inaudible]",
+        "Ejemplo positivo adicional para no clasificado con evidencia explícita."
+      ],
+      "negative_examples": [
+        "El documento tiene versión.",
+        "Texto que sólo comparte una palabra superficial."
+      ],
+      "minimal_pair_examples": [
+        "[inaudible] / El documento tiene versión."
+      ]
+    }
+  ],
+  "emotions": [
+    {
+      "code": "N",
+      "name": "neutral",
+      "definition": "Emoción expresada: neutral."
+    },
+    {
+      "code": "A",
+      "name": "alegría/entusiasmo",
+      "definition": "Emoción expresada: alegría/entusiasmo."
+    },
+    {
+      "code": "L",
+      "name": "amor/admiración/cariño",
+      "definition": "Emoción expresada: amor/admiración/cariño."
+    },
+    {
+      "code": "C",
+      "name": "calma/confianza",
+      "definition": "Emoción expresada: calma/confianza."
+    },
+    {
+      "code": "S",
+      "name": "sorpresa/asombro",
+      "definition": "Emoción expresada: sorpresa/asombro."
+    },
+    {
+      "code": "E",
+      "name": "enojo/indignación",
+      "definition": "Emoción expresada: enojo/indignación."
+    },
+    {
+      "code": "M",
+      "name": "miedo/ansiedad",
+      "definition": "Emoción expresada: miedo/ansiedad."
+    },
+    {
+      "code": "T",
+      "name": "tristeza/decepción",
+      "definition": "Emoción expresada: tristeza/decepción."
+    },
+    {
+      "code": "D",
+      "name": "disgusto/desprecio",
+      "definition": "Emoción expresada: disgusto/desprecio."
+    },
+    {
+      "code": "F",
+      "name": "frustración/resignación",
+      "definition": "Emoción expresada: frustración/resignación."
+    },
+    {
+      "code": "I",
+      "name": "ironía/sarcasmo",
+      "definition": "Emoción expresada: ironía/sarcasmo."
+    }
+  ],
+  "certainty": [
+    {
+      "code": "none",
+      "symbol": ""
+    },
+    {
+      "code": "strong",
+      "symbol": "!"
+    },
+    {
+      "code": "tentative",
+      "symbol": "~"
+    },
+    {
+      "code": "uncertain",
+      "symbol": "?"
+    }
+  ],
+  "stance": [
+    {
+      "code": "positive",
+      "symbol": "+"
+    },
+    {
+      "code": "negative",
+      "symbol": "-"
+    },
+    {
+      "code": "mixed",
+      "symbol": "±"
+    },
+    {
+      "code": "neutral",
+      "symbol": "0"
+    }
+  ],
   "relation_types": [
     "ANS",
     "SUP",
@@ -44,5 +1657,214 @@
     "CAUSE",
     "COND"
   ],
-  "notes": "Seed taxonomy for scaffold only. Definitions and boundaries are added in later steps."
+  "boundary_groups": [
+    {
+      "boundary_id": "BND_A_K_O",
+      "labels": [
+        "A",
+        "K",
+        "O"
+      ],
+      "decision_rule_id": "DT_A_K_O",
+      "definition": "Frontera semilla para distinguir A vs K vs O.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "K_inherits_A",
+        "rejected_confusable_labels"
+      ],
+      "minimal_pair_focus": "Pares mínimos de A vs K vs O"
+    },
+    {
+      "boundary_id": "BND_P_R_Y",
+      "labels": [
+        "P",
+        "R",
+        "Y"
+      ],
+      "decision_rule_id": "DT_P_R_Y",
+      "definition": "Frontera semilla para distinguir P vs R vs Y.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "R_requires_anchor",
+        "Y_requires_causal_mechanism"
+      ],
+      "minimal_pair_focus": "Pares mínimos de P vs R vs Y"
+    },
+    {
+      "boundary_id": "BND_D_A_K_Q",
+      "labels": [
+        "D",
+        "A",
+        "K",
+        "Q"
+      ],
+      "decision_rule_id": "DT_D_A_K_Q",
+      "definition": "Frontera semilla para distinguir D vs A vs K vs Q.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "D_requires_evidence",
+        "Q_requires_attribution"
+      ],
+      "minimal_pair_focus": "Pares mínimos de D vs A vs K vs Q"
+    },
+    {
+      "boundary_id": "BND_E_H_G",
+      "labels": [
+        "E",
+        "H",
+        "G"
+      ],
+      "decision_rule_id": "DT_E_H_G",
+      "definition": "Frontera semilla para distinguir E vs H vs G.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "illustrative_boundary_required"
+      ],
+      "minimal_pair_focus": "Pares mínimos de E vs H vs G"
+    },
+    {
+      "boundary_id": "BND_S_I_U",
+      "labels": [
+        "S",
+        "I",
+        "U"
+      ],
+      "decision_rule_id": "DT_S_I_U",
+      "definition": "Frontera semilla para distinguir S vs I vs U.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "action_boundary_required"
+      ],
+      "minimal_pair_focus": "Pares mínimos de S vs I vs U"
+    },
+    {
+      "boundary_id": "BND_C_B_X",
+      "labels": [
+        "C",
+        "B",
+        "X"
+      ],
+      "decision_rule_id": "DT_C_B_X",
+      "definition": "Frontera semilla para distinguir C vs B vs X.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "contrast_boundary_required"
+      ],
+      "minimal_pair_focus": "Pares mínimos de C vs B vs X"
+    },
+    {
+      "boundary_id": "BND_T_M_L_Z",
+      "labels": [
+        "T",
+        "M",
+        "L",
+        "Z"
+      ],
+      "decision_rule_id": "DT_T_M_L_Z",
+      "definition": "Frontera semilla para distinguir T vs M vs L vs Z.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "structural_boundary_required"
+      ],
+      "minimal_pair_focus": "Pares mínimos de T vs M vs L vs Z"
+    },
+    {
+      "boundary_id": "BND_EMOTION_EXPRESSED_MENTIONED",
+      "labels": [
+        "emotion_expressed",
+        "emotions_mentioned"
+      ],
+      "decision_rule_id": "DT_EMOTION_EXPRESSED_MENTIONED",
+      "definition": "Frontera semilla para distinguir emotion_expressed vs emotions_mentioned.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "emotion_mentioned_vs_expressed"
+      ],
+      "minimal_pair_focus": "Pares mínimos de emotion_expressed vs emotions_mentioned"
+    },
+    {
+      "boundary_id": "BND_NEUTRAL_LIGHT_EMOTION",
+      "labels": [
+        "N",
+        "A",
+        "C",
+        "S",
+        "F"
+      ],
+      "decision_rule_id": "DT_NEUTRAL_LIGHT_EMOTION",
+      "definition": "Frontera semilla para distinguir N vs A vs C vs S vs F.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "neutral_vs_light_emotion"
+      ],
+      "minimal_pair_focus": "Pares mínimos de N vs A vs C vs S vs F"
+    },
+    {
+      "boundary_id": "BND_STANCE",
+      "labels": [
+        "positive",
+        "negative",
+        "mixed",
+        "neutral"
+      ],
+      "decision_rule_id": "DT_STANCE",
+      "definition": "Frontera semilla para distinguir positive vs negative vs mixed vs neutral.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "stance_requires_target_when_non_neutral"
+      ],
+      "minimal_pair_focus": "Pares mínimos de positive vs negative vs mixed vs neutral"
+    }
+  ],
+  "validator_rule_ids": [
+    "N_exclusive",
+    "K_inherits_A",
+    "D_requires_evidence",
+    "Q_requires_attribution",
+    "R_requires_anchor",
+    "Y_requires_causal_mechanism",
+    "illustrative_boundary_required",
+    "action_boundary_required",
+    "contrast_boundary_required",
+    "structural_boundary_required",
+    "emotion_mentioned_vs_expressed",
+    "neutral_vs_light_emotion",
+    "stance_requires_target_when_non_neutral",
+    "V_orthogonal",
+    "possible_overlabeling",
+    "evidence_or_rule_required",
+    "rejected_confusable_labels",
+    "notation_derivation",
+    "effective_versions_required"
+  ]
 }

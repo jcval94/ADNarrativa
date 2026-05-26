@@ -1,5 +1,195 @@
 {
   "taxonomy_version": "v0_1",
-  "boundaries": [],
-  "notes": "Seed file. Boundary definitions are added in the annotation constitution steps."
+  "taxonomy_version_effective": "v0_1",
+  "prompt_version_effective": "v0_1",
+  "validator_version_effective": "v0_1",
+  "boundaries": [
+    {
+      "boundary_id": "BND_A_K_O",
+      "labels": [
+        "A",
+        "K",
+        "O"
+      ],
+      "decision_rule_id": "DT_A_K_O",
+      "definition": "Frontera semilla para distinguir A vs K vs O.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "K_inherits_A",
+        "rejected_confusable_labels"
+      ],
+      "minimal_pair_focus": "Pares mínimos de A vs K vs O"
+    },
+    {
+      "boundary_id": "BND_P_R_Y",
+      "labels": [
+        "P",
+        "R",
+        "Y"
+      ],
+      "decision_rule_id": "DT_P_R_Y",
+      "definition": "Frontera semilla para distinguir P vs R vs Y.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "R_requires_anchor",
+        "Y_requires_causal_mechanism"
+      ],
+      "minimal_pair_focus": "Pares mínimos de P vs R vs Y"
+    },
+    {
+      "boundary_id": "BND_D_A_K_Q",
+      "labels": [
+        "D",
+        "A",
+        "K",
+        "Q"
+      ],
+      "decision_rule_id": "DT_D_A_K_Q",
+      "definition": "Frontera semilla para distinguir D vs A vs K vs Q.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "D_requires_evidence",
+        "Q_requires_attribution"
+      ],
+      "minimal_pair_focus": "Pares mínimos de D vs A vs K vs Q"
+    },
+    {
+      "boundary_id": "BND_E_H_G",
+      "labels": [
+        "E",
+        "H",
+        "G"
+      ],
+      "decision_rule_id": "DT_E_H_G",
+      "definition": "Frontera semilla para distinguir E vs H vs G.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "illustrative_boundary_required"
+      ],
+      "minimal_pair_focus": "Pares mínimos de E vs H vs G"
+    },
+    {
+      "boundary_id": "BND_S_I_U",
+      "labels": [
+        "S",
+        "I",
+        "U"
+      ],
+      "decision_rule_id": "DT_S_I_U",
+      "definition": "Frontera semilla para distinguir S vs I vs U.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "action_boundary_required"
+      ],
+      "minimal_pair_focus": "Pares mínimos de S vs I vs U"
+    },
+    {
+      "boundary_id": "BND_C_B_X",
+      "labels": [
+        "C",
+        "B",
+        "X"
+      ],
+      "decision_rule_id": "DT_C_B_X",
+      "definition": "Frontera semilla para distinguir C vs B vs X.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "contrast_boundary_required"
+      ],
+      "minimal_pair_focus": "Pares mínimos de C vs B vs X"
+    },
+    {
+      "boundary_id": "BND_T_M_L_Z",
+      "labels": [
+        "T",
+        "M",
+        "L",
+        "Z"
+      ],
+      "decision_rule_id": "DT_T_M_L_Z",
+      "definition": "Frontera semilla para distinguir T vs M vs L vs Z.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "structural_boundary_required"
+      ],
+      "minimal_pair_focus": "Pares mínimos de T vs M vs L vs Z"
+    },
+    {
+      "boundary_id": "BND_EMOTION_EXPRESSED_MENTIONED",
+      "labels": [
+        "emotion_expressed",
+        "emotions_mentioned"
+      ],
+      "decision_rule_id": "DT_EMOTION_EXPRESSED_MENTIONED",
+      "definition": "Frontera semilla para distinguir emotion_expressed vs emotions_mentioned.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "emotion_mentioned_vs_expressed"
+      ],
+      "minimal_pair_focus": "Pares mínimos de emotion_expressed vs emotions_mentioned"
+    },
+    {
+      "boundary_id": "BND_NEUTRAL_LIGHT_EMOTION",
+      "labels": [
+        "N",
+        "A",
+        "C",
+        "S",
+        "F"
+      ],
+      "decision_rule_id": "DT_NEUTRAL_LIGHT_EMOTION",
+      "definition": "Frontera semilla para distinguir N vs A vs C vs S vs F.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "neutral_vs_light_emotion"
+      ],
+      "minimal_pair_focus": "Pares mínimos de N vs A vs C vs S vs F"
+    },
+    {
+      "boundary_id": "BND_STANCE",
+      "labels": [
+        "positive",
+        "negative",
+        "mixed",
+        "neutral"
+      ],
+      "decision_rule_id": "DT_STANCE",
+      "definition": "Frontera semilla para distinguir positive vs negative vs mixed vs neutral.",
+      "false_positive_risks": [
+        "activar por señal superficial",
+        "ignorar contexto local"
+      ],
+      "validator_rule_ids": [
+        "stance_requires_target_when_non_neutral"
+      ],
+      "minimal_pair_focus": "Pares mínimos de positive vs negative vs mixed vs neutral"
+    }
+  ]
 }

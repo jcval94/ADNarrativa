@@ -12,14 +12,16 @@
     },
     "EmotionCode": {
       "enum": [
-        "none",
+        "N",
+        "A",
+        "L",
+        "C",
         "S",
         "E",
-        "C",
-        "A",
-        "F",
-        "J",
+        "M",
         "T",
+        "D",
+        "F",
         "I"
       ],
       "title": "EmotionCode",
