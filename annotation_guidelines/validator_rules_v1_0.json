@@ -1,0 +1,240 @@
+{
+  "validator_version": "v1_0",
+  "taxonomy_version_effective": "v1_0",
+  "prompt_version_effective": "v1_0",
+  "validator_version_effective": "v1_0",
+  "rules": [
+    {
+      "rule_id": "N_exclusive",
+      "severity": "error",
+      "description": "Función N no coexiste con ninguna otra función.",
+      "implemented": false,
+      "expected_behavior": "Función N no coexiste con ninguna otra función.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "N_namespace_disambiguation",
+      "severity": "error",
+      "description": "Función N y emoción N pertenecen a namespaces distintos.",
+      "implemented": false,
+      "expected_behavior": "Función N y emoción N pertenecen a namespaces distintos.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "K_inherits_A",
+      "severity": "error",
+      "description": "K hereda A; A debe ir a inherited_functions, no a functions.",
+      "implemented": false,
+      "expected_behavior": "K hereda A; A debe ir a inherited_functions, no a functions.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "claim_disputability_test",
+      "severity": "error",
+      "description": "K requiere tesis defendible y soporte potencial.",
+      "implemented": false,
+      "expected_behavior": "K requiere tesis defendible y soporte potencial.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "opinion_perspective_marker",
+      "severity": "warning",
+      "description": "O requiere perspectiva, juicio o interpretación explícita.",
+      "implemented": false,
+      "expected_behavior": "O requiere perspectiva, juicio o interpretación explícita.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "D_requires_evidence",
+      "severity": "error",
+      "description": "D exige dato, medición, resultado o evidencia concreta.",
+      "implemented": false,
+      "expected_behavior": "D exige dato, medición, resultado o evidencia concreta.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "Q_requires_attribution",
+      "severity": "error",
+      "description": "Q exige fuente, hablante o atribución recuperable.",
+      "implemented": false,
+      "expected_behavior": "Q exige fuente, hablante o atribución recuperable.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "attribution_content_split",
+      "severity": "warning",
+      "description": "Q/D/K deben separarse en fuente, evidencia y conclusión.",
+      "implemented": false,
+      "expected_behavior": "Q/D/K deben separarse en fuente, evidencia y conclusión.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "R_requires_anchor",
+      "severity": "error",
+      "description": "R exige pregunta ancla explícita, implícita clara o relación ANS.",
+      "implemented": false,
+      "expected_behavior": "R exige pregunta ancla explícita, implícita clara o relación ANS.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "Y_requires_causal_mechanism",
+      "severity": "error",
+      "description": "Y exige mecanismo causal; secuencia no basta.",
+      "implemented": false,
+      "expected_behavior": "Y exige mecanismo causal; secuencia no basta.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "illustrative_boundary_required",
+      "severity": "warning",
+      "description": "E/H/G deben declarar caso, arco o analogía dominante.",
+      "implemented": false,
+      "expected_behavior": "E/H/G deben declarar caso, arco o analogía dominante.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "dominant_illustrative_unit",
+      "severity": "warning",
+      "description": "En E/H/G escoger primaria por función ilustrativa dominante.",
+      "implemented": false,
+      "expected_behavior": "En E/H/G escoger primaria por función ilustrativa dominante.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "action_boundary_required",
+      "severity": "warning",
+      "description": "S/I/U deben declarar recomendación, paso o utilidad dominante.",
+      "implemented": false,
+      "expected_behavior": "S/I/U deben declarar recomendación, paso o utilidad dominante.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "viewer_call_secondary_default",
+      "severity": "warning",
+      "description": "V debe ser secundaria salvo llamada pura al espectador.",
+      "implemented": false,
+      "expected_behavior": "V debe ser secundaria salvo llamada pura al espectador.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "contrast_boundary_required",
+      "severity": "warning",
+      "description": "C/B/X deben declarar contraste, refutación o riesgo.",
+      "implemented": false,
+      "expected_behavior": "C/B/X deben declarar contraste, refutación o riesgo.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "contrast_refutation_risk_target",
+      "severity": "error",
+      "description": "C/B/X requieren target o proposición afectada.",
+      "implemented": false,
+      "expected_behavior": "C/B/X requieren target o proposición afectada.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "structural_boundary_required",
+      "severity": "warning",
+      "description": "T/M/L/Z deben declarar función estructural dominante.",
+      "implemented": false,
+      "expected_behavior": "T/M/L/Z deben declarar función estructural dominante.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "structural_primary_priority",
+      "severity": "warning",
+      "description": "T/M/L/Z no deben acumularse sin prioridad primaria.",
+      "implemented": false,
+      "expected_behavior": "T/M/L/Z no deben acumularse sin prioridad primaria.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "emotion_mentioned_vs_expressed",
+      "severity": "error",
+      "description": "Emoción mencionada no equivale a emoción expresada.",
+      "implemented": false,
+      "expected_behavior": "Emoción mencionada no equivale a emoción expresada.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "neutral_vs_light_emotion",
+      "severity": "warning",
+      "description": "Emoción leve requiere evidencia expresiva observable.",
+      "implemented": false,
+      "expected_behavior": "Emoción leve requiere evidencia expresiva observable.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "stance_requires_target_when_non_neutral",
+      "severity": "warning",
+      "description": "Postura no neutral requiere target recuperable.",
+      "implemented": false,
+      "expected_behavior": "Postura no neutral requiere target recuperable.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "stance_emotion_target_split",
+      "severity": "error",
+      "description": "Separar evaluación de target y tono afectivo del hablante.",
+      "implemented": false,
+      "expected_behavior": "Separar evaluación de target y tono afectivo del hablante.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "certainty_epistemic_not_intensity",
+      "severity": "error",
+      "description": "Certeza mide compromiso epistémico, no intensidad emocional.",
+      "implemented": false,
+      "expected_behavior": "Certeza mide compromiso epistémico, no intensidad emocional.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "possible_overlabeling",
+      "severity": "warning",
+      "description": "Más de cinco funciones activas requiere revisión.",
+      "implemented": false,
+      "expected_behavior": "Más de cinco funciones activas requiere revisión.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "evidence_or_rule_required",
+      "severity": "error",
+      "description": "Toda etiqueta final requiere evidence_spans o regla clara.",
+      "implemented": false,
+      "expected_behavior": "Toda etiqueta final requiere evidence_spans o regla clara.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "rejected_confusable_labels",
+      "severity": "warning",
+      "description": "Toda etiqueta confundible rechazada debe registrarse.",
+      "implemented": false,
+      "expected_behavior": "Toda etiqueta confundible rechazada debe registrarse.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "relation_support_cause_split",
+      "severity": "warning",
+      "description": "SUP, EXPL y CAUSE deben separarse por rol retórico y mecanismo.",
+      "implemented": false,
+      "expected_behavior": "SUP, EXPL y CAUSE deben separarse por rol retórico y mecanismo.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "notation_derivation",
+      "severity": "error",
+      "description": "final_notation debe derivarse del JSON validado.",
+      "implemented": false,
+      "expected_behavior": "final_notation debe derivarse del JSON validado.",
+      "source": "v1_0_consolidation"
+    },
+    {
+      "rule_id": "effective_versions_required",
+      "severity": "error",
+      "description": "Todo output importante debe incluir versiones efectivas.",
+      "implemented": false,
+      "expected_behavior": "Todo output importante debe incluir versiones efectivas.",
+      "source": "v1_0_consolidation"
+    }
+  ]
+}

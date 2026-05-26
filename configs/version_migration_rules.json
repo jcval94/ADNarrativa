@@ -1,9 +1,9 @@
 {
   "base_version": "v0_1",
   "reserved_stable_version": "v1_0",
-  "taxonomy_version_effective": "v0_1",
-  "prompt_version_effective": "v0_1",
-  "validator_version_effective": "v0_1",
+  "taxonomy_version_effective": "v1_0",
+  "prompt_version_effective": "v1_0",
+  "validator_version_effective": "v1_0",
   "rules": [
     {
       "from_version": "v0_1",
@@ -31,6 +31,27 @@
         "critical",
         "high"
       ]
+    }
+  ],
+  "applied_migrations": [
+    {
+      "from_version": "v0_1",
+      "to_version": "v1_0",
+      "migration_notes": "Aplicada consolidación estable v1.0 con resolución de issues críticos y altos.",
+      "resolved_issue_ids": [
+        "AUDIT-001",
+        "AUDIT-002",
+        "AUDIT-003",
+        "AUDIT-004",
+        "AUDIT-005",
+        "AUDIT-007",
+        "AUDIT-008",
+        "AUDIT-010",
+        "AUDIT-011"
+      ],
+      "taxonomy_version_effective": "v1_0",
+      "prompt_version_effective": "v1_0",
+      "validator_version_effective": "v1_0"
     }
   ]
 }

@@ -1,0 +1,239 @@
+{
+  "taxonomy_version": "v1_0",
+  "taxonomy_version_effective": "v1_0",
+  "prompt_version_effective": "v1_0",
+  "validator_version_effective": "v1_0",
+  "boundaries": [
+    {
+      "boundary_id": "BND_A_K_O",
+      "labels": [
+        "A",
+        "K",
+        "O"
+      ],
+      "decision_rule_id": "DT_A_K_O",
+      "definition": "A describe, K sostiene tesis disputable, O interpreta desde perspectiva.",
+      "false_positive_risks": [
+        "activar etiqueta por palabra superficial",
+        "acumular funciones sin escoger primaria"
+      ],
+      "validator_rule_ids": [
+        "claim_disputability_test",
+        "opinion_perspective_marker",
+        "K_inherits_A"
+      ],
+      "minimal_pair_focus": "Frontera estable de A vs K vs O"
+    },
+    {
+      "boundary_id": "BND_P_R_Y",
+      "labels": [
+        "P",
+        "R",
+        "Y"
+      ],
+      "decision_rule_id": "DT_P_R_Y",
+      "definition": "P abre demanda, R responde con ancla, Y explica mecanismo.",
+      "false_positive_risks": [
+        "activar etiqueta por palabra superficial",
+        "acumular funciones sin escoger primaria"
+      ],
+      "validator_rule_ids": [
+        "R_requires_anchor",
+        "Y_requires_causal_mechanism"
+      ],
+      "minimal_pair_focus": "Frontera estable de P vs R vs Y"
+    },
+    {
+      "boundary_id": "BND_D_A_K_Q",
+      "labels": [
+        "D",
+        "A",
+        "K",
+        "Q"
+      ],
+      "decision_rule_id": "DT_D_A_K_Q",
+      "definition": "Separar descripción, evidencia, atribución y conclusión.",
+      "false_positive_risks": [
+        "activar etiqueta por palabra superficial",
+        "acumular funciones sin escoger primaria"
+      ],
+      "validator_rule_ids": [
+        "D_requires_evidence",
+        "Q_requires_attribution",
+        "attribution_content_split"
+      ],
+      "minimal_pair_focus": "Frontera estable de D vs A vs K vs Q"
+    },
+    {
+      "boundary_id": "BND_E_H_G",
+      "labels": [
+        "E",
+        "H",
+        "G"
+      ],
+      "decision_rule_id": "DT_E_H_G",
+      "definition": "E ilustra, H narra con arco, G compara dominios.",
+      "false_positive_risks": [
+        "activar etiqueta por palabra superficial",
+        "acumular funciones sin escoger primaria"
+      ],
+      "validator_rule_ids": [
+        "illustrative_boundary_required",
+        "dominant_illustrative_unit"
+      ],
+      "minimal_pair_focus": "Frontera estable de E vs H vs G"
+    },
+    {
+      "boundary_id": "BND_S_I_U",
+      "labels": [
+        "S",
+        "I",
+        "U"
+      ],
+      "decision_rule_id": "DT_S_I_U",
+      "definition": "S recomienda, I ejecuta, U explica utilidad.",
+      "false_positive_risks": [
+        "activar etiqueta por palabra superficial",
+        "acumular funciones sin escoger primaria"
+      ],
+      "validator_rule_ids": [
+        "action_boundary_required"
+      ],
+      "minimal_pair_focus": "Frontera estable de S vs I vs U"
+    },
+    {
+      "boundary_id": "BND_C_B_X",
+      "labels": [
+        "C",
+        "B",
+        "X"
+      ],
+      "decision_rule_id": "DT_C_B_X",
+      "definition": "C contrasta, B refuta, X advierte riesgo.",
+      "false_positive_risks": [
+        "activar etiqueta por palabra superficial",
+        "acumular funciones sin escoger primaria"
+      ],
+      "validator_rule_ids": [
+        "contrast_boundary_required",
+        "contrast_refutation_risk_target"
+      ],
+      "minimal_pair_focus": "Frontera estable de C vs B vs X"
+    },
+    {
+      "boundary_id": "BND_T_M_L_Z",
+      "labels": [
+        "T",
+        "M",
+        "L",
+        "Z"
+      ],
+      "decision_rule_id": "DT_T_M_L_Z",
+      "definition": "T transiciona, M comenta discurso, L enumera, Z cierra.",
+      "false_positive_risks": [
+        "activar etiqueta por palabra superficial",
+        "acumular funciones sin escoger primaria"
+      ],
+      "validator_rule_ids": [
+        "structural_boundary_required",
+        "structural_primary_priority"
+      ],
+      "minimal_pair_focus": "Frontera estable de T vs M vs L vs Z"
+    },
+    {
+      "boundary_id": "BND_EMOTION_EXPRESSED_MENTIONED",
+      "labels": [
+        "emotion_expressed",
+        "emotions_mentioned"
+      ],
+      "decision_rule_id": "DT_EMOTION_EXPRESSED_MENTIONED",
+      "definition": "Separar tono expresado de emoción tematizada.",
+      "false_positive_risks": [
+        "activar etiqueta por palabra superficial",
+        "acumular funciones sin escoger primaria"
+      ],
+      "validator_rule_ids": [
+        "emotion_mentioned_vs_expressed"
+      ],
+      "minimal_pair_focus": "Frontera estable de emotion_expressed vs emotions_mentioned"
+    },
+    {
+      "boundary_id": "BND_NEUTRAL_LIGHT_EMOTION",
+      "labels": [
+        "N",
+        "A",
+        "C",
+        "S",
+        "F"
+      ],
+      "decision_rule_id": "DT_NEUTRAL_LIGHT_EMOTION",
+      "definition": "Separar neutralidad emocional de emoción leve y de función N.",
+      "false_positive_risks": [
+        "activar etiqueta por palabra superficial",
+        "acumular funciones sin escoger primaria"
+      ],
+      "validator_rule_ids": [
+        "N_namespace_disambiguation",
+        "neutral_vs_light_emotion"
+      ],
+      "minimal_pair_focus": "Frontera estable de N vs A vs C vs S vs F"
+    },
+    {
+      "boundary_id": "BND_STANCE",
+      "labels": [
+        "positive",
+        "negative",
+        "mixed",
+        "neutral"
+      ],
+      "decision_rule_id": "DT_STANCE",
+      "definition": "Postura evalúa target; emoción describe tono.",
+      "false_positive_risks": [
+        "activar etiqueta por palabra superficial",
+        "acumular funciones sin escoger primaria"
+      ],
+      "validator_rule_ids": [
+        "stance_requires_target_when_non_neutral",
+        "stance_emotion_target_split"
+      ],
+      "minimal_pair_focus": "Frontera estable de positive vs negative vs mixed vs neutral"
+    },
+    {
+      "boundary_id": "BND_CERTAINTY",
+      "labels": [
+        "none",
+        "strong",
+        "tentative",
+        "uncertain"
+      ],
+      "decision_rule_id": "DT_CERTAINTY_EPISTEMIC",
+      "definition": "Certeza es compromiso epistémico, no fuerza afectiva.",
+      "false_positive_risks": [
+        "activar etiqueta por palabra superficial",
+        "acumular funciones sin escoger primaria"
+      ],
+      "validator_rule_ids": [
+        "certainty_epistemic_not_intensity"
+      ],
+      "minimal_pair_focus": "Frontera estable de none vs strong vs tentative vs uncertain"
+    },
+    {
+      "boundary_id": "BND_RELATION_SUPPORT_CAUSE",
+      "labels": [
+        "SUP",
+        "EXPL",
+        "CAUSE"
+      ],
+      "decision_rule_id": "DT_RELATION_SUPPORT_CAUSE",
+      "definition": "SUP sostiene tesis; EXPL/CAUSE explican mecanismo o causalidad.",
+      "false_positive_risks": [
+        "activar etiqueta por palabra superficial",
+        "acumular funciones sin escoger primaria"
+      ],
+      "validator_rule_ids": [
+        "relation_support_cause_split"
+      ],
+      "minimal_pair_focus": "Frontera estable de SUP vs EXPL vs CAUSE"
+    }
+  ]
+}

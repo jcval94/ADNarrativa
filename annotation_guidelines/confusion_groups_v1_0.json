@@ -1,0 +1,396 @@
+{
+  "taxonomy_version": "v1_0",
+  "taxonomy_version_effective": "v1_0",
+  "prompt_version_effective": "v1_0",
+  "validator_version_effective": "v1_0",
+  "confusion_groups": [
+    {
+      "group_id": "CG_A_K_O",
+      "labels": [
+        "A",
+        "K",
+        "O"
+      ],
+      "decision_rule_id": "DT_A_K_O",
+      "validator_rule_ids": [
+        "claim_disputability_test",
+        "opinion_perspective_marker",
+        "K_inherits_A"
+      ],
+      "expected_confusions": [
+        {
+          "confused_as": "A",
+          "risk": "high",
+          "resolution": "A describe, K sostiene tesis disputable, O interpreta desde perspectiva."
+        },
+        {
+          "confused_as": "K",
+          "risk": "high",
+          "resolution": "A describe, K sostiene tesis disputable, O interpreta desde perspectiva."
+        },
+        {
+          "confused_as": "O",
+          "risk": "high",
+          "resolution": "A describe, K sostiene tesis disputable, O interpreta desde perspectiva."
+        }
+      ]
+    },
+    {
+      "group_id": "CG_P_R_Y",
+      "labels": [
+        "P",
+        "R",
+        "Y"
+      ],
+      "decision_rule_id": "DT_P_R_Y",
+      "validator_rule_ids": [
+        "R_requires_anchor",
+        "Y_requires_causal_mechanism"
+      ],
+      "expected_confusions": [
+        {
+          "confused_as": "P",
+          "risk": "high",
+          "resolution": "P abre demanda, R responde con ancla, Y explica mecanismo."
+        },
+        {
+          "confused_as": "R",
+          "risk": "high",
+          "resolution": "P abre demanda, R responde con ancla, Y explica mecanismo."
+        },
+        {
+          "confused_as": "Y",
+          "risk": "high",
+          "resolution": "P abre demanda, R responde con ancla, Y explica mecanismo."
+        }
+      ]
+    },
+    {
+      "group_id": "CG_D_A_K_Q",
+      "labels": [
+        "D",
+        "A",
+        "K",
+        "Q"
+      ],
+      "decision_rule_id": "DT_D_A_K_Q",
+      "validator_rule_ids": [
+        "D_requires_evidence",
+        "Q_requires_attribution",
+        "attribution_content_split"
+      ],
+      "expected_confusions": [
+        {
+          "confused_as": "D",
+          "risk": "high",
+          "resolution": "Separar descripción, evidencia, atribución y conclusión."
+        },
+        {
+          "confused_as": "A",
+          "risk": "high",
+          "resolution": "Separar descripción, evidencia, atribución y conclusión."
+        },
+        {
+          "confused_as": "K",
+          "risk": "high",
+          "resolution": "Separar descripción, evidencia, atribución y conclusión."
+        },
+        {
+          "confused_as": "Q",
+          "risk": "high",
+          "resolution": "Separar descripción, evidencia, atribución y conclusión."
+        }
+      ]
+    },
+    {
+      "group_id": "CG_E_H_G",
+      "labels": [
+        "E",
+        "H",
+        "G"
+      ],
+      "decision_rule_id": "DT_E_H_G",
+      "validator_rule_ids": [
+        "illustrative_boundary_required",
+        "dominant_illustrative_unit"
+      ],
+      "expected_confusions": [
+        {
+          "confused_as": "E",
+          "risk": "high",
+          "resolution": "E ilustra, H narra con arco, G compara dominios."
+        },
+        {
+          "confused_as": "H",
+          "risk": "high",
+          "resolution": "E ilustra, H narra con arco, G compara dominios."
+        },
+        {
+          "confused_as": "G",
+          "risk": "high",
+          "resolution": "E ilustra, H narra con arco, G compara dominios."
+        }
+      ]
+    },
+    {
+      "group_id": "CG_S_I_U",
+      "labels": [
+        "S",
+        "I",
+        "U"
+      ],
+      "decision_rule_id": "DT_S_I_U",
+      "validator_rule_ids": [
+        "action_boundary_required"
+      ],
+      "expected_confusions": [
+        {
+          "confused_as": "S",
+          "risk": "medium",
+          "resolution": "S recomienda, I ejecuta, U explica utilidad."
+        },
+        {
+          "confused_as": "I",
+          "risk": "medium",
+          "resolution": "S recomienda, I ejecuta, U explica utilidad."
+        },
+        {
+          "confused_as": "U",
+          "risk": "medium",
+          "resolution": "S recomienda, I ejecuta, U explica utilidad."
+        }
+      ]
+    },
+    {
+      "group_id": "CG_C_B_X",
+      "labels": [
+        "C",
+        "B",
+        "X"
+      ],
+      "decision_rule_id": "DT_C_B_X",
+      "validator_rule_ids": [
+        "contrast_boundary_required",
+        "contrast_refutation_risk_target"
+      ],
+      "expected_confusions": [
+        {
+          "confused_as": "C",
+          "risk": "high",
+          "resolution": "C contrasta, B refuta, X advierte riesgo."
+        },
+        {
+          "confused_as": "B",
+          "risk": "high",
+          "resolution": "C contrasta, B refuta, X advierte riesgo."
+        },
+        {
+          "confused_as": "X",
+          "risk": "high",
+          "resolution": "C contrasta, B refuta, X advierte riesgo."
+        }
+      ]
+    },
+    {
+      "group_id": "CG_T_M_L_Z",
+      "labels": [
+        "T",
+        "M",
+        "L",
+        "Z"
+      ],
+      "decision_rule_id": "DT_T_M_L_Z",
+      "validator_rule_ids": [
+        "structural_boundary_required",
+        "structural_primary_priority"
+      ],
+      "expected_confusions": [
+        {
+          "confused_as": "T",
+          "risk": "high",
+          "resolution": "T transiciona, M comenta discurso, L enumera, Z cierra."
+        },
+        {
+          "confused_as": "M",
+          "risk": "high",
+          "resolution": "T transiciona, M comenta discurso, L enumera, Z cierra."
+        },
+        {
+          "confused_as": "L",
+          "risk": "high",
+          "resolution": "T transiciona, M comenta discurso, L enumera, Z cierra."
+        },
+        {
+          "confused_as": "Z",
+          "risk": "high",
+          "resolution": "T transiciona, M comenta discurso, L enumera, Z cierra."
+        }
+      ]
+    },
+    {
+      "group_id": "CG_EMOTION_EXPRESSED_MENTIONED",
+      "labels": [
+        "emotion_expressed",
+        "emotions_mentioned"
+      ],
+      "decision_rule_id": "DT_EMOTION_EXPRESSED_MENTIONED",
+      "validator_rule_ids": [
+        "emotion_mentioned_vs_expressed"
+      ],
+      "expected_confusions": [
+        {
+          "confused_as": "emotion_expressed",
+          "risk": "high",
+          "resolution": "Separar tono expresado de emoción tematizada."
+        },
+        {
+          "confused_as": "emotions_mentioned",
+          "risk": "high",
+          "resolution": "Separar tono expresado de emoción tematizada."
+        }
+      ]
+    },
+    {
+      "group_id": "CG_NEUTRAL_LIGHT_EMOTION",
+      "labels": [
+        "N",
+        "A",
+        "C",
+        "S",
+        "F"
+      ],
+      "decision_rule_id": "DT_NEUTRAL_LIGHT_EMOTION",
+      "validator_rule_ids": [
+        "N_namespace_disambiguation",
+        "neutral_vs_light_emotion"
+      ],
+      "expected_confusions": [
+        {
+          "confused_as": "N",
+          "risk": "high",
+          "resolution": "Separar neutralidad emocional de emoción leve y de función N."
+        },
+        {
+          "confused_as": "A",
+          "risk": "high",
+          "resolution": "Separar neutralidad emocional de emoción leve y de función N."
+        },
+        {
+          "confused_as": "C",
+          "risk": "high",
+          "resolution": "Separar neutralidad emocional de emoción leve y de función N."
+        },
+        {
+          "confused_as": "S",
+          "risk": "high",
+          "resolution": "Separar neutralidad emocional de emoción leve y de función N."
+        },
+        {
+          "confused_as": "F",
+          "risk": "high",
+          "resolution": "Separar neutralidad emocional de emoción leve y de función N."
+        }
+      ]
+    },
+    {
+      "group_id": "CG_STANCE",
+      "labels": [
+        "positive",
+        "negative",
+        "mixed",
+        "neutral"
+      ],
+      "decision_rule_id": "DT_STANCE",
+      "validator_rule_ids": [
+        "stance_requires_target_when_non_neutral",
+        "stance_emotion_target_split"
+      ],
+      "expected_confusions": [
+        {
+          "confused_as": "positive",
+          "risk": "high",
+          "resolution": "Postura evalúa target; emoción describe tono."
+        },
+        {
+          "confused_as": "negative",
+          "risk": "high",
+          "resolution": "Postura evalúa target; emoción describe tono."
+        },
+        {
+          "confused_as": "mixed",
+          "risk": "high",
+          "resolution": "Postura evalúa target; emoción describe tono."
+        },
+        {
+          "confused_as": "neutral",
+          "risk": "high",
+          "resolution": "Postura evalúa target; emoción describe tono."
+        }
+      ]
+    },
+    {
+      "group_id": "CG_CERTAINTY",
+      "labels": [
+        "none",
+        "strong",
+        "tentative",
+        "uncertain"
+      ],
+      "decision_rule_id": "DT_CERTAINTY_EPISTEMIC",
+      "validator_rule_ids": [
+        "certainty_epistemic_not_intensity"
+      ],
+      "expected_confusions": [
+        {
+          "confused_as": "none",
+          "risk": "high",
+          "resolution": "Certeza es compromiso epistémico, no fuerza afectiva."
+        },
+        {
+          "confused_as": "strong",
+          "risk": "high",
+          "resolution": "Certeza es compromiso epistémico, no fuerza afectiva."
+        },
+        {
+          "confused_as": "tentative",
+          "risk": "high",
+          "resolution": "Certeza es compromiso epistémico, no fuerza afectiva."
+        },
+        {
+          "confused_as": "uncertain",
+          "risk": "high",
+          "resolution": "Certeza es compromiso epistémico, no fuerza afectiva."
+        }
+      ]
+    },
+    {
+      "group_id": "CG_RELATION_SUPPORT_CAUSE",
+      "labels": [
+        "SUP",
+        "EXPL",
+        "CAUSE"
+      ],
+      "decision_rule_id": "DT_RELATION_SUPPORT_CAUSE",
+      "validator_rule_ids": [
+        "relation_support_cause_split"
+      ],
+      "expected_confusions": [
+        {
+          "confused_as": "SUP",
+          "risk": "medium",
+          "resolution": "SUP sostiene tesis; EXPL/CAUSE explican mecanismo o causalidad."
+        },
+        {
+          "confused_as": "EXPL",
+          "risk": "medium",
+          "resolution": "SUP sostiene tesis; EXPL/CAUSE explican mecanismo o causalidad."
+        },
+        {
+          "confused_as": "CAUSE",
+          "risk": "medium",
+          "resolution": "SUP sostiene tesis; EXPL/CAUSE explican mecanismo o causalidad."
+        }
+      ]
+    }
+  ]
+}
