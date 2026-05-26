@@ -15,6 +15,22 @@
         "toda regla nueva tiene prueba o par mínimo",
         "sólo synthetic_gold_high_confidence se usa en regresión"
       ]
+    },
+    {
+      "from_version": "v0_1",
+      "to_version": "v1_0",
+      "migration_notes": "Aplicar hallazgos de auditoría adversarial v0.1 antes de consolidar v1_0.",
+      "audit_artifacts": [
+        "annotation_guidelines/adversarial_audit_v0_1.md",
+        "annotation_guidelines/taxonomy_revision_plan_v0_2.json",
+        "annotation_guidelines/ambiguous_cases_generated_v0_1.jsonl",
+        "annotation_guidelines/redundancy_report_v0_1.json",
+        "annotation_guidelines/confusion_matrix_expected_v0_1.json"
+      ],
+      "required_issue_resolution": [
+        "critical",
+        "high"
+      ]
     }
   ]
 }

@@ -1,0 +1,266 @@
+{
+  "artifact": "taxonomy_revision_plan_v0_2",
+  "taxonomy_version": "v0_1",
+  "taxonomy_version_effective": "v0_1",
+  "prompt_version_effective": "v0_1",
+  "validator_version_effective": "v0_1",
+  "do_not_modify_taxonomy_v0_1": true,
+  "issues": [
+    {
+      "issue_id": "AUDIT-001",
+      "severity": "critical",
+      "affected_labels": [
+        "A",
+        "K",
+        "O"
+      ],
+      "problem": "La frontera entre descripción, tesis fuerte e interpretación todavía depende demasiado de fuerza retórica.",
+      "examples": [
+        "Esto demuestra que el flujo no escala.",
+        "Me parece que el flujo no escala.",
+        "El flujo no escala."
+      ],
+      "proposed_fix": "Agregar regla de prueba disputable: K requiere tesis defendible y soporte potencial; O requiere perspectiva; A sólo declara.",
+      "expected_impact": "Reduce sobre-etiquetado de K y separa opinión de claim.",
+      "requires_new_validator": true,
+      "requires_new_minimal_pairs": true,
+      "taxonomy_version_effective": "v0_1",
+      "prompt_version_effective": "v0_1",
+      "validator_version_effective": "v0_1"
+    },
+    {
+      "issue_id": "AUDIT-002",
+      "severity": "high",
+      "affected_labels": [
+        "D",
+        "Q",
+        "K"
+      ],
+      "problem": "Los enunciados con 'según' pueden ser cita, dato o claim atribuido, y la ficha no fija prioridad suficiente.",
+      "examples": [
+        "Según el informe, 42% falló.",
+        "Según Ana, esto prueba una falla."
+      ],
+      "proposed_fix": "Separar atribución de fuente (Q), contenido verificable (D) y conclusión disputable (K).",
+      "expected_impact": "Permite anotaciones multilabel más trazables para evidencia citada.",
+      "requires_new_validator": true,
+      "requires_new_minimal_pairs": true,
+      "taxonomy_version_effective": "v0_1",
+      "prompt_version_effective": "v0_1",
+      "validator_version_effective": "v0_1"
+    },
+    {
+      "issue_id": "AUDIT-003",
+      "severity": "high",
+      "affected_labels": [
+        "P",
+        "R",
+        "Y"
+      ],
+      "problem": "R puede activarse falsamente por una frase posterior causal sin pregunta ancla.",
+      "examples": [
+        "¿Por qué falla? Porque falta evidencia.",
+        "Falla porque falta evidencia."
+      ],
+      "proposed_fix": "Exigir anchor explícito o relación ANS para R; sin anchor, preferir Y o A.",
+      "expected_impact": "Reduce respuestas fantasma y mejora relaciones ANS.",
+      "requires_new_validator": true,
+      "requires_new_minimal_pairs": true,
+      "taxonomy_version_effective": "v0_1",
+      "prompt_version_effective": "v0_1",
+      "validator_version_effective": "v0_1"
+    },
+    {
+      "issue_id": "AUDIT-004",
+      "severity": "critical",
+      "affected_labels": [
+        "N",
+        "emotion:N"
+      ],
+      "problem": "El código N existe como función no clasificada y como emoción neutral; son namespaces distintos pero visualmente confundibles.",
+      "examples": [
+        "[inaudible]",
+        "El proceso terminó."
+      ],
+      "proposed_fix": "Documentar namespace obligatorio en schemas, tests y notación: función N nunca equivale a emoción N.",
+      "expected_impact": "Evita confundir abstención narrativa con neutralidad emocional.",
+      "requires_new_validator": true,
+      "requires_new_minimal_pairs": true,
+      "taxonomy_version_effective": "v0_1",
+      "prompt_version_effective": "v0_1",
+      "validator_version_effective": "v0_1"
+    },
+    {
+      "issue_id": "AUDIT-005",
+      "severity": "high",
+      "affected_labels": [
+        "certainty",
+        "K",
+        "E",
+        "emotion"
+      ],
+      "problem": "La certeza strong puede confundirse con énfasis emocional, insulto o tono tajante.",
+      "examples": [
+        "Esto es terrible.",
+        "Esto prueba el punto.",
+        "¡No puede ser!"
+      ],
+      "proposed_fix": "Crear regla: certainty mide compromiso epistémico, no intensidad afectiva.",
+      "expected_impact": "Mejora estabilidad de símbolos !, ~ y ?.",
+      "requires_new_validator": true,
+      "requires_new_minimal_pairs": true,
+      "taxonomy_version_effective": "v0_1",
+      "prompt_version_effective": "v0_1",
+      "validator_version_effective": "v0_1"
+    },
+    {
+      "issue_id": "AUDIT-006",
+      "severity": "medium",
+      "affected_labels": [
+        "V",
+        "P",
+        "I",
+        "S"
+      ],
+      "problem": "V es ortogonal y puede disparar sobre-etiquetado con preguntas o instrucciones dirigidas al espectador.",
+      "examples": [
+        "Pregúntate qué evidencia sostiene esto.",
+        "Comenta si ves otra frontera."
+      ],
+      "proposed_fix": "Mantener V, pero marcarlo secundario salvo llamada pura al espectador.",
+      "expected_impact": "Reduce funciones activas sin perder interpelación.",
+      "requires_new_validator": true,
+      "requires_new_minimal_pairs": true,
+      "taxonomy_version_effective": "v0_1",
+      "prompt_version_effective": "v0_1",
+      "validator_version_effective": "v0_1"
+    },
+    {
+      "issue_id": "AUDIT-007",
+      "severity": "high",
+      "affected_labels": [
+        "T",
+        "M",
+        "L",
+        "Z"
+      ],
+      "problem": "Intros de creadores y cierres breves mezclan transición, metacomentario, lista y conclusión.",
+      "examples": [
+        "Dos cosas, primero...",
+        "Ahora pasemos...",
+        "En resumen..."
+      ],
+      "proposed_fix": "Añadir prioridad: L si enumera contenido; M si comenta el acto discursivo; T si sólo mueve; Z si clausura.",
+      "expected_impact": "Evita que frases estructurales acumulen etiquetas.",
+      "requires_new_validator": false,
+      "requires_new_minimal_pairs": true,
+      "taxonomy_version_effective": "v0_1",
+      "prompt_version_effective": "v0_1",
+      "validator_version_effective": "v0_1"
+    },
+    {
+      "issue_id": "AUDIT-008",
+      "severity": "high",
+      "affected_labels": [
+        "E",
+        "H",
+        "G"
+      ],
+      "problem": "El dataset contiene relatos, ejemplos y metáforas largas; la frontera actual es correcta pero insuficiente para fragmentos mixtos.",
+      "examples": [
+        "La caja negra es un ancla.",
+        "Ayer lanzamos el cambio, falló y aprendimos."
+      ],
+      "proposed_fix": "Definir regla de unidad dominante: G si el mapeo conceptual domina, H si hay arco temporal, E si caso puntual.",
+      "expected_impact": "Mejora estabilidad de narrativas explicativas.",
+      "requires_new_validator": false,
+      "requires_new_minimal_pairs": true,
+      "taxonomy_version_effective": "v0_1",
+      "prompt_version_effective": "v0_1",
+      "validator_version_effective": "v0_1"
+    },
+    {
+      "issue_id": "AUDIT-009",
+      "severity": "medium",
+      "affected_labels": [
+        "S",
+        "I",
+        "U"
+      ],
+      "problem": "Frases tipo 'te propongo algo simple' pueden ser recomendación, instrucción y utilidad en una sola unidad.",
+      "examples": [
+        "Te propongo algo simple.",
+        "Ejecuta pytest antes del commit para detectar errores."
+      ],
+      "proposed_fix": "Priorizar S si propone curso de acción, I si contiene paso ejecutable, U si sólo declara beneficio.",
+      "expected_impact": "Reduce multilabel innecesario en contenido práctico.",
+      "requires_new_validator": false,
+      "requires_new_minimal_pairs": true,
+      "taxonomy_version_effective": "v0_1",
+      "prompt_version_effective": "v0_1",
+      "validator_version_effective": "v0_1"
+    },
+    {
+      "issue_id": "AUDIT-010",
+      "severity": "high",
+      "affected_labels": [
+        "C",
+        "B",
+        "X"
+      ],
+      "problem": "Negación, contraste y advertencia se solapan en frases con 'pero', 'no' y 'cuidado'.",
+      "examples": [
+        "Funciona, pero falta evidencia.",
+        "Eso no demuestra causalidad.",
+        "Cuidado: puede borrar outputs."
+      ],
+      "proposed_fix": "Añadir desempate por target: contraste entre proposiciones, refutación de tesis o riesgo futuro.",
+      "expected_impact": "Reduce falsos REFUT y RISK.",
+      "requires_new_validator": true,
+      "requires_new_minimal_pairs": true,
+      "taxonomy_version_effective": "v0_1",
+      "prompt_version_effective": "v0_1",
+      "validator_version_effective": "v0_1"
+    },
+    {
+      "issue_id": "AUDIT-011",
+      "severity": "high",
+      "affected_labels": [
+        "stance",
+        "emotion"
+      ],
+      "problem": "Postura y emoción pueden confundirse cuando el hablante celebra o se indigna sobre un target.",
+      "examples": [
+        "Me entusiasma que funcione.",
+        "Indigna ver esa falta de evidencia."
+      ],
+      "proposed_fix": "Exigir target para postura no neutral y evidencia expresiva para emoción.",
+      "expected_impact": "Separa evaluación de tono afectivo.",
+      "requires_new_validator": true,
+      "requires_new_minimal_pairs": true,
+      "taxonomy_version_effective": "v0_1",
+      "prompt_version_effective": "v0_1",
+      "validator_version_effective": "v0_1"
+    },
+    {
+      "issue_id": "AUDIT-012",
+      "severity": "medium",
+      "affected_labels": [
+        "SUP",
+        "EXPL",
+        "CAUSE"
+      ],
+      "problem": "Relaciones soporte, explicación y causa pueden solaparse antes de definir detector de relaciones.",
+      "examples": [
+        "Esto prueba el punto porque el log muestra errores."
+      ],
+      "proposed_fix": "En v1_0 separar relación retórica SUP de mecanismo EXPL/CAUSE.",
+      "expected_impact": "Prepara detector relacional auditable.",
+      "requires_new_validator": false,
+      "requires_new_minimal_pairs": true,
+      "taxonomy_version_effective": "v0_1",
+      "prompt_version_effective": "v0_1",
+      "validator_version_effective": "v0_1"
+    }
+  ]
+}

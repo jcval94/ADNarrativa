@@ -1,0 +1,250 @@
+{
+  "artifact": "redundancy_report_v0_1",
+  "taxonomy_version": "v0_1",
+  "taxonomy_version_effective": "v0_1",
+  "prompt_version_effective": "v0_1",
+  "validator_version_effective": "v0_1",
+  "summary": "No se recomienda eliminar etiquetas en v0.1, pero sí reforzar fronteras y prioridad antes de v1_0.",
+  "label_actions": [
+    {
+      "label": "A",
+      "recommendation": "keep_with_inheritance_guard",
+      "rationale": "Mantener, pero asegurar que K herede A sin duplicarla.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "K",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "O",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "F",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "Y",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "D",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "Q",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "P",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "R",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "E",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "H",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "G",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "C",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "B",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "X",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "T",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "M",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "L",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "Z",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "S",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "I",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "U",
+      "recommendation": "keep",
+      "rationale": "Mantener con fronteras más explícitas en v1_0.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "V",
+      "recommendation": "keep_as_orthogonal_secondary",
+      "rationale": "Mantener como función ortogonal, rara vez primaria.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    },
+    {
+      "label": "N",
+      "recommendation": "keep_exclusive_fallback",
+      "rationale": "Mantener exclusiva y separar de emoción neutral por namespace.",
+      "merge_with": null,
+      "rename_to": null,
+      "degrade_to_attribute": false
+    }
+  ],
+  "overlap_hotspots": [
+    {
+      "labels": [
+        "A",
+        "K",
+        "O"
+      ],
+      "risk": "high",
+      "proposed_action": "sharpen"
+    },
+    {
+      "labels": [
+        "E",
+        "H",
+        "G"
+      ],
+      "risk": "high",
+      "proposed_action": "sharpen"
+    },
+    {
+      "labels": [
+        "S",
+        "I",
+        "U"
+      ],
+      "risk": "medium",
+      "proposed_action": "priority_rules"
+    },
+    {
+      "labels": [
+        "T",
+        "M",
+        "L",
+        "Z"
+      ],
+      "risk": "high",
+      "proposed_action": "priority_rules"
+    },
+    {
+      "labels": [
+        "C",
+        "B",
+        "X"
+      ],
+      "risk": "high",
+      "proposed_action": "new_validator"
+    }
+  ]
+}
