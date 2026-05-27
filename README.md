@@ -48,7 +48,13 @@ La notación nunca se edita manualmente. Si cambia el JSON, se recompila.
 
 ## Estado del repo
 
-Este README está diseñado para el scaffolding inicial y la evolución del MVP. Los comandos listados son el contrato objetivo del proyecto.
+Estado actual: Steps 0-8 completos.
+
+El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador y extracción de heurísticas conservadoras.
+
+La capa actual puede leer `.txt`, `.json`, `.jsonl` y `data/transcripts/videos` para producir `NarrativeDocument` con unidades candidatas sin LLM. Las unidades nacen como `N_N0{0}` y las heurísticas agregan sólo señales auditables (`locked_functions`, `candidate_functions`, certeza/emoción/postura candidata y `evidence_spans`); no cambian `functions` ni `final_notation`.
+
+Siguiente paso natural: Step 9, cliente OpenAI con Structured Outputs, cache y validación de schemas.
 
 ## Instalación
 
