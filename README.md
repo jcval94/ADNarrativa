@@ -48,13 +48,15 @@ La notación nunca se edita manualmente. Si cambia el JSON, se recompila.
 
 ## Estado del repo
 
-Estado actual: Steps 0-8 completos.
+Estado actual: Steps 0-9 completos.
 
-El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador y extracción de heurísticas conservadoras.
+El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras y cliente OpenAI Responses API con Structured Outputs estrictos.
 
 La capa actual puede leer `.txt`, `.json`, `.jsonl` y `data/transcripts/videos` para producir `NarrativeDocument` con unidades candidatas sin LLM. Las unidades nacen como `N_N0{0}` y las heurísticas agregan sólo señales auditables (`locked_functions`, `candidate_functions`, certeza/emoción/postura candidata y `evidence_spans`); no cambian `functions` ni `final_notation`.
 
-Siguiente paso natural: Step 9, cliente OpenAI con Structured Outputs, cache y validación de schemas.
+El cliente LLM vive únicamente en `src/narrative_dna/llm_client.py`: lee `OPENAI_API_KEY` del entorno, usa `configs/llm_config.json`, construye `text.format` con `json_schema` y `strict=true`, valida toda respuesta con Pydantic, cachea por hash versionado en `.cache/narrative_dna/`, soporta retries y `dry_run`, y devuelve errores controlados para permitir fallback a heurísticas.
+
+Siguiente paso natural: Step 10, clasificador de unidades JSON-first.
 
 ## Instalación
 

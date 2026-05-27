@@ -10,7 +10,7 @@ Versiones efectivas actuales:
 
 ## Resumen Ejecutivo
 
-El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalable, contratos Pydantic estrictos, taxonomía auditada, constitución estable v1.0, validadores determinísticos iniciales, compilador de notación derivada, loader/segmentador y extracción de heurísticas conservadoras.
+El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalable, contratos Pydantic estrictos, taxonomía auditada, constitución estable v1.0, validadores determinísticos iniciales, compilador de notación derivada, loader/segmentador, extracción de heurísticas conservadoras y cliente OpenAI estructurado.
 
 La decisión más importante sigue intacta: el JSON validado es la fuente de verdad. La notación compacta se compila desde JSON y no debe editarse manualmente.
 
@@ -26,7 +26,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 | 5 | Completo | Constitución estable v1.0, 263 pares mínimos, changelog y tests de assets. |
 | 6 | Completo | Validadores determinísticos iniciales y compilador de notación. |
 | 7 | Completo | Loader, normalizador y segmentador JSON-first para `.txt`, `.json`, `.jsonl` y `data/transcripts/videos`. |
-| 8 | En este commit | Heurísticas conservadoras como candidatos auditables, sin cambiar clasificación final. |
+| 8 | Completo | Heurísticas conservadoras como candidatos auditables, sin cambiar clasificación final. |
+| 9 | En este commit | Cliente OpenAI Responses API con Structured Outputs estrictos, cache versionado, retries, dry-run y validación Pydantic. |
 
 ## Artefactos Clave
 
@@ -42,6 +43,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - `src/narrative_dna/normalizer.py`: normalización determinística de espacios, comillas, saltos e invisibles.
 - `src/narrative_dna/segmenter.py`: segmentación semántica conservadora con timestamps, offsets y unidades no clasificadas.
 - `src/narrative_dna/heuristic_candidates.py`: extracción de señales candidatas con evidencia auditable.
+- `src/narrative_dna/llm_client.py`: frontera única para OpenAI Responses API y salidas estructuradas.
+- `configs/llm_config.json`: perfiles LLM, cache y retry policy.
 
 ## Qué Ya Está Bien Encaminado
 
@@ -52,10 +55,13 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - Los validadores reparan casos como `N+K`, `A+K`, `D` sin evidencia y `R` sin ancla.
 - El loader ya usa `data/transcripts/videos` sistemáticamente y prefiere segmentos temporizados.
 - Las heurísticas detectan señales fuertes para P, Z, D, Y, E, H, G, C, B, X, S, I, U, V, O, F, L, M y Q, además de certeza, postura y emociones mencionadas/expresadas.
+- El cliente OpenAI no acepta texto libre: exige JSON Schema `strict=true` y valida la respuesta con Pydantic antes de devolverla.
+- El hash de cache incluye modelo, reasoning, temperatura, versiones efectivas, schema, prompt e input payload.
 
 ## Refuerzos Pendientes
 
 - Integrar loader, segmenter, heurísticas y validadores en el pipeline end-to-end.
+- Integrar el cliente LLM con el clasificador de unidades del Step 10 sin exponer llamadas OpenAI fuera de `llm_client.py`.
 - Implementar validadores v1.0 adicionales: certeza epistémica, postura con target, C/B/X, E/H/G y T/M/L/Z.
 - Reforzar segmentación y heurísticas con más casos de habla oral real antes de congelar regression fixtures.
 - Agregar pruebas golden de notación cuando exista `synthetic_gold_high_confidence`.
@@ -67,8 +73,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - Hay archivos untracked ajenos al plan actual: `generated/`, `html_builder.py`, `tests/test_html_builder.py`. No los he tocado ni incluido en commits.
 - La suite completa pasa usando `--basetemp .pytest_tmp`; el directorio temporal global de Windows puede dar permisos denegados en este entorno.
 - Ruff sobre `src tests` falla por el archivo untracked `tests/test_html_builder.py`; Ruff sobre archivos versionados pasa.
-- Aún no existe pipeline end-to-end, por lo que documentos y heurísticas se validan en memoria y todavía no se escriben como `outputs/{run_id}`.
+- Aún no existe pipeline end-to-end, por lo que documentos, heurísticas y llamadas LLM mockeadas se validan en memoria y todavía no se escriben como `outputs/{run_id}`.
 
 ## Próximo Step Natural
 
-Step 9: cliente OpenAI con Structured Outputs, cache y validación de schemas, encapsulado únicamente en `src/narrative_dna/llm_client.py`.
+Step 10: clasificador de unidades JSON-first con contexto, heurísticas, salida parcial estricta y postproceso con validadores.

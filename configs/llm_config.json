@@ -2,25 +2,68 @@
   "enabled": false,
   "provider": "openai",
   "client_module": "src/narrative_dna/llm_client.py",
-  "models": {
-    "main_classifier": {
-      "model": "gpt-5.5",
-      "reasoning_effort": "medium",
-      "temperature": 0.1
-    },
-    "adjudicator": {
+  "main_classifier": {
+    "model": "gpt-5.5",
+    "reasoning_effort": "medium",
+    "temperature": 0.1
+  },
+  "adjudicator": {
+    "model": "gpt-5.5",
+    "reasoning_effort": "high",
+    "temperature": 0.0
+  },
+  "synthetic_reviewers": [
+    {
+      "name": "divergent_reviewer_a",
       "model": "gpt-5.5",
       "reasoning_effort": "high",
-      "temperature": 0.0
+      "temperature": 0.9
+    },
+    {
+      "name": "divergent_reviewer_b",
+      "model": "gpt-5.5",
+      "reasoning_effort": "high",
+      "temperature": 1.0
+    },
+    {
+      "name": "taxonomy_strict_reviewer",
+      "model": "gpt-5.5",
+      "reasoning_effort": "high",
+      "temperature": 0.7
     }
+  ],
+  "synthetic_aggregator": {
+    "model": "gpt-5.5",
+    "reasoning_effort": "high",
+    "temperature": 0.1
+  },
+  "synthetic_final_adjudicator": {
+    "model": "gpt-5.5",
+    "reasoning_effort": "xhigh",
+    "temperature": 0.0
+  },
+  "cheap_batch_profile": {
+    "enabled": false,
+    "model": "gpt-5.4-mini",
+    "reasoning_effort": "low",
+    "temperature": 0.0
   },
   "cache": {
     "enabled": true,
+    "dir": ".cache/narrative_dna",
     "key_fields": [
+      "model",
+      "reasoning_effort",
+      "temperature",
+      "input_payload",
       "input_hash",
-      "taxonomy_version_effective",
-      "prompt_version_effective",
-      "validator_version_effective"
+      "taxonomy_version",
+      "prompt_version",
+      "validator_version"
     ]
+  },
+  "retry": {
+    "max_attempts": 3,
+    "backoff_seconds": [2, 8, 20]
   }
 }
