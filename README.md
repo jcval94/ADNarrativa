@@ -48,17 +48,19 @@ La notación nunca se edita manualmente. Si cambia el JSON, se recompila.
 
 ## Estado del repo
 
-Estado actual: Steps 0-10 completos.
+Estado actual: Steps 0-11 completos.
 
-El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos y clasificador JSON-first por unidad/documento.
+El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos, clasificador JSON-first por unidad/documento y árbitro conservador para casos de alto riesgo.
 
 La capa actual puede leer `.txt`, `.json`, `.jsonl` y `data/transcripts/videos` para producir `NarrativeDocument` con unidades candidatas sin LLM. Las unidades nacen como `N_N0{0}` y las heurísticas agregan sólo señales auditables (`locked_functions`, `candidate_functions`, certeza/emoción/postura candidata y `evidence_spans`); no cambian `functions` ni `final_notation`.
 
 El cliente LLM vive únicamente en `src/narrative_dna/llm_client.py`: lee `OPENAI_API_KEY` del entorno, usa `configs/llm_config.json`, construye `text.format` con `json_schema` y `strict=true`, valida toda respuesta con Pydantic, cachea por hash versionado en `.cache/narrative_dna/`, soporta retries y `dry_run`, y devuelve errores controlados para permitir fallback a heurísticas.
 
-El clasificador vive en `src/narrative_dna/unit_classifier.py`: construye el payload contextual para el modelo, usa `NarrativeUnitPartialClassification`, fusiona locks heurísticos con la salida LLM, ejecuta validadores determinísticos y recompila `final_notation` desde JSON validado. El adjudicator todavía no se llama.
+El clasificador vive en `src/narrative_dna/unit_classifier.py`: construye el payload contextual para el modelo, usa `NarrativeUnitPartialClassification`, fusiona locks heurísticos con la salida LLM, ejecuta validadores determinísticos y recompila `final_notation` desde JSON validado.
 
-Siguiente paso natural: Step 11, árbitro conservador para casos de alto riesgo.
+El adjudicator vive en `src/narrative_dna/adjudicator.py`: se activa por baja confianza, flags críticos, sobre-etiquetado, emoción intensa, conflictos heuristic/LLM, funciones excesivas, primarias confundibles o conflictos de similitud. Su política reduce etiquetas débiles, limpia flags resueltos y vuelve a validar la unidad.
+
+Siguiente paso natural: Step 12, auditoría por similitud semántica.
 
 ## Instalación
 

@@ -10,7 +10,7 @@ Versiones efectivas actuales:
 
 ## Resumen Ejecutivo
 
-El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalable, contratos Pydantic estrictos, taxonomía auditada, constitución estable v1.0, validadores determinísticos iniciales, compilador de notación derivada, loader/segmentador, extracción de heurísticas conservadoras, cliente OpenAI estructurado y clasificador JSON-first.
+El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalable, contratos Pydantic estrictos, taxonomía auditada, constitución estable v1.0, validadores determinísticos iniciales, compilador de notación derivada, loader/segmentador, extracción de heurísticas conservadoras, cliente OpenAI estructurado, clasificador JSON-first y árbitro conservador.
 
 La decisión más importante sigue intacta: el JSON validado es la fuente de verdad. La notación compacta se compila desde JSON y no debe editarse manualmente.
 
@@ -28,7 +28,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 | 7 | Completo | Loader, normalizador y segmentador JSON-first para `.txt`, `.json`, `.jsonl` y `data/transcripts/videos`. |
 | 8 | Completo | Heurísticas conservadoras como candidatos auditables, sin cambiar clasificación final. |
 | 9 | Completo | Cliente OpenAI Responses API con Structured Outputs estrictos, cache versionado, retries, dry-run y validación Pydantic. |
-| 10 | En este commit | Clasificador por unidad/documento con contexto, heurísticas, salida parcial estricta y postproceso con validadores. |
+| 10 | Completo | Clasificador por unidad/documento con contexto, heurísticas, salida parcial estricta y postproceso con validadores. |
+| 11 | En este commit | Árbitro conservador para casos de alto riesgo, con salida estructurada, reducción de etiquetas débiles y validación posterior. |
 
 ## Artefactos Clave
 
@@ -48,6 +49,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - `configs/llm_config.json`: perfiles LLM, cache y retry policy.
 - `src/narrative_dna/unit_classifier.py`: clasificación JSON-first con contexto, heurísticas y validadores.
 - `prompts/unit_classifier.md`: prompt operativo v1.0 para salida JSON estricta.
+- `src/narrative_dna/adjudicator.py`: adjudicación conservadora para casos de alto riesgo.
+- `prompts/adjudicator.md`: prompt operativo v1.0 para resolución conservadora.
 
 ## Qué Ya Está Bien Encaminado
 
@@ -62,11 +65,13 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - El hash de cache incluye modelo, reasoning, temperatura, versiones efectivas, schema, prompt e input payload.
 - El clasificador usa `NarrativeUnitPartialClassification`, nunca acepta notación compacta como input editable, y delega `final_notation` a validadores/compilador.
 - Los casos `P+V`, `K` que hereda `A`, emoción mencionada, `R` sin pregunta y `D` sin evidencia están cubiertos con mocks.
+- El adjudicator detecta baja confianza, flags críticos, sobre-etiquetado, emoción intensa, conflictos heurística/LLM y primarias confundibles.
+- La adjudicación vuelve a pasar por validadores, limpia flags resueltos y mantiene `needs_review=true` si dos lecturas siguen siendo plausibles.
 
 ## Refuerzos Pendientes
 
 - Integrar loader, segmenter, heurísticas y validadores en el pipeline end-to-end.
-- Implementar el adjudicator conservador del Step 11 para casos de alto riesgo detectados por confidence, flags o conflictos heurística/LLM.
+- Integrar classifier y adjudicator en el pipeline end-to-end cuando se cablee `pipeline.py`.
 - Implementar validadores v1.0 adicionales: certeza epistémica, postura con target, C/B/X, E/H/G y T/M/L/Z.
 - Reforzar segmentación y heurísticas con más casos de habla oral real antes de congelar regression fixtures.
 - Agregar pruebas golden de notación cuando exista `synthetic_gold_high_confidence`.
@@ -78,8 +83,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - Hay archivos untracked ajenos al plan actual: `generated/`, `html_builder.py`, `tests/test_html_builder.py`. No los he tocado ni incluido en commits.
 - La suite completa pasa usando `--basetemp .pytest_tmp`; el directorio temporal global de Windows puede dar permisos denegados en este entorno.
 - Ruff sobre `src tests` falla por el archivo untracked `tests/test_html_builder.py`; Ruff sobre archivos versionados pasa.
-- Aún no existe pipeline end-to-end, por lo que documentos, heurísticas y clasificaciones LLM mockeadas se validan en memoria y todavía no se escriben como `outputs/{run_id}`.
+- Aún no existe pipeline end-to-end, por lo que documentos, heurísticas, clasificaciones y adjudicaciones mockeadas se validan en memoria y todavía no se escriben como `outputs/{run_id}`.
 
 ## Próximo Step Natural
 
-Step 11: árbitro conservador de precisión para reducir sobre-etiquetado y resolver casos de alto riesgo.
+Step 12: auditoría por similitud semántica para detectar notaciones inconsistentes entre frases parecidas.
