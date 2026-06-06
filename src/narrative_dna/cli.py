@@ -6,6 +6,7 @@ import typer
 from rich.console import Console
 
 from narrative_dna.schema_exporter import export_schemas as export_schema_files
+from narrative_dna.similarity_auditor import audit_similarity_run
 
 app = typer.Typer(
     help="JSON-first narrative DNA annotation toolkit.",
@@ -35,8 +36,23 @@ def inspect_run() -> None:
 
 
 @app.command("audit-similarity")
-def audit_similarity() -> None:
+def audit_similarity(
+    run_id: str = typer.Option(..., "--run-id", help="Run id under outputs/."),
+    outputs_dir: str = typer.Option("outputs", "--outputs-dir", help="Base outputs directory."),
+    top_k: int = typer.Option(10, "--top-k", help="Nearest neighbors to inspect per unit."),
+    threshold: float = typer.Option(0.82, "--threshold", help="Cosine similarity threshold."),
+) -> None:
     """Audit semantic similarity conflicts."""
+    conflicts, summary = audit_similarity_run(
+        run_id=run_id,
+        outputs_dir=outputs_dir,
+        top_k=top_k,
+        threshold=threshold,
+    )
+    console.print(
+        f"Found {len(conflicts)} similarity conflicts for run {summary.run_id} "
+        f"(threshold={summary.threshold}, top_k={summary.top_k})."
+    )
 
 
 @app.command("build-review-set")

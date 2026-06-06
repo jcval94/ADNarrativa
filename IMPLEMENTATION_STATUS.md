@@ -10,7 +10,7 @@ Versiones efectivas actuales:
 
 ## Resumen Ejecutivo
 
-El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalable, contratos Pydantic estrictos, taxonomía auditada, constitución estable v1.0, validadores determinísticos iniciales, compilador de notación derivada, loader/segmentador, extracción de heurísticas conservadoras, cliente OpenAI estructurado, clasificador JSON-first y árbitro conservador.
+El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalable, contratos Pydantic estrictos, taxonomía auditada, constitución estable v1.0, validadores determinísticos iniciales, compilador de notación derivada, loader/segmentador, extracción de heurísticas conservadoras, cliente OpenAI estructurado, clasificador JSON-first, árbitro conservador y auditoría por similitud semántica.
 
 La decisión más importante sigue intacta: el JSON validado es la fuente de verdad. La notación compacta se compila desde JSON y no debe editarse manualmente.
 
@@ -29,7 +29,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 | 8 | Completo | Heurísticas conservadoras como candidatos auditables, sin cambiar clasificación final. |
 | 9 | Completo | Cliente OpenAI Responses API con Structured Outputs estrictos, cache versionado, retries, dry-run y validación Pydantic. |
 | 10 | Completo | Clasificador por unidad/documento con contexto, heurísticas, salida parcial estricta y postproceso con validadores. |
-| 11 | En este commit | Árbitro conservador para casos de alto riesgo, con salida estructurada, reducción de etiquetas débiles y validación posterior. |
+| 11 | Completo | Árbitro conservador para casos de alto riesgo, con salida estructurada, reducción de etiquetas débiles y validación posterior. |
+| 12 | En este commit | Auditoría por similitud semántica con embeddings cacheados, conflicto de notación y explicación auditable. |
 
 ## Artefactos Clave
 
@@ -51,6 +52,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - `prompts/unit_classifier.md`: prompt operativo v1.0 para salida JSON estricta.
 - `src/narrative_dna/adjudicator.py`: adjudicación conservadora para casos de alto riesgo.
 - `prompts/adjudicator.md`: prompt operativo v1.0 para resolución conservadora.
+- `src/narrative_dna/similarity_auditor.py`: auditoría semántica de inconsistencias de notación.
+- `configs/similarity_audit_config.json`: umbral, top-k y proveedor de embeddings configurable.
 
 ## Qué Ya Está Bien Encaminado
 
@@ -67,11 +70,14 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - Los casos `P+V`, `K` que hereda `A`, emoción mencionada, `R` sin pregunta y `D` sin evidencia están cubiertos con mocks.
 - El adjudicator detecta baja confianza, flags críticos, sobre-etiquetado, emoción intensa, conflictos heurística/LLM y primarias confundibles.
 - La adjudicación vuelve a pasar por validadores, limpia flags resueltos y mantiene `needs_review=true` si dos lecturas siguen siendo plausibles.
+- El auditor distingue `likely_inconsistency`, `context_explains_difference`, `allowed_by_taxonomy` y `needs_human_review`.
+- Los conflictos incluyen `similarity`, `notation_distance`, `conflict_score`, campos divergentes y versiones efectivas en el summary.
 
 ## Refuerzos Pendientes
 
 - Integrar loader, segmenter, heurísticas y validadores en el pipeline end-to-end.
 - Integrar classifier y adjudicator en el pipeline end-to-end cuando se cablee `pipeline.py`.
+- Alimentar el review set del Step 13 con `similarity_conflicts.jsonl`.
 - Implementar validadores v1.0 adicionales: certeza epistémica, postura con target, C/B/X, E/H/G y T/M/L/Z.
 - Reforzar segmentación y heurísticas con más casos de habla oral real antes de congelar regression fixtures.
 - Agregar pruebas golden de notación cuando exista `synthetic_gold_high_confidence`.
@@ -83,8 +89,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - Hay archivos untracked ajenos al plan actual: `generated/`, `html_builder.py`, `tests/test_html_builder.py`. No los he tocado ni incluido en commits.
 - La suite completa pasa usando `--basetemp .pytest_tmp`; el directorio temporal global de Windows puede dar permisos denegados en este entorno.
 - Ruff sobre `src tests` falla por el archivo untracked `tests/test_html_builder.py`; Ruff sobre archivos versionados pasa.
-- Aún no existe pipeline end-to-end, por lo que documentos, heurísticas, clasificaciones y adjudicaciones mockeadas se validan en memoria y todavía no se escriben como `outputs/{run_id}`.
+- Aún no existe pipeline end-to-end, por lo que documentos, heurísticas, clasificaciones, adjudicaciones y auditorías mockeadas se validan en memoria; el auditor ya puede escribir outputs derivados si existe `outputs/{run_id}/documents.jsonl`.
 
 ## Próximo Step Natural
 
-Step 12: auditoría por similitud semántica para detectar notaciones inconsistentes entre frases parecidas.
+Step 13: construir review set para comité sintético usando unidades difíciles, flags, conflictos de similitud y pares mínimos.

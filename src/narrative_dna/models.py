@@ -136,6 +136,13 @@ class SyntheticGoldStatus(str, Enum):
     REJECTED = "synthetic_gold_rejected"
 
 
+class ConflictExplanationType(str, Enum):
+    LIKELY_INCONSISTENCY = "likely_inconsistency"
+    CONTEXT_EXPLAINS_DIFFERENCE = "context_explains_difference"
+    ALLOWED_BY_TAXONOMY = "allowed_by_taxonomy"
+    NEEDS_HUMAN_REVIEW = "needs_human_review"
+
+
 class GoldType(str, Enum):
     HUMAN_GOLD = "human_gold"
     SYNTHETIC_HIGH_CONFIDENCE = "synthetic_gold_high_confidence"
@@ -370,6 +377,9 @@ class SimilarityConflict(StrictBaseModel):
     unit_id_a: str = Field(min_length=1)
     unit_id_b: str = Field(min_length=1)
     similarity: float = Field(ge=0, le=1)
+    notation_distance: float = Field(default=0, ge=0, le=1)
+    conflict_score: float = Field(default=0, ge=0, le=1)
+    conflict_explanation_type: ConflictExplanationType = ConflictExplanationType.NEEDS_HUMAN_REVIEW
     differing_fields: list[str] = Field(min_length=1)
     explanation: str | None = None
     needs_review: bool = True

@@ -2,6 +2,12 @@
   "enabled": true,
   "default_threshold": 0.82,
   "top_k": 10,
+  "embedding": {
+    "provider": "local",
+    "openai_model": null,
+    "cache_enabled": true,
+    "cache_dir": ".cache/narrative_dna/embeddings"
+  },
   "compare_fields": [
     "functions",
     "primary_function",

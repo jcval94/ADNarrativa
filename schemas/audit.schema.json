@@ -56,6 +56,16 @@
       "title": "ClusterInstability",
       "type": "object"
     },
+    "ConflictExplanationType": {
+      "enum": [
+        "likely_inconsistency",
+        "context_explains_difference",
+        "allowed_by_taxonomy",
+        "needs_human_review"
+      ],
+      "title": "ConflictExplanationType",
+      "type": "string"
+    },
     "FunctionCode": {
       "enum": [
         "A",
@@ -114,6 +124,24 @@
           "minimum": 0,
           "title": "Similarity",
           "type": "number"
+        },
+        "notation_distance": {
+          "default": 0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Notation Distance",
+          "type": "number"
+        },
+        "conflict_score": {
+          "default": 0,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Conflict Score",
+          "type": "number"
+        },
+        "conflict_explanation_type": {
+          "$ref": "#/$defs/ConflictExplanationType",
+          "default": "needs_human_review"
         },
         "differing_fields": {
           "items": {
