@@ -48,9 +48,9 @@ La notación nunca se edita manualmente. Si cambia el JSON, se recompila.
 
 ## Estado del repo
 
-Estado actual: Steps 0-14 completos.
+Estado actual: Steps 0-15 completos.
 
-El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos, clasificador JSON-first por unidad/documento, árbitro conservador para casos de alto riesgo, auditoría por similitud semántica, review sets para comité sintético y workflow de revisión sintética OpenAI.
+El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos, clasificador JSON-first por unidad/documento, árbitro conservador para casos de alto riesgo, auditoría por similitud semántica, review sets para comité sintético, workflow de revisión sintética OpenAI y métricas de confiabilidad sintética.
 
 La capa actual puede leer `.txt`, `.json`, `.jsonl` y `data/transcripts/videos` para producir `NarrativeDocument` con unidades candidatas sin LLM. Las unidades nacen como `N_N0{0}` y las heurísticas agregan sólo señales auditables (`locked_functions`, `candidate_functions`, certeza/emoción/postura candidata y `evidence_spans`); no cambian `functions` ni `final_notation`.
 
@@ -66,7 +66,9 @@ El constructor de review sets vive en `src/narrative_dna/review_set_builder.py`:
 
 La revisión sintética vive en `src/narrative_dna/synthetic_reviewer.py` y `src/narrative_dna/review_aggregator.py`: consume `review/review_items.jsonl`, ejecuta reviewers configurados en `configs/llm_config.json`, agrega de forma conservadora, pasa por un adjudicator final y escribe outputs JSONL trazables.
 
-Siguiente paso natural: Step 15, métricas de confiabilidad sintética.
+La confiabilidad sintética vive en `src/narrative_dna/synthetic_reliability.py`: calcula acuerdo entre reviewers, acuerdo aggregator/final, confiabilidad final, buckets high/medium/rejected y elegibilidad de regresión sin volver a llamar al LLM.
+
+Siguiente paso natural: Step 16, detector auditable de relaciones.
 
 ## Instalación
 
@@ -433,6 +435,7 @@ Reglas:
 - Sólo `synthetic_gold_high_confidence` puede usarse en regresión.
 - El comando `synthetic-review` consume exclusivamente `review/review_items.jsonl`; no reconstruye contexto desde cero.
 - Si falla un reviewer, aggregator o adjudicator final, el flujo registra el fallo y degrada de forma conservadora.
+- `promote-synthetic-gold` calcula confiabilidad y escribe buckets derivados; sólo high-confidence limpio y con score suficiente queda elegible para regresión.
 
 ## Métricas de evaluación
 

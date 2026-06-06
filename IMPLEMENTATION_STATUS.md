@@ -10,7 +10,7 @@ Versiones efectivas actuales:
 
 ## Resumen Ejecutivo
 
-El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalable, contratos Pydantic estrictos, taxonomía auditada, constitución estable v1.0, validadores determinísticos iniciales, compilador de notación derivada, loader/segmentador, extracción de heurísticas conservadoras, cliente OpenAI estructurado, clasificador JSON-first, árbitro conservador, auditoría por similitud semántica, construcción de review sets y workflow de revisión sintética por comité OpenAI.
+El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalable, contratos Pydantic estrictos, taxonomía auditada, constitución estable v1.0, validadores determinísticos iniciales, compilador de notación derivada, loader/segmentador, extracción de heurísticas conservadoras, cliente OpenAI estructurado, clasificador JSON-first, árbitro conservador, auditoría por similitud semántica, construcción de review sets, workflow de revisión sintética por comité OpenAI y métricas de confiabilidad sintética.
 
 La decisión más importante sigue intacta: el JSON validado es la fuente de verdad. La notación compacta se compila desde JSON y no debe editarse manualmente.
 
@@ -32,7 +32,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 | 11 | Completo | Árbitro conservador para casos de alto riesgo, con salida estructurada, reducción de etiquetas débiles y validación posterior. |
 | 12 | Completo | Auditoría por similitud semántica con embeddings cacheados, conflicto de notación y explicación auditable. |
 | 13 | Completo | Review set sintético priorizado por flags, needs_review, conflictos de similitud, grupos confundibles, pares mínimos y QA de alta confianza. |
-| 14 | En este commit | Comité sintético OpenAI con reviewers diversos, aggregator conservador, adjudicator final, candidatos y reportes JSON/MD. |
+| 14 | Completo | Comité sintético OpenAI con reviewers diversos, aggregator conservador, adjudicator final, candidatos y reportes JSON/MD. |
+| 15 | En este commit | Métricas de confiabilidad sintética, buckets high/medium/rejected y elegibilidad de regresión. |
 
 ## Artefactos Clave
 
@@ -66,6 +67,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - `prompts/synthetic_adjudicator.md`: prompt operativo v1.0 para adjudicación final sintética.
 - `schemas/synthetic_final_adjudication.schema.json`: contrato del árbitro final sintético.
 - `schemas/synthetic_review_report.schema.json`: contrato del reporte de revisión sintética.
+- `src/narrative_dna/synthetic_reliability.py`: scoring determinístico de confiabilidad sintética.
+- `schemas/synthetic_reliability_metrics.schema.json`: contrato ampliado de métricas de confiabilidad.
 
 ## Qué Ya Está Bien Encaminado
 
@@ -89,13 +92,15 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - `narrative-dna synthetic-review --run-id <RUN_ID>` consume exclusivamente `review/review_items.jsonl`, no reconstruye contexto desde cero.
 - El comité escribe `synthetic_reviews.jsonl`, `synthetic_review_aggregated.jsonl`, `synthetic_final_adjudications.jsonl`, `synthetic_gold_candidates.jsonl`, `synthetic_review_report.json` y `synthetic_review_report.md`.
 - Si aggregator o final adjudicator fallan, el flujo cae a decisiones conservadoras y no promueve gold.
+- `narrative-dna promote-synthetic-gold --run-id <RUN_ID>` calcula acuerdo entre reviewers, acuerdo aggregator/final, confiabilidad final, buckets gold sintéticos y elegibilidad de regresión.
+- Sólo candidatos `synthetic_gold_high_confidence` sin flags ni `needs_review` y con score >= 0.90 cuentan como elegibles para regresión.
 
 ## Refuerzos Pendientes
 
 - Integrar loader, segmenter, heurísticas y validadores en el pipeline end-to-end.
 - Integrar classifier y adjudicator en el pipeline end-to-end cuando se cablee `pipeline.py`.
 - Implementar validadores v1.0 adicionales: certeza epistémica, postura con target, C/B/X, E/H/G y T/M/L/Z.
-- Implementar métricas de confiabilidad sintética del Step 15 sobre outputs del comité.
+- Implementar detector auditable de relaciones del Step 16.
 - Reforzar segmentación y heurísticas con más casos de habla oral real antes de congelar regression fixtures.
 - Agregar pruebas golden de notación cuando exista `synthetic_gold_high_confidence`.
 - Validar schemas generados contra ejemplos reales de outputs cuando el pipeline escriba `outputs/{run_id}`.
@@ -110,4 +115,4 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 
 ## Próximo Step Natural
 
-Step 15: métricas de confiabilidad sintética sobre reviewers, agregados, adjudicaciones finales y candidatos.
+Step 16: detector auditable de relaciones externas entre unidades.

@@ -11,6 +11,30 @@
       "title": "Total Review Items",
       "type": "integer"
     },
+    "reviewer_output_count": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Reviewer Output Count",
+      "type": "integer"
+    },
+    "aggregated_review_count": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Aggregated Review Count",
+      "type": "integer"
+    },
+    "final_adjudication_count": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Final Adjudication Count",
+      "type": "integer"
+    },
+    "synthetic_gold_candidate_count": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Synthetic Gold Candidate Count",
+      "type": "integer"
+    },
     "high_confidence_count": {
       "minimum": 0,
       "title": "High Confidence Count",
@@ -26,6 +50,18 @@
       "title": "Rejected Count",
       "type": "integer"
     },
+    "needs_review_count": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Needs Review Count",
+      "type": "integer"
+    },
+    "needs_human_review_count": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Needs Human Review Count",
+      "type": "integer"
+    },
     "inter_reviewer_agreement": {
       "maximum": 1,
       "minimum": 0,
@@ -37,6 +73,107 @@
       "minimum": 0,
       "title": "Adjudicator Agreement",
       "type": "number"
+    },
+    "average_reviewer_confidence": {
+      "default": 0,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Average Reviewer Confidence",
+      "type": "number"
+    },
+    "average_aggregate_confidence": {
+      "default": 0,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Average Aggregate Confidence",
+      "type": "number"
+    },
+    "average_final_reliability": {
+      "default": 0,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Average Final Reliability",
+      "type": "number"
+    },
+    "regression_eligible_count": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Regression Eligible Count",
+      "type": "integer"
+    },
+    "regression_eligible_rate": {
+      "default": 0,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Regression Eligible Rate",
+      "type": "number"
+    },
+    "reviewer_decisions_by_type": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Reviewer Decisions By Type",
+      "type": "object"
+    },
+    "aggregate_decisions_by_type": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Aggregate Decisions By Type",
+      "type": "object"
+    },
+    "final_decisions_by_type": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Final Decisions By Type",
+      "type": "object"
+    },
+    "gold_status_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Gold Status Counts",
+      "type": "object"
+    },
+    "agreement_by_item": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Agreement By Item",
+      "type": "object"
+    },
+    "reliability_by_item": {
+      "additionalProperties": {
+        "type": "number"
+      },
+      "title": "Reliability By Item",
+      "type": "object"
+    },
+    "outputs": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Outputs",
+      "type": "object"
+    },
+    "taxonomy_version_effective": {
+      "default": "v1_0",
+      "minLength": 1,
+      "title": "Taxonomy Version Effective",
+      "type": "string"
+    },
+    "prompt_version_effective": {
+      "default": "v1_0",
+      "minLength": 1,
+      "title": "Prompt Version Effective",
+      "type": "string"
+    },
+    "validator_version_effective": {
+      "default": "v1_0",
+      "minLength": 1,
+      "title": "Validator Version Effective",
+      "type": "string"
     }
   },
   "required": [

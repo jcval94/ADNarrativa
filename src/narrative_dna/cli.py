@@ -8,6 +8,7 @@ from rich.console import Console
 from narrative_dna.review_set_builder import build_and_write_review_set
 from narrative_dna.schema_exporter import export_schemas as export_schema_files
 from narrative_dna.similarity_auditor import audit_similarity_run
+from narrative_dna.synthetic_reliability import write_synthetic_reliability_outputs
 from narrative_dna.synthetic_reviewer import (
     SyntheticCommitteeReviewer,
     run_and_write_synthetic_review,
@@ -97,8 +98,18 @@ def synthetic_review(
 
 
 @app.command("promote-synthetic-gold")
-def promote_synthetic_gold() -> None:
+def promote_synthetic_gold(
+    run_id: str = typer.Option(..., "--run-id", help="Run id under outputs/."),
+    outputs_dir: str = typer.Option("outputs", "--outputs-dir", help="Base outputs directory."),
+) -> None:
     """Promote high-confidence synthetic review outputs."""
+    metrics = write_synthetic_reliability_outputs(run_id=run_id, outputs_dir=outputs_dir)
+    console.print(
+        f"Scored synthetic reliability for run {metrics.run_id}: "
+        f"{metrics.high_confidence_count} high-confidence, "
+        f"{metrics.medium_confidence_count} medium-confidence, "
+        f"{metrics.rejected_count} rejected."
+    )
 
 
 @app.command("export-schemas")
