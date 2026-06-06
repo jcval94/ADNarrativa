@@ -48,9 +48,9 @@ La notación nunca se edita manualmente. Si cambia el JSON, se recompila.
 
 ## Estado del repo
 
-Estado actual: Steps 0-13 completos.
+Estado actual: Steps 0-14 completos.
 
-El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos, clasificador JSON-first por unidad/documento, árbitro conservador para casos de alto riesgo, auditoría por similitud semántica y construcción de review sets para comité sintético.
+El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos, clasificador JSON-first por unidad/documento, árbitro conservador para casos de alto riesgo, auditoría por similitud semántica, review sets para comité sintético y workflow de revisión sintética OpenAI.
 
 La capa actual puede leer `.txt`, `.json`, `.jsonl` y `data/transcripts/videos` para producir `NarrativeDocument` con unidades candidatas sin LLM. Las unidades nacen como `N_N0{0}` y las heurísticas agregan sólo señales auditables (`locked_functions`, `candidate_functions`, certeza/emoción/postura candidata y `evidence_spans`); no cambian `functions` ni `final_notation`.
 
@@ -64,7 +64,9 @@ El auditor de similitud vive en `src/narrative_dna/similarity_auditor.py`: const
 
 El constructor de review sets vive en `src/narrative_dna/review_set_builder.py`: toma `documents.jsonl`, `similarity_conflicts.jsonl`, pares mínimos y reglas taxonómicas para priorizar unidades con `needs_review`, flags, grupos confundibles, emociones intensas, baja confianza, conflictos semánticos, pares similares con notación distinta y muestras de alta confianza para QA.
 
-Siguiente paso natural: Step 14, revisión sintética por comité OpenAI.
+La revisión sintética vive en `src/narrative_dna/synthetic_reviewer.py` y `src/narrative_dna/review_aggregator.py`: consume `review/review_items.jsonl`, ejecuta reviewers configurados en `configs/llm_config.json`, agrega de forma conservadora, pasa por un adjudicator final y escribe outputs JSONL trazables.
+
+Siguiente paso natural: Step 15, métricas de confiabilidad sintética.
 
 ## Instalación
 
@@ -257,6 +259,7 @@ Revisión sintética:
 
 ```bash
 narrative-dna synthetic-review --run-id <RUN_ID>
+narrative-dna synthetic-review --run-id <RUN_ID> --dry-run --max-items 3
 narrative-dna promote-synthetic-gold --run-id <RUN_ID>
 ```
 
@@ -284,8 +287,9 @@ Flujo end-to-end:
 11. Detectar cadenas narrativas.
 12. Auditar similitud semántica.
 13. Construir review set para comité sintético.
-14. Exportar JSON/JSONL.
-15. Generar reportes y exports derivados.
+14. Ejecutar revisión sintética por comité OpenAI.
+15. Exportar JSON/JSONL.
+16. Generar reportes y exports derivados.
 
 ## Outputs
 
@@ -320,6 +324,7 @@ review/review_items.jsonl
 review/review_manifest.json
 synthetic_reviews.jsonl
 synthetic_review_aggregated.jsonl
+synthetic_final_adjudications.jsonl
 synthetic_gold_candidates.jsonl
 synthetic_review_report.json
 synthetic_review_report.md
@@ -426,6 +431,8 @@ Reglas:
 - El final adjudicator es el más conservador.
 - No se llama `human_gold` a resultados sintéticos.
 - Sólo `synthetic_gold_high_confidence` puede usarse en regresión.
+- El comando `synthetic-review` consume exclusivamente `review/review_items.jsonl`; no reconstruye contexto desde cero.
+- Si falla un reviewer, aggregator o adjudicator final, el flujo registra el fallo y degrada de forma conservadora.
 
 ## Métricas de evaluación
 

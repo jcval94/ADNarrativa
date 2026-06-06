@@ -1,0 +1,90 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
+    "total_review_items": {
+      "minimum": 0,
+      "title": "Total Review Items",
+      "type": "integer"
+    },
+    "reviewer_profile_count": {
+      "minimum": 0,
+      "title": "Reviewer Profile Count",
+      "type": "integer"
+    },
+    "reviewer_output_count": {
+      "minimum": 0,
+      "title": "Reviewer Output Count",
+      "type": "integer"
+    },
+    "reviewer_failure_count": {
+      "minimum": 0,
+      "title": "Reviewer Failure Count",
+      "type": "integer"
+    },
+    "aggregated_count": {
+      "minimum": 0,
+      "title": "Aggregated Count",
+      "type": "integer"
+    },
+    "final_adjudication_count": {
+      "minimum": 0,
+      "title": "Final Adjudication Count",
+      "type": "integer"
+    },
+    "synthetic_gold_candidate_count": {
+      "minimum": 0,
+      "title": "Synthetic Gold Candidate Count",
+      "type": "integer"
+    },
+    "decisions_by_type": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Decisions By Type",
+      "type": "object"
+    },
+    "outputs": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Outputs",
+      "type": "object"
+    },
+    "taxonomy_version_effective": {
+      "minLength": 1,
+      "title": "Taxonomy Version Effective",
+      "type": "string"
+    },
+    "prompt_version_effective": {
+      "minLength": 1,
+      "title": "Prompt Version Effective",
+      "type": "string"
+    },
+    "validator_version_effective": {
+      "minLength": 1,
+      "title": "Validator Version Effective",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id",
+    "total_review_items",
+    "reviewer_profile_count",
+    "reviewer_output_count",
+    "reviewer_failure_count",
+    "aggregated_count",
+    "final_adjudication_count",
+    "synthetic_gold_candidate_count",
+    "taxonomy_version_effective",
+    "prompt_version_effective",
+    "validator_version_effective"
+  ],
+  "title": "SyntheticReviewReport",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

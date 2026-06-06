@@ -467,6 +467,7 @@ class SyntheticReviewManifest(StrictBaseModel):
 
 
 class SyntheticReviewerOutput(StrictBaseModel):
+    run_id: str = Field(default="run_unknown", min_length=1)
     review_item_id: str = Field(min_length=1)
     reviewer_id: str = Field(min_length=1)
     decision: SyntheticDecision
@@ -474,24 +475,66 @@ class SyntheticReviewerOutput(StrictBaseModel):
     confidence: float = Field(ge=0, le=1)
     rationale: str = Field(min_length=1)
     validator_flags: list[ValidatorFlag] = Field(default_factory=list)
+    taxonomy_version_effective: str = Field(default="v1_0", min_length=1)
+    prompt_version_effective: str = Field(default="v1_0", min_length=1)
+    validator_version_effective: str = Field(default="v1_0", min_length=1)
 
 
 class SyntheticAggregatedReview(StrictBaseModel):
+    run_id: str = Field(default="run_unknown", min_length=1)
     review_item_id: str = Field(min_length=1)
     decisions: list[SyntheticReviewerOutput] = Field(min_length=1)
     aggregate_decision: SyntheticDecision
     confidence: float = Field(ge=0, le=1)
     rationale: str = Field(min_length=1)
     needs_final_adjudication: bool
+    taxonomy_version_effective: str = Field(default="v1_0", min_length=1)
+    prompt_version_effective: str = Field(default="v1_0", min_length=1)
+    validator_version_effective: str = Field(default="v1_0", min_length=1)
+
+
+class SyntheticFinalAdjudication(StrictBaseModel):
+    run_id: str = Field(default="run_unknown", min_length=1)
+    review_item_id: str = Field(min_length=1)
+    final_decision: SyntheticDecision
+    gold_status: SyntheticGoldStatus | None = None
+    selected_unit: NarrativeUnit | None = None
+    reliability_score: float = Field(ge=0, le=1)
+    rationale: str = Field(min_length=1)
+    validator_flags: list[ValidatorFlag] = Field(default_factory=list)
+    needs_human_review: bool
+    taxonomy_version_effective: str = Field(default="v1_0", min_length=1)
+    prompt_version_effective: str = Field(default="v1_0", min_length=1)
+    validator_version_effective: str = Field(default="v1_0", min_length=1)
 
 
 class SyntheticGoldCandidate(StrictBaseModel):
+    run_id: str = Field(default="run_unknown", min_length=1)
     candidate_id: str = Field(min_length=1)
     review_item_id: str = Field(min_length=1)
     status: SyntheticGoldStatus
     unit: NarrativeUnit
     reliability_score: float = Field(ge=0, le=1)
     promotion_notes: str = Field(min_length=1)
+    taxonomy_version_effective: str = Field(default="v1_0", min_length=1)
+    prompt_version_effective: str = Field(default="v1_0", min_length=1)
+    validator_version_effective: str = Field(default="v1_0", min_length=1)
+
+
+class SyntheticReviewReport(StrictBaseModel):
+    run_id: str = Field(min_length=1)
+    total_review_items: int = Field(ge=0)
+    reviewer_profile_count: int = Field(ge=0)
+    reviewer_output_count: int = Field(ge=0)
+    reviewer_failure_count: int = Field(ge=0)
+    aggregated_count: int = Field(ge=0)
+    final_adjudication_count: int = Field(ge=0)
+    synthetic_gold_candidate_count: int = Field(ge=0)
+    decisions_by_type: dict[str, int] = Field(default_factory=dict)
+    outputs: dict[str, str] = Field(default_factory=dict)
+    taxonomy_version_effective: str = Field(min_length=1)
+    prompt_version_effective: str = Field(min_length=1)
+    validator_version_effective: str = Field(min_length=1)
 
 
 class GoldRecord(StrictBaseModel):
@@ -538,6 +581,8 @@ SCHEMA_MODELS: dict[str, type[StrictBaseModel]] = {
     "synthetic_review_manifest.schema.json": SyntheticReviewManifest,
     "synthetic_reviewer_output.schema.json": SyntheticReviewerOutput,
     "synthetic_aggregated_review.schema.json": SyntheticAggregatedReview,
+    "synthetic_final_adjudication.schema.json": SyntheticFinalAdjudication,
     "synthetic_gold_candidate.schema.json": SyntheticGoldCandidate,
+    "synthetic_review_report.schema.json": SyntheticReviewReport,
     "synthetic_reliability_metrics.schema.json": SyntheticReliabilityMetrics,
 }

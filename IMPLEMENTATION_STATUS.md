@@ -10,7 +10,7 @@ Versiones efectivas actuales:
 
 ## Resumen Ejecutivo
 
-El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalable, contratos Pydantic estrictos, taxonomía auditada, constitución estable v1.0, validadores determinísticos iniciales, compilador de notación derivada, loader/segmentador, extracción de heurísticas conservadoras, cliente OpenAI estructurado, clasificador JSON-first, árbitro conservador, auditoría por similitud semántica y construcción de review sets para comité sintético.
+El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalable, contratos Pydantic estrictos, taxonomía auditada, constitución estable v1.0, validadores determinísticos iniciales, compilador de notación derivada, loader/segmentador, extracción de heurísticas conservadoras, cliente OpenAI estructurado, clasificador JSON-first, árbitro conservador, auditoría por similitud semántica, construcción de review sets y workflow de revisión sintética por comité OpenAI.
 
 La decisión más importante sigue intacta: el JSON validado es la fuente de verdad. La notación compacta se compila desde JSON y no debe editarse manualmente.
 
@@ -31,7 +31,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 | 10 | Completo | Clasificador por unidad/documento con contexto, heurísticas, salida parcial estricta y postproceso con validadores. |
 | 11 | Completo | Árbitro conservador para casos de alto riesgo, con salida estructurada, reducción de etiquetas débiles y validación posterior. |
 | 12 | Completo | Auditoría por similitud semántica con embeddings cacheados, conflicto de notación y explicación auditable. |
-| 13 | En este commit | Review set sintético priorizado por flags, needs_review, conflictos de similitud, grupos confundibles, pares mínimos y QA de alta confianza. |
+| 13 | Completo | Review set sintético priorizado por flags, needs_review, conflictos de similitud, grupos confundibles, pares mínimos y QA de alta confianza. |
+| 14 | En este commit | Comité sintético OpenAI con reviewers diversos, aggregator conservador, adjudicator final, candidatos y reportes JSON/MD. |
 
 ## Artefactos Clave
 
@@ -58,6 +59,13 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - `src/narrative_dna/review_set_builder.py`: construcción de `review/review_items.jsonl` y manifest para comité sintético.
 - `schemas/synthetic_review_item.schema.json`: contrato estricto del review item enriquecido con contexto, reglas y versiones efectivas.
 - `schemas/synthetic_review_manifest.schema.json`: contrato del manifest del review set.
+- `src/narrative_dna/synthetic_reviewer.py`: orquestación del comité sintético, carga de review items y escritura de outputs.
+- `src/narrative_dna/review_aggregator.py`: agregación conservadora y conversión segura a candidatos sintéticos.
+- `prompts/synthetic_reviewer.md`: prompt operativo v1.0 para reviewers sintéticos.
+- `prompts/synthetic_aggregator.md`: prompt operativo v1.0 para consenso conservador.
+- `prompts/synthetic_adjudicator.md`: prompt operativo v1.0 para adjudicación final sintética.
+- `schemas/synthetic_final_adjudication.schema.json`: contrato del árbitro final sintético.
+- `schemas/synthetic_review_report.schema.json`: contrato del reporte de revisión sintética.
 
 ## Qué Ya Está Bien Encaminado
 
@@ -78,13 +86,16 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - Los conflictos incluyen `similarity`, `notation_distance`, `conflict_score`, campos divergentes y versiones efectivas en el summary.
 - El review set ya no es aleatorio: integra `needs_review`, flags, conflictos de similitud, grupos confundibles, emoción intensa, emociones mencionadas, >3 funciones, baja/media confianza, muestra QA high-confidence y pares mínimos v1.0.
 - `narrative-dna build-review-set --run-id <RUN_ID>` escribe `outputs/{run_id}/review/review_items.jsonl` y `review_manifest.json`.
+- `narrative-dna synthetic-review --run-id <RUN_ID>` consume exclusivamente `review/review_items.jsonl`, no reconstruye contexto desde cero.
+- El comité escribe `synthetic_reviews.jsonl`, `synthetic_review_aggregated.jsonl`, `synthetic_final_adjudications.jsonl`, `synthetic_gold_candidates.jsonl`, `synthetic_review_report.json` y `synthetic_review_report.md`.
+- Si aggregator o final adjudicator fallan, el flujo cae a decisiones conservadoras y no promueve gold.
 
 ## Refuerzos Pendientes
 
 - Integrar loader, segmenter, heurísticas y validadores en el pipeline end-to-end.
 - Integrar classifier y adjudicator en el pipeline end-to-end cuando se cablee `pipeline.py`.
 - Implementar validadores v1.0 adicionales: certeza epistémica, postura con target, C/B/X, E/H/G y T/M/L/Z.
-- Llevar el comité sintético del Step 14 a consumir `review/review_items.jsonl` sin volver a inferir contexto.
+- Implementar métricas de confiabilidad sintética del Step 15 sobre outputs del comité.
 - Reforzar segmentación y heurísticas con más casos de habla oral real antes de congelar regression fixtures.
 - Agregar pruebas golden de notación cuando exista `synthetic_gold_high_confidence`.
 - Validar schemas generados contra ejemplos reales de outputs cuando el pipeline escriba `outputs/{run_id}`.
@@ -99,4 +110,4 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 
 ## Próximo Step Natural
 
-Step 14: revisión sintética por comité OpenAI usando `review/review_items.jsonl` como única entrada de casos.
+Step 15: métricas de confiabilidad sintética sobre reviewers, agregados, adjudicaciones finales y candidatos.

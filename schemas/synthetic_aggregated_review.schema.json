@@ -595,6 +595,12 @@
     "SyntheticReviewerOutput": {
       "additionalProperties": false,
       "properties": {
+        "run_id": {
+          "default": "run_unknown",
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
         "review_item_id": {
           "minLength": 1,
           "title": "Review Item Id",
@@ -636,6 +642,24 @@
           },
           "title": "Validator Flags",
           "type": "array"
+        },
+        "taxonomy_version_effective": {
+          "default": "v1_0",
+          "minLength": 1,
+          "title": "Taxonomy Version Effective",
+          "type": "string"
+        },
+        "prompt_version_effective": {
+          "default": "v1_0",
+          "minLength": 1,
+          "title": "Prompt Version Effective",
+          "type": "string"
+        },
+        "validator_version_effective": {
+          "default": "v1_0",
+          "minLength": 1,
+          "title": "Validator Version Effective",
+          "type": "string"
         }
       },
       "required": [
@@ -697,6 +721,12 @@
   },
   "additionalProperties": false,
   "properties": {
+    "run_id": {
+      "default": "run_unknown",
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
     "review_item_id": {
       "minLength": 1,
       "title": "Review Item Id",
@@ -727,6 +757,24 @@
     "needs_final_adjudication": {
       "title": "Needs Final Adjudication",
       "type": "boolean"
+    },
+    "taxonomy_version_effective": {
+      "default": "v1_0",
+      "minLength": 1,
+      "title": "Taxonomy Version Effective",
+      "type": "string"
+    },
+    "prompt_version_effective": {
+      "default": "v1_0",
+      "minLength": 1,
+      "title": "Prompt Version Effective",
+      "type": "string"
+    },
+    "validator_version_effective": {
+      "default": "v1_0",
+      "minLength": 1,
+      "title": "Validator Version Effective",
+      "type": "string"
     }
   },
   "required": [

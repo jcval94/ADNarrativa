@@ -582,6 +582,16 @@
       "title": "Stance",
       "type": "string"
     },
+    "SyntheticDecision": {
+      "enum": [
+        "accept",
+        "revise",
+        "reject",
+        "needs_review"
+      ],
+      "title": "SyntheticDecision",
+      "type": "string"
+    },
     "SyntheticGoldStatus": {
       "enum": [
         "synthetic_gold_high_confidence",
@@ -646,21 +656,35 @@
       "title": "Run Id",
       "type": "string"
     },
-    "candidate_id": {
-      "minLength": 1,
-      "title": "Candidate Id",
-      "type": "string"
-    },
     "review_item_id": {
       "minLength": 1,
       "title": "Review Item Id",
       "type": "string"
     },
-    "status": {
-      "$ref": "#/$defs/SyntheticGoldStatus"
+    "final_decision": {
+      "$ref": "#/$defs/SyntheticDecision"
     },
-    "unit": {
-      "$ref": "#/$defs/NarrativeUnit"
+    "gold_status": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SyntheticGoldStatus"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "selected_unit": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/NarrativeUnit"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
     },
     "reliability_score": {
       "maximum": 1,
@@ -668,10 +692,21 @@
       "title": "Reliability Score",
       "type": "number"
     },
-    "promotion_notes": {
+    "rationale": {
       "minLength": 1,
-      "title": "Promotion Notes",
+      "title": "Rationale",
       "type": "string"
+    },
+    "validator_flags": {
+      "items": {
+        "$ref": "#/$defs/ValidatorFlag"
+      },
+      "title": "Validator Flags",
+      "type": "array"
+    },
+    "needs_human_review": {
+      "title": "Needs Human Review",
+      "type": "boolean"
     },
     "taxonomy_version_effective": {
       "default": "v1_0",
@@ -693,14 +728,13 @@
     }
   },
   "required": [
-    "candidate_id",
     "review_item_id",
-    "status",
-    "unit",
+    "final_decision",
     "reliability_score",
-    "promotion_notes"
+    "rationale",
+    "needs_human_review"
   ],
-  "title": "SyntheticGoldCandidate",
+  "title": "SyntheticFinalAdjudication",
   "type": "object",
   "$schema": "https://json-schema.org/draft/2020-12/schema"
 }

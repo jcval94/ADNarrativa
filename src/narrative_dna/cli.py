@@ -8,6 +8,10 @@ from rich.console import Console
 from narrative_dna.review_set_builder import build_and_write_review_set
 from narrative_dna.schema_exporter import export_schemas as export_schema_files
 from narrative_dna.similarity_auditor import audit_similarity_run
+from narrative_dna.synthetic_reviewer import (
+    SyntheticCommitteeReviewer,
+    run_and_write_synthetic_review,
+)
 
 app = typer.Typer(
     help="JSON-first narrative DNA annotation toolkit.",
@@ -70,8 +74,26 @@ def build_review_set(
 
 
 @app.command("synthetic-review")
-def synthetic_review() -> None:
+def synthetic_review(
+    run_id: str = typer.Option(..., "--run-id", help="Run id under outputs/."),
+    outputs_dir: str = typer.Option("outputs", "--outputs-dir", help="Base outputs directory."),
+    dry_run: bool = typer.Option(False, "--dry-run", help="Validate workflow without API calls."),
+    max_items: int | None = typer.Option(None, "--max-items", help="Limit reviewed items."),
+) -> None:
     """Run synthetic committee review."""
+    reviewer = SyntheticCommitteeReviewer(dry_run=dry_run)
+    report = run_and_write_synthetic_review(
+        run_id=run_id,
+        outputs_dir=outputs_dir,
+        reviewer=reviewer,
+        max_items=max_items,
+    )
+    console.print(
+        f"Wrote synthetic review for run {report.run_id}: "
+        f"{report.reviewer_output_count} reviewer outputs, "
+        f"{report.aggregated_count} aggregated items, "
+        f"{report.synthetic_gold_candidate_count} candidates."
+    )
 
 
 @app.command("promote-synthetic-gold")
