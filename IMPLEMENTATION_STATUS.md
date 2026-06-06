@@ -1,6 +1,6 @@
 # Estado de Implementación
 
-Fecha de corte: 2026-05-26
+Fecha de corte: 2026-06-06
 
 Versiones efectivas actuales:
 
@@ -10,7 +10,7 @@ Versiones efectivas actuales:
 
 ## Resumen Ejecutivo
 
-El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalable, contratos Pydantic estrictos, taxonomía auditada, constitución estable v1.0, validadores determinísticos iniciales, compilador de notación derivada, loader/segmentador, extracción de heurísticas conservadoras, cliente OpenAI estructurado, clasificador JSON-first, árbitro conservador y auditoría por similitud semántica.
+El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalable, contratos Pydantic estrictos, taxonomía auditada, constitución estable v1.0, validadores determinísticos iniciales, compilador de notación derivada, loader/segmentador, extracción de heurísticas conservadoras, cliente OpenAI estructurado, clasificador JSON-first, árbitro conservador, auditoría por similitud semántica y construcción de review sets para comité sintético.
 
 La decisión más importante sigue intacta: el JSON validado es la fuente de verdad. La notación compacta se compila desde JSON y no debe editarse manualmente.
 
@@ -30,7 +30,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 | 9 | Completo | Cliente OpenAI Responses API con Structured Outputs estrictos, cache versionado, retries, dry-run y validación Pydantic. |
 | 10 | Completo | Clasificador por unidad/documento con contexto, heurísticas, salida parcial estricta y postproceso con validadores. |
 | 11 | Completo | Árbitro conservador para casos de alto riesgo, con salida estructurada, reducción de etiquetas débiles y validación posterior. |
-| 12 | En este commit | Auditoría por similitud semántica con embeddings cacheados, conflicto de notación y explicación auditable. |
+| 12 | Completo | Auditoría por similitud semántica con embeddings cacheados, conflicto de notación y explicación auditable. |
+| 13 | En este commit | Review set sintético priorizado por flags, needs_review, conflictos de similitud, grupos confundibles, pares mínimos y QA de alta confianza. |
 
 ## Artefactos Clave
 
@@ -54,6 +55,9 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - `prompts/adjudicator.md`: prompt operativo v1.0 para resolución conservadora.
 - `src/narrative_dna/similarity_auditor.py`: auditoría semántica de inconsistencias de notación.
 - `configs/similarity_audit_config.json`: umbral, top-k y proveedor de embeddings configurable.
+- `src/narrative_dna/review_set_builder.py`: construcción de `review/review_items.jsonl` y manifest para comité sintético.
+- `schemas/synthetic_review_item.schema.json`: contrato estricto del review item enriquecido con contexto, reglas y versiones efectivas.
+- `schemas/synthetic_review_manifest.schema.json`: contrato del manifest del review set.
 
 ## Qué Ya Está Bien Encaminado
 
@@ -72,13 +76,15 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - La adjudicación vuelve a pasar por validadores, limpia flags resueltos y mantiene `needs_review=true` si dos lecturas siguen siendo plausibles.
 - El auditor distingue `likely_inconsistency`, `context_explains_difference`, `allowed_by_taxonomy` y `needs_human_review`.
 - Los conflictos incluyen `similarity`, `notation_distance`, `conflict_score`, campos divergentes y versiones efectivas en el summary.
+- El review set ya no es aleatorio: integra `needs_review`, flags, conflictos de similitud, grupos confundibles, emoción intensa, emociones mencionadas, >3 funciones, baja/media confianza, muestra QA high-confidence y pares mínimos v1.0.
+- `narrative-dna build-review-set --run-id <RUN_ID>` escribe `outputs/{run_id}/review/review_items.jsonl` y `review_manifest.json`.
 
 ## Refuerzos Pendientes
 
 - Integrar loader, segmenter, heurísticas y validadores en el pipeline end-to-end.
 - Integrar classifier y adjudicator en el pipeline end-to-end cuando se cablee `pipeline.py`.
-- Alimentar el review set del Step 13 con `similarity_conflicts.jsonl`.
 - Implementar validadores v1.0 adicionales: certeza epistémica, postura con target, C/B/X, E/H/G y T/M/L/Z.
+- Llevar el comité sintético del Step 14 a consumir `review/review_items.jsonl` sin volver a inferir contexto.
 - Reforzar segmentación y heurísticas con más casos de habla oral real antes de congelar regression fixtures.
 - Agregar pruebas golden de notación cuando exista `synthetic_gold_high_confidence`.
 - Validar schemas generados contra ejemplos reales de outputs cuando el pipeline escriba `outputs/{run_id}`.
@@ -93,4 +99,4 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 
 ## Próximo Step Natural
 
-Step 13: construir review set para comité sintético usando unidades difíciles, flags, conflictos de similitud y pares mínimos.
+Step 14: revisión sintética por comité OpenAI usando `review/review_items.jsonl` como única entrada de casos.

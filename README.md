@@ -48,9 +48,9 @@ La notación nunca se edita manualmente. Si cambia el JSON, se recompila.
 
 ## Estado del repo
 
-Estado actual: Steps 0-12 completos.
+Estado actual: Steps 0-13 completos.
 
-El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos, clasificador JSON-first por unidad/documento, árbitro conservador para casos de alto riesgo y auditoría por similitud semántica.
+El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos, clasificador JSON-first por unidad/documento, árbitro conservador para casos de alto riesgo, auditoría por similitud semántica y construcción de review sets para comité sintético.
 
 La capa actual puede leer `.txt`, `.json`, `.jsonl` y `data/transcripts/videos` para producir `NarrativeDocument` con unidades candidatas sin LLM. Las unidades nacen como `N_N0{0}` y las heurísticas agregan sólo señales auditables (`locked_functions`, `candidate_functions`, certeza/emoción/postura candidata y `evidence_spans`); no cambian `functions` ni `final_notation`.
 
@@ -62,7 +62,9 @@ El adjudicator vive en `src/narrative_dna/adjudicator.py`: se activa por baja co
 
 El auditor de similitud vive en `src/narrative_dna/similarity_auditor.py`: construye texto contextual, usa embeddings locales o OpenAI configurable, cachea vectores, calcula vecinos por cosine similarity, mide distancia de notación y escribe `similarity_conflicts.jsonl` más `similarity_conflicts_summary.json` como outputs derivados.
 
-Siguiente paso natural: Step 13, construir review set para comité sintético.
+El constructor de review sets vive en `src/narrative_dna/review_set_builder.py`: toma `documents.jsonl`, `similarity_conflicts.jsonl`, pares mínimos y reglas taxonómicas para priorizar unidades con `needs_review`, flags, grupos confundibles, emociones intensas, baja confianza, conflictos semánticos, pares similares con notación distinta y muestras de alta confianza para QA.
+
+Siguiente paso natural: Step 14, revisión sintética por comité OpenAI.
 
 ## Instalación
 
@@ -281,8 +283,9 @@ Flujo end-to-end:
 10. Detectar relaciones.
 11. Detectar cadenas narrativas.
 12. Auditar similitud semántica.
-13. Exportar JSON/JSONL.
-14. Generar reportes y exports derivados.
+13. Construir review set para comité sintético.
+14. Exportar JSON/JSONL.
+15. Generar reportes y exports derivados.
 
 ## Outputs
 

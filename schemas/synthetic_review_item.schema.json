@@ -1,634 +1,4 @@
 {
-  "$defs": {
-    "Certainty": {
-      "enum": [
-        "none",
-        "strong",
-        "tentative",
-        "uncertain"
-      ],
-      "title": "Certainty",
-      "type": "string"
-    },
-    "EmotionCode": {
-      "enum": [
-        "N",
-        "A",
-        "L",
-        "C",
-        "S",
-        "E",
-        "M",
-        "T",
-        "D",
-        "F",
-        "I"
-      ],
-      "title": "EmotionCode",
-      "type": "string"
-    },
-    "EvidenceSpan": {
-      "additionalProperties": false,
-      "properties": {
-        "text": {
-          "minLength": 1,
-          "title": "Text",
-          "type": "string"
-        },
-        "char_start": {
-          "anyOf": [
-            {
-              "minimum": 0,
-              "type": "integer"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Char Start"
-        },
-        "char_end": {
-          "anyOf": [
-            {
-              "minimum": 0,
-              "type": "integer"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Char End"
-        },
-        "start_ms": {
-          "anyOf": [
-            {
-              "minimum": 0,
-              "type": "integer"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Start Ms"
-        },
-        "end_ms": {
-          "anyOf": [
-            {
-              "minimum": 0,
-              "type": "integer"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "End Ms"
-        },
-        "source": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Source"
-        }
-      },
-      "required": [
-        "text"
-      ],
-      "title": "EvidenceSpan",
-      "type": "object"
-    },
-    "FunctionCode": {
-      "enum": [
-        "A",
-        "K",
-        "O",
-        "F",
-        "Y",
-        "D",
-        "Q",
-        "P",
-        "R",
-        "E",
-        "H",
-        "G",
-        "C",
-        "B",
-        "X",
-        "T",
-        "M",
-        "L",
-        "Z",
-        "S",
-        "I",
-        "U",
-        "V",
-        "N"
-      ],
-      "title": "FunctionCode",
-      "type": "string"
-    },
-    "HeuristicCandidate": {
-      "additionalProperties": false,
-      "properties": {
-        "label": {
-          "$ref": "#/$defs/FunctionCode"
-        },
-        "confidence": {
-          "maximum": 1,
-          "minimum": 0,
-          "title": "Confidence",
-          "type": "number"
-        },
-        "reason": {
-          "minLength": 1,
-          "title": "Reason",
-          "type": "string"
-        }
-      },
-      "required": [
-        "label",
-        "confidence",
-        "reason"
-      ],
-      "title": "HeuristicCandidate",
-      "type": "object"
-    },
-    "InheritedFunction": {
-      "additionalProperties": false,
-      "properties": {
-        "function": {
-          "$ref": "#/$defs/FunctionCode"
-        },
-        "inherited_from": {
-          "$ref": "#/$defs/FunctionCode"
-        },
-        "reason": {
-          "minLength": 1,
-          "title": "Reason",
-          "type": "string"
-        }
-      },
-      "required": [
-        "function",
-        "inherited_from",
-        "reason"
-      ],
-      "title": "InheritedFunction",
-      "type": "object"
-    },
-    "LLMVote": {
-      "additionalProperties": false,
-      "properties": {
-        "model": {
-          "minLength": 1,
-          "title": "Model",
-          "type": "string"
-        },
-        "label": {
-          "$ref": "#/$defs/FunctionCode"
-        },
-        "confidence": {
-          "maximum": 1,
-          "minimum": 0,
-          "title": "Confidence",
-          "type": "number"
-        },
-        "rationale": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Rationale"
-        }
-      },
-      "required": [
-        "model",
-        "label",
-        "confidence"
-      ],
-      "title": "LLMVote",
-      "type": "object"
-    },
-    "Method": {
-      "enum": [
-        "none",
-        "heuristic",
-        "llm",
-        "adjudicated",
-        "synthetic",
-        "derived",
-        "manual"
-      ],
-      "title": "Method",
-      "type": "string"
-    },
-    "NarrativeUnit": {
-      "additionalProperties": false,
-      "properties": {
-        "document_id": {
-          "minLength": 1,
-          "title": "Document Id",
-          "type": "string"
-        },
-        "unit_id": {
-          "minLength": 1,
-          "title": "Unit Id",
-          "type": "string"
-        },
-        "sequence_index": {
-          "minimum": 0,
-          "title": "Sequence Index",
-          "type": "integer"
-        },
-        "text": {
-          "minLength": 1,
-          "title": "Text",
-          "type": "string"
-        },
-        "normalized_text": {
-          "minLength": 1,
-          "title": "Normalized Text",
-          "type": "string"
-        },
-        "start_ms": {
-          "anyOf": [
-            {
-              "minimum": 0,
-              "type": "integer"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Start Ms"
-        },
-        "end_ms": {
-          "anyOf": [
-            {
-              "minimum": 0,
-              "type": "integer"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "End Ms"
-        },
-        "char_start": {
-          "anyOf": [
-            {
-              "minimum": 0,
-              "type": "integer"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Char Start"
-        },
-        "char_end": {
-          "anyOf": [
-            {
-              "minimum": 0,
-              "type": "integer"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Char End"
-        },
-        "previous_unit_id": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Previous Unit Id"
-        },
-        "next_unit_id": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Next Unit Id"
-        },
-        "functions": {
-          "items": {
-            "$ref": "#/$defs/FunctionCode"
-          },
-          "minItems": 1,
-          "title": "Functions",
-          "type": "array"
-        },
-        "primary_function": {
-          "$ref": "#/$defs/FunctionCode"
-        },
-        "secondary_functions": {
-          "items": {
-            "$ref": "#/$defs/FunctionCode"
-          },
-          "title": "Secondary Functions",
-          "type": "array"
-        },
-        "inherited_functions": {
-          "items": {
-            "$ref": "#/$defs/InheritedFunction"
-          },
-          "title": "Inherited Functions",
-          "type": "array"
-        },
-        "certainty": {
-          "$ref": "#/$defs/Certainty"
-        },
-        "emotion_expressed": {
-          "$ref": "#/$defs/EmotionCode"
-        },
-        "emotion_intensity": {
-          "maximum": 3,
-          "minimum": 0,
-          "title": "Emotion Intensity",
-          "type": "integer"
-        },
-        "emotions_mentioned": {
-          "items": {
-            "$ref": "#/$defs/EmotionCode"
-          },
-          "title": "Emotions Mentioned",
-          "type": "array"
-        },
-        "stance": {
-          "$ref": "#/$defs/Stance"
-        },
-        "target": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Target"
-        },
-        "speech_act": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Speech Act"
-        },
-        "logic": {
-          "anyOf": [
-            {
-              "additionalProperties": true,
-              "type": "object"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Logic"
-        },
-        "evidence_spans": {
-          "items": {
-            "$ref": "#/$defs/EvidenceSpan"
-          },
-          "title": "Evidence Spans",
-          "type": "array"
-        },
-        "rejected_labels": {
-          "items": {
-            "$ref": "#/$defs/RejectedLabel"
-          },
-          "title": "Rejected Labels",
-          "type": "array"
-        },
-        "validator_flags": {
-          "items": {
-            "$ref": "#/$defs/ValidatorFlag"
-          },
-          "title": "Validator Flags",
-          "type": "array"
-        },
-        "heuristic_candidates": {
-          "items": {
-            "$ref": "#/$defs/HeuristicCandidate"
-          },
-          "title": "Heuristic Candidates",
-          "type": "array"
-        },
-        "llm_votes": {
-          "items": {
-            "$ref": "#/$defs/LLMVote"
-          },
-          "title": "Llm Votes",
-          "type": "array"
-        },
-        "confidence": {
-          "maximum": 1,
-          "minimum": 0,
-          "title": "Confidence",
-          "type": "number"
-        },
-        "method": {
-          "$ref": "#/$defs/Method"
-        },
-        "needs_review": {
-          "title": "Needs Review",
-          "type": "boolean"
-        },
-        "review_reasons": {
-          "items": {
-            "type": "string"
-          },
-          "title": "Review Reasons",
-          "type": "array"
-        },
-        "review_status": {
-          "$ref": "#/$defs/ReviewStatus",
-          "default": "pending"
-        },
-        "final_notation": {
-          "minLength": 1,
-          "title": "Final Notation",
-          "type": "string"
-        },
-        "taxonomy_version": {
-          "minLength": 1,
-          "title": "Taxonomy Version",
-          "type": "string"
-        },
-        "prompt_version": {
-          "minLength": 1,
-          "title": "Prompt Version",
-          "type": "string"
-        },
-        "validator_version": {
-          "minLength": 1,
-          "title": "Validator Version",
-          "type": "string"
-        }
-      },
-      "required": [
-        "document_id",
-        "unit_id",
-        "sequence_index",
-        "text",
-        "normalized_text",
-        "functions",
-        "primary_function",
-        "certainty",
-        "emotion_expressed",
-        "emotion_intensity",
-        "stance",
-        "confidence",
-        "method",
-        "needs_review",
-        "final_notation",
-        "taxonomy_version",
-        "prompt_version",
-        "validator_version"
-      ],
-      "title": "NarrativeUnit",
-      "type": "object"
-    },
-    "RejectedLabel": {
-      "additionalProperties": false,
-      "properties": {
-        "label": {
-          "minLength": 1,
-          "title": "Label",
-          "type": "string"
-        },
-        "reason": {
-          "minLength": 1,
-          "title": "Reason",
-          "type": "string"
-        },
-        "confidence": {
-          "anyOf": [
-            {
-              "maximum": 1,
-              "minimum": 0,
-              "type": "number"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Confidence"
-        }
-      },
-      "required": [
-        "label",
-        "reason"
-      ],
-      "title": "RejectedLabel",
-      "type": "object"
-    },
-    "ReviewStatus": {
-      "enum": [
-        "accepted",
-        "needs_review",
-        "rejected",
-        "pending"
-      ],
-      "title": "ReviewStatus",
-      "type": "string"
-    },
-    "Stance": {
-      "enum": [
-        "positive",
-        "negative",
-        "mixed",
-        "neutral"
-      ],
-      "title": "Stance",
-      "type": "string"
-    },
-    "ValidatorFlag": {
-      "additionalProperties": false,
-      "properties": {
-        "rule_id": {
-          "minLength": 1,
-          "title": "Rule Id",
-          "type": "string"
-        },
-        "severity": {
-          "$ref": "#/$defs/ValidatorSeverity"
-        },
-        "message": {
-          "minLength": 1,
-          "title": "Message",
-          "type": "string"
-        },
-        "field": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "title": "Field"
-        }
-      },
-      "required": [
-        "rule_id",
-        "severity",
-        "message"
-      ],
-      "title": "ValidatorFlag",
-      "type": "object"
-    },
-    "ValidatorSeverity": {
-      "enum": [
-        "info",
-        "warning",
-        "error"
-      ],
-      "title": "ValidatorSeverity",
-      "type": "string"
-    }
-  },
   "additionalProperties": false,
   "properties": {
     "review_item_id": {
@@ -636,32 +6,165 @@
       "title": "Review Item Id",
       "type": "string"
     },
-    "run_id": {
-      "minLength": 1,
-      "title": "Run Id",
+    "item_type": {
+      "enum": [
+        "unit",
+        "similar_pair",
+        "minimal_pair",
+        "relation",
+        "chain"
+      ],
+      "title": "Item Type",
       "type": "string"
     },
-    "unit": {
-      "$ref": "#/$defs/NarrativeUnit"
-    },
-    "reason": {
+    "document_id": {
       "minLength": 1,
-      "title": "Reason",
+      "title": "Document Id",
       "type": "string"
     },
-    "context_unit_ids": {
+    "unit_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Unit Id"
+    },
+    "unit_ids": {
       "items": {
         "type": "string"
       },
-      "title": "Context Unit Ids",
+      "title": "Unit Ids",
       "type": "array"
+    },
+    "text": {
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+    },
+    "context_before": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Context Before",
+      "type": "array"
+    },
+    "context_after": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Context After",
+      "type": "array"
+    },
+    "current_prediction_json": {
+      "additionalProperties": true,
+      "title": "Current Prediction Json",
+      "type": "object"
+    },
+    "current_notation": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Current Notation"
+    },
+    "relevant_taxonomy_rules": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Relevant Taxonomy Rules",
+      "type": "array"
+    },
+    "relevant_decision_tree": {
+      "default": "",
+      "title": "Relevant Decision Tree",
+      "type": "string"
+    },
+    "relevant_minimal_pairs": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Relevant Minimal Pairs",
+      "type": "array"
+    },
+    "validator_flags": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Validator Flags",
+      "type": "array"
+    },
+    "similarity_conflict_info": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Similarity Conflict Info"
+    },
+    "expected_difficulty": {
+      "enum": [
+        "easy",
+        "medium",
+        "hard",
+        "adversarial"
+      ],
+      "title": "Expected Difficulty",
+      "type": "string"
+    },
+    "review_goal": {
+      "enum": [
+        "validate",
+        "find_alternative",
+        "resolve_confusion",
+        "test_boundary"
+      ],
+      "title": "Review Goal",
+      "type": "string"
+    },
+    "taxonomy_version_effective": {
+      "minLength": 1,
+      "title": "Taxonomy Version Effective",
+      "type": "string"
+    },
+    "prompt_version_effective": {
+      "minLength": 1,
+      "title": "Prompt Version Effective",
+      "type": "string"
+    },
+    "validator_version_effective": {
+      "minLength": 1,
+      "title": "Validator Version Effective",
+      "type": "string"
     }
   },
   "required": [
     "review_item_id",
-    "run_id",
-    "unit",
-    "reason"
+    "item_type",
+    "document_id",
+    "text",
+    "expected_difficulty",
+    "review_goal",
+    "taxonomy_version_effective",
+    "prompt_version_effective",
+    "validator_version_effective"
   ],
   "title": "SyntheticReviewItem",
   "type": "object",

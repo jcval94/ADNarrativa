@@ -1,0 +1,72 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
+    "item_count": {
+      "minimum": 0,
+      "title": "Item Count",
+      "type": "integer"
+    },
+    "counts_by_item_type": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Counts By Item Type",
+      "type": "object"
+    },
+    "counts_by_review_goal": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Counts By Review Goal",
+      "type": "object"
+    },
+    "source_documents": {
+      "minimum": 0,
+      "title": "Source Documents",
+      "type": "integer"
+    },
+    "source_units": {
+      "minimum": 0,
+      "title": "Source Units",
+      "type": "integer"
+    },
+    "source_similarity_conflicts": {
+      "minimum": 0,
+      "title": "Source Similarity Conflicts",
+      "type": "integer"
+    },
+    "taxonomy_version_effective": {
+      "minLength": 1,
+      "title": "Taxonomy Version Effective",
+      "type": "string"
+    },
+    "prompt_version_effective": {
+      "minLength": 1,
+      "title": "Prompt Version Effective",
+      "type": "string"
+    },
+    "validator_version_effective": {
+      "minLength": 1,
+      "title": "Validator Version Effective",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id",
+    "item_count",
+    "source_documents",
+    "source_units",
+    "source_similarity_conflicts",
+    "taxonomy_version_effective",
+    "prompt_version_effective",
+    "validator_version_effective"
+  ],
+  "title": "SyntheticReviewManifest",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

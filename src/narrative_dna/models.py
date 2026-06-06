@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from enum import Enum
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -432,10 +432,38 @@ class AuditReport(StrictBaseModel):
 
 class SyntheticReviewItem(StrictBaseModel):
     review_item_id: str = Field(min_length=1)
+    item_type: Literal["unit", "similar_pair", "minimal_pair", "relation", "chain"]
+    document_id: str = Field(min_length=1)
+    unit_id: str | None = None
+    unit_ids: list[str] = Field(default_factory=list)
+    text: str = Field(min_length=1)
+    context_before: list[str] = Field(default_factory=list)
+    context_after: list[str] = Field(default_factory=list)
+    current_prediction_json: dict[str, Any] = Field(default_factory=dict)
+    current_notation: str | None = None
+    relevant_taxonomy_rules: list[dict[str, Any]] = Field(default_factory=list)
+    relevant_decision_tree: str = ""
+    relevant_minimal_pairs: list[dict[str, Any]] = Field(default_factory=list)
+    validator_flags: list[dict[str, Any]] = Field(default_factory=list)
+    similarity_conflict_info: dict[str, Any] | None = None
+    expected_difficulty: Literal["easy", "medium", "hard", "adversarial"]
+    review_goal: Literal["validate", "find_alternative", "resolve_confusion", "test_boundary"]
+    taxonomy_version_effective: str = Field(min_length=1)
+    prompt_version_effective: str = Field(min_length=1)
+    validator_version_effective: str = Field(min_length=1)
+
+
+class SyntheticReviewManifest(StrictBaseModel):
     run_id: str = Field(min_length=1)
-    unit: NarrativeUnit
-    reason: str = Field(min_length=1)
-    context_unit_ids: list[str] = Field(default_factory=list)
+    item_count: int = Field(ge=0)
+    counts_by_item_type: dict[str, int] = Field(default_factory=dict)
+    counts_by_review_goal: dict[str, int] = Field(default_factory=dict)
+    source_documents: int = Field(ge=0)
+    source_units: int = Field(ge=0)
+    source_similarity_conflicts: int = Field(ge=0)
+    taxonomy_version_effective: str = Field(min_length=1)
+    prompt_version_effective: str = Field(min_length=1)
+    validator_version_effective: str = Field(min_length=1)
 
 
 class SyntheticReviewerOutput(StrictBaseModel):
@@ -507,6 +535,7 @@ SCHEMA_MODELS: dict[str, type[StrictBaseModel]] = {
     "validator_summary.schema.json": ValidatorSummary,
     "evaluation_metrics.schema.json": EvaluationMetrics,
     "synthetic_review_item.schema.json": SyntheticReviewItem,
+    "synthetic_review_manifest.schema.json": SyntheticReviewManifest,
     "synthetic_reviewer_output.schema.json": SyntheticReviewerOutput,
     "synthetic_aggregated_review.schema.json": SyntheticAggregatedReview,
     "synthetic_gold_candidate.schema.json": SyntheticGoldCandidate,

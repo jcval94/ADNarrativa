@@ -484,6 +484,7 @@ def decision_tree_ids_for_labels(labels: list[str]) -> list[str]:
         "DT_E_H_G": {"E", "H", "G"},
         "DT_S_I_U": {"S", "I", "U"},
         "DT_C_B_X": {"C", "B", "X"},
+        "DT_T_M_L_Z": {"T", "M", "L", "Z"},
         "DT_EMOTION_EXPRESSED_MENTIONED": set(),
     }
     return [tree_id for tree_id, tree_labels in mapping.items() if label_set & tree_labels]
