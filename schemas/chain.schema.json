@@ -1,6 +1,139 @@
 {
+  "$defs": {
+    "EvidenceSpan": {
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "char_start": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Char Start"
+        },
+        "char_end": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Char End"
+        },
+        "start_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Start Ms"
+        },
+        "end_ms": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "End Ms"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "EvidenceSpan",
+      "type": "object"
+    },
+    "ValidatorFlag": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "minLength": 1,
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/ValidatorSeverity"
+        },
+        "message": {
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        },
+        "field": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Field"
+        }
+      },
+      "required": [
+        "rule_id",
+        "severity",
+        "message"
+      ],
+      "title": "ValidatorFlag",
+      "type": "object"
+    },
+    "ValidatorSeverity": {
+      "enum": [
+        "info",
+        "warning",
+        "error"
+      ],
+      "title": "ValidatorSeverity",
+      "type": "string"
+    }
+  },
   "additionalProperties": false,
   "properties": {
+    "run_id": {
+      "default": "run_unknown",
+      "minLength": 1,
+      "title": "Run Id",
+      "type": "string"
+    },
     "chain_id": {
       "minLength": 1,
       "title": "Chain Id",
@@ -66,6 +199,13 @@
       "default": null,
       "title": "Narrative Function"
     },
+    "evidence_spans": {
+      "items": {
+        "$ref": "#/$defs/EvidenceSpan"
+      },
+      "title": "Evidence Spans",
+      "type": "array"
+    },
     "evidence_summary": {
       "anyOf": [
         {
@@ -78,10 +218,35 @@
       "default": null,
       "title": "Evidence Summary"
     },
+    "validator_flags": {
+      "items": {
+        "$ref": "#/$defs/ValidatorFlag"
+      },
+      "title": "Validator Flags",
+      "type": "array"
+    },
     "needs_review": {
       "default": false,
       "title": "Needs Review",
       "type": "boolean"
+    },
+    "taxonomy_version_effective": {
+      "default": "v1_0",
+      "minLength": 1,
+      "title": "Taxonomy Version Effective",
+      "type": "string"
+    },
+    "prompt_version_effective": {
+      "default": "v1_0",
+      "minLength": 1,
+      "title": "Prompt Version Effective",
+      "type": "string"
+    },
+    "validator_version_effective": {
+      "default": "v1_0",
+      "minLength": 1,
+      "title": "Validator Version Effective",
+      "type": "string"
     }
   },
   "required": [

@@ -239,6 +239,12 @@
     "NarrativeChain": {
       "additionalProperties": false,
       "properties": {
+        "run_id": {
+          "default": "run_unknown",
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
         "chain_id": {
           "minLength": 1,
           "title": "Chain Id",
@@ -304,6 +310,13 @@
           "default": null,
           "title": "Narrative Function"
         },
+        "evidence_spans": {
+          "items": {
+            "$ref": "#/$defs/EvidenceSpan"
+          },
+          "title": "Evidence Spans",
+          "type": "array"
+        },
         "evidence_summary": {
           "anyOf": [
             {
@@ -316,10 +329,35 @@
           "default": null,
           "title": "Evidence Summary"
         },
+        "validator_flags": {
+          "items": {
+            "$ref": "#/$defs/ValidatorFlag"
+          },
+          "title": "Validator Flags",
+          "type": "array"
+        },
         "needs_review": {
           "default": false,
           "title": "Needs Review",
           "type": "boolean"
+        },
+        "taxonomy_version_effective": {
+          "default": "v1_0",
+          "minLength": 1,
+          "title": "Taxonomy Version Effective",
+          "type": "string"
+        },
+        "prompt_version_effective": {
+          "default": "v1_0",
+          "minLength": 1,
+          "title": "Prompt Version Effective",
+          "type": "string"
+        },
+        "validator_version_effective": {
+          "default": "v1_0",
+          "minLength": 1,
+          "title": "Validator Version Effective",
+          "type": "string"
         }
       },
       "required": [

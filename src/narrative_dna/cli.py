@@ -5,6 +5,7 @@ from __future__ import annotations
 import typer
 from rich.console import Console
 
+from narrative_dna.chain_detector import detect_chains_for_run
 from narrative_dna.relation_detector import detect_relations_for_run
 from narrative_dna.review_set_builder import build_and_write_review_set
 from narrative_dna.schema_exporter import export_schemas as export_schema_files
@@ -91,6 +92,25 @@ def detect_relations(
     )
     console.print(
         f"Detected {len(relations)} relations across {len(documents)} documents for run {run_id}."
+    )
+
+
+@app.command("detect-chains")
+def detect_chains(
+    run_id: str = typer.Option(..., "--run-id", help="Run id under outputs/."),
+    outputs_dir: str = typer.Option("outputs", "--outputs-dir", help="Base outputs directory."),
+    min_score: float = typer.Option(0.58, "--min-score", help="Minimum chain score."),
+    max_chain_length: int = typer.Option(6, "--max-chain-length", help="Maximum units in a chain."),
+) -> None:
+    """Detect deterministic auditable narrative chains."""
+    documents, chains = detect_chains_for_run(
+        run_id=run_id,
+        outputs_dir=outputs_dir,
+        min_score=min_score,
+        max_chain_length=max_chain_length,
+    )
+    console.print(
+        f"Detected {len(chains)} chains across {len(documents)} documents for run {run_id}."
     )
 
 

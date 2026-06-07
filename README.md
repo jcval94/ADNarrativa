@@ -48,9 +48,9 @@ La notación nunca se edita manualmente. Si cambia el JSON, se recompila.
 
 ## Estado del repo
 
-Estado actual: Steps 0-16 completos.
+Estado actual: Steps 0-17 completos.
 
-El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos, clasificador JSON-first por unidad/documento, árbitro conservador para casos de alto riesgo, auditoría por similitud semántica, review sets para comité sintético, workflow de revisión sintética OpenAI, métricas de confiabilidad sintética y detector auditable de relaciones.
+El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos, clasificador JSON-first por unidad/documento, árbitro conservador para casos de alto riesgo, auditoría por similitud semántica, review sets para comité sintético, workflow de revisión sintética OpenAI, métricas de confiabilidad sintética, detector auditable de relaciones y detector de cadenas narrativas.
 
 La capa actual puede leer `.txt`, `.json`, `.jsonl` y `data/transcripts/videos` para producir `NarrativeDocument` con unidades candidatas sin LLM. Las unidades nacen como `N_N0{0}` y las heurísticas agregan sólo señales auditables (`locked_functions`, `candidate_functions`, certeza/emoción/postura candidata y `evidence_spans`); no cambian `functions` ni `final_notation`.
 
@@ -70,7 +70,9 @@ La confiabilidad sintética vive en `src/narrative_dna/synthetic_reliability.py`
 
 El detector de relaciones vive en `src/narrative_dna/relation_detector.py`: aplica reglas determinísticas por funciones, distancia y marcadores textuales para producir `NarrativeRelation` con `run_id`, `evidence_spans`, relaciones rechazadas, flags de revisión y versiones efectivas.
 
-Siguiente paso natural: Step 17, detector de cadenas narrativas.
+El detector de cadenas vive en `src/narrative_dna/chain_detector.py`: compone relaciones y secuencias multilabel contiguas para producir `NarrativeChain` con `run_id`, secuencia de unidades, relaciones usadas, notación derivada, evidencia, flags y versiones efectivas.
+
+Siguiente paso natural: Step 18, evaluación, métricas y reportes JSON.
 
 ## Instalación
 
@@ -257,6 +259,12 @@ Detectar relaciones:
 
 ```bash
 narrative-dna detect-relations --run-id <RUN_ID>
+```
+
+Detectar cadenas narrativas:
+
+```bash
+narrative-dna detect-chains --run-id <RUN_ID>
 ```
 
 Construir review set:

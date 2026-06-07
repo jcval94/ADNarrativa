@@ -339,6 +339,7 @@ class NarrativeRelation(StrictBaseModel):
 
 
 class NarrativeChain(StrictBaseModel):
+    run_id: str = Field(default="run_unknown", min_length=1)
     chain_id: str = Field(min_length=1)
     document_id: str = Field(min_length=1)
     chain_type: str = Field(min_length=1)
@@ -349,8 +350,13 @@ class NarrativeChain(StrictBaseModel):
     end_unit_id: str = Field(min_length=1)
     score: float = Field(ge=0, le=1)
     narrative_function: str | None = None
+    evidence_spans: list[EvidenceSpan] = Field(default_factory=list)
     evidence_summary: str | None = None
+    validator_flags: list[ValidatorFlag] = Field(default_factory=list)
     needs_review: bool = False
+    taxonomy_version_effective: str = Field(default="v1_0", min_length=1)
+    prompt_version_effective: str = Field(default="v1_0", min_length=1)
+    validator_version_effective: str = Field(default="v1_0", min_length=1)
 
     @model_validator(mode="after")
     def validate_chain_boundaries(self) -> NarrativeChain:

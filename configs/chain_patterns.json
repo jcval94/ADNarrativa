@@ -1,24 +1,56 @@
 {
-  "chain_patterns": [
+  "taxonomy_version_effective": "v1_0",
+  "prompt_version_effective": "v1_0",
+  "validator_version_effective": "v1_0",
+  "min_score_default": 0.58,
+  "max_chain_length_default": 6,
+  "relation_patterns": [
     {
-      "id": "question_answer",
-      "relations": [
-        "ANS"
-      ]
+      "chain_type": "question_answer",
+      "relations": ["ANS"],
+      "narrative_function": "resuelve una pregunta explicita con una respuesta cercana"
     },
     {
-      "id": "risk_solution",
-      "relations": [
-        "RISK",
-        "SOLV"
-      ]
+      "chain_type": "claim_support_explanation",
+      "relations": ["SUP", "EXPL", "CAUSE"],
+      "narrative_function": "sostiene o explica un claim con evidencia o causalidad"
     },
     {
-      "id": "claim_support_explanation",
-      "relations": [
-        "SUP",
-        "EXPL"
-      ]
+      "chain_type": "risk_solution",
+      "relations": ["RISK", "SOLV"],
+      "narrative_function": "presenta un riesgo y lo conecta con una solucion"
+    },
+    {
+      "chain_type": "contrast_resolution",
+      "relations": ["CONTR", "REFUT", "SOLV", "SUM"],
+      "narrative_function": "contrasta u objeta una idea y ofrece cierre o resolucion"
+    },
+    {
+      "chain_type": "example_or_analogy",
+      "relations": ["EXMP", "ANLG", "ELAB"],
+      "narrative_function": "desarrolla una idea mediante ejemplo, analogia o elaboracion"
+    }
+  ],
+  "sequence_patterns": [
+    {
+      "chain_type": "problem_solution_call_sequence",
+      "required_steps": [["X"], ["S", "I", "U"], ["V"]],
+      "narrative_function": "mueve del riesgo a una recomendacion y una llamada al espectador"
+    },
+    {
+      "chain_type": "claim_evidence_explanation_sequence",
+      "required_steps": [["A", "K", "O"], ["D", "Q"], ["Y", "E"]],
+      "narrative_function": "conecta claim, soporte y explicacion o ejemplo"
+    },
+    {
+      "chain_type": "contrast_resolution_sequence",
+      "required_steps": [["A", "K", "O"], ["C", "B"], ["S", "Z"]],
+      "narrative_function": "marca tension narrativa y la cierra con solucion o conclusion"
+    },
+    {
+      "chain_type": "procedural_sequence",
+      "required_steps": [["L", "T"], ["I"], ["U", "S", "Z"]],
+      "narrative_function": "ordena pasos o lista hacia utilidad, solucion o cierre"
     }
   ]
 }
