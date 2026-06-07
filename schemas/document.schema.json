@@ -337,6 +337,12 @@
     "NarrativeRelation": {
       "additionalProperties": false,
       "properties": {
+        "run_id": {
+          "default": "run_unknown",
+          "minLength": 1,
+          "title": "Run Id",
+          "type": "string"
+        },
         "relation_id": {
           "minLength": 1,
           "title": "Relation Id",
@@ -394,6 +400,24 @@
           "default": false,
           "title": "Needs Review",
           "type": "boolean"
+        },
+        "taxonomy_version_effective": {
+          "default": "v1_0",
+          "minLength": 1,
+          "title": "Taxonomy Version Effective",
+          "type": "string"
+        },
+        "prompt_version_effective": {
+          "default": "v1_0",
+          "minLength": 1,
+          "title": "Prompt Version Effective",
+          "type": "string"
+        },
+        "validator_version_effective": {
+          "default": "v1_0",
+          "minLength": 1,
+          "title": "Validator Version Effective",
+          "type": "string"
         }
       },
       "required": [

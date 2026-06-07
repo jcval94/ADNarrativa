@@ -1,4 +1,7 @@
 {
+  "taxonomy_version_effective": "v1_0",
+  "prompt_version_effective": "v1_0",
+  "validator_version_effective": "v1_0",
   "relation_types": [
     "ANS",
     "SUP",
@@ -16,5 +19,92 @@
     "CAUSE",
     "COND"
   ],
-  "patterns": []
+  "max_distance_default": 3,
+  "min_confidence_default": 0.58,
+  "patterns": [
+    {
+      "rule_id": "ANS_question_answer_anchor",
+      "relation_type": "ANS",
+      "source_functions": ["P"],
+      "target_functions": ["R"],
+      "direction": "question_to_answer"
+    },
+    {
+      "rule_id": "evidence_supports_prior_claim",
+      "relation_type": "SUP",
+      "source_functions": ["D", "Q"],
+      "target_functions": ["A", "K", "O", "Y"],
+      "direction": "evidence_to_prior_claim"
+    },
+    {
+      "rule_id": "Y_explains_previous_claim",
+      "relation_type": "EXPL_OR_CAUSE",
+      "source_functions": ["Y"],
+      "target_functions": ["A", "K", "O", "R"],
+      "direction": "explanation_to_prior_claim"
+    },
+    {
+      "rule_id": "example_illustrates_previous_unit",
+      "relation_type": "EXMP",
+      "source_functions": ["E"],
+      "target_functions": ["A", "K", "F", "Y", "S"],
+      "direction": "example_to_prior_unit"
+    },
+    {
+      "rule_id": "analogy_maps_to_previous_unit",
+      "relation_type": "ANLG",
+      "source_functions": ["G"],
+      "target_functions": ["A", "K", "F", "Y"],
+      "direction": "analogy_to_prior_unit"
+    },
+    {
+      "rule_id": "contrast_with_previous_unit",
+      "relation_type": "CONTR",
+      "source_functions": ["C"],
+      "target_functions": ["A", "K", "O", "Y", "S"],
+      "direction": "contrast_to_prior_unit"
+    },
+    {
+      "rule_id": "refutation_targets_previous_unit",
+      "relation_type": "REFUT",
+      "source_functions": ["B"],
+      "target_functions": ["A", "K", "O", "Y"],
+      "direction": "refutation_to_prior_unit"
+    },
+    {
+      "rule_id": "risk_attaches_to_previous_unit",
+      "relation_type": "RISK",
+      "source_functions": ["X"],
+      "target_functions": ["A", "K", "S", "I"],
+      "direction": "risk_to_prior_unit"
+    },
+    {
+      "rule_id": "solution_addresses_prior_risk",
+      "relation_type": "SOLV",
+      "source_functions": ["S"],
+      "target_functions": ["X"],
+      "direction": "solution_to_prior_risk"
+    },
+    {
+      "rule_id": "viewer_call_attaches_to_previous_unit",
+      "relation_type": "CALL",
+      "source_functions": ["V"],
+      "target_functions": ["A", "K", "Y", "S", "I"],
+      "direction": "call_to_prior_unit"
+    },
+    {
+      "rule_id": "conclusion_summarizes_previous_unit",
+      "relation_type": "SUM",
+      "source_functions": ["Z"],
+      "target_functions": ["A", "K", "Y", "S", "L"],
+      "direction": "summary_to_prior_unit"
+    },
+    {
+      "rule_id": "condition_modifies_previous_unit",
+      "relation_type": "COND",
+      "source_functions": ["Y", "A", "K"],
+      "target_functions": ["A", "K", "S", "I"],
+      "direction": "condition_to_prior_unit"
+    }
+  ]
 }

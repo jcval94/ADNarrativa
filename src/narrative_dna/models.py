@@ -315,6 +315,7 @@ class NarrativeUnit(StrictBaseModel):
 
 
 class NarrativeRelation(StrictBaseModel):
+    run_id: str = Field(default="run_unknown", min_length=1)
     relation_id: str = Field(min_length=1)
     document_id: str = Field(min_length=1)
     source_unit_id: str = Field(min_length=1)
@@ -326,6 +327,9 @@ class NarrativeRelation(StrictBaseModel):
     rejected_relation_types: list[RelationType] = Field(default_factory=list)
     validator_flags: list[ValidatorFlag] = Field(default_factory=list)
     needs_review: bool = False
+    taxonomy_version_effective: str = Field(default="v1_0", min_length=1)
+    prompt_version_effective: str = Field(default="v1_0", min_length=1)
+    validator_version_effective: str = Field(default="v1_0", min_length=1)
 
     @model_validator(mode="after")
     def validate_relation_endpoints(self) -> NarrativeRelation:

@@ -48,9 +48,9 @@ La notación nunca se edita manualmente. Si cambia el JSON, se recompila.
 
 ## Estado del repo
 
-Estado actual: Steps 0-15 completos.
+Estado actual: Steps 0-16 completos.
 
-El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos, clasificador JSON-first por unidad/documento, árbitro conservador para casos de alto riesgo, auditoría por similitud semántica, review sets para comité sintético, workflow de revisión sintética OpenAI y métricas de confiabilidad sintética.
+El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos, clasificador JSON-first por unidad/documento, árbitro conservador para casos de alto riesgo, auditoría por similitud semántica, review sets para comité sintético, workflow de revisión sintética OpenAI, métricas de confiabilidad sintética y detector auditable de relaciones.
 
 La capa actual puede leer `.txt`, `.json`, `.jsonl` y `data/transcripts/videos` para producir `NarrativeDocument` con unidades candidatas sin LLM. Las unidades nacen como `N_N0{0}` y las heurísticas agregan sólo señales auditables (`locked_functions`, `candidate_functions`, certeza/emoción/postura candidata y `evidence_spans`); no cambian `functions` ni `final_notation`.
 
@@ -68,7 +68,9 @@ La revisión sintética vive en `src/narrative_dna/synthetic_reviewer.py` y `src
 
 La confiabilidad sintética vive en `src/narrative_dna/synthetic_reliability.py`: calcula acuerdo entre reviewers, acuerdo aggregator/final, confiabilidad final, buckets high/medium/rejected y elegibilidad de regresión sin volver a llamar al LLM.
 
-Siguiente paso natural: Step 16, detector auditable de relaciones.
+El detector de relaciones vive en `src/narrative_dna/relation_detector.py`: aplica reglas determinísticas por funciones, distancia y marcadores textuales para producir `NarrativeRelation` con `run_id`, `evidence_spans`, relaciones rechazadas, flags de revisión y versiones efectivas.
+
+Siguiente paso natural: Step 17, detector de cadenas narrativas.
 
 ## Instalación
 
@@ -249,6 +251,12 @@ Auditar similitud:
 
 ```bash
 narrative-dna audit-similarity --run-id <RUN_ID> --top-k 10 --threshold 0.82
+```
+
+Detectar relaciones:
+
+```bash
+narrative-dna detect-relations --run-id <RUN_ID>
 ```
 
 Construir review set:

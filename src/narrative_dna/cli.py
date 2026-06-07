@@ -5,6 +5,7 @@ from __future__ import annotations
 import typer
 from rich.console import Console
 
+from narrative_dna.relation_detector import detect_relations_for_run
 from narrative_dna.review_set_builder import build_and_write_review_set
 from narrative_dna.schema_exporter import export_schemas as export_schema_files
 from narrative_dna.similarity_auditor import audit_similarity_run
@@ -71,6 +72,25 @@ def build_review_set(
     console.print(
         f"Wrote {len(items)} review items for run {manifest.run_id} "
         f"to {outputs_dir}/{run_id}/review/."
+    )
+
+
+@app.command("detect-relations")
+def detect_relations(
+    run_id: str = typer.Option(..., "--run-id", help="Run id under outputs/."),
+    outputs_dir: str = typer.Option("outputs", "--outputs-dir", help="Base outputs directory."),
+    max_distance: int = typer.Option(3, "--max-distance", help="Maximum unit distance."),
+    min_confidence: float = typer.Option(0.58, "--min-confidence", help="Minimum confidence."),
+) -> None:
+    """Detect deterministic auditable relations."""
+    documents, relations = detect_relations_for_run(
+        run_id=run_id,
+        outputs_dir=outputs_dir,
+        max_distance=max_distance,
+        min_confidence=min_confidence,
+    )
+    console.print(
+        f"Detected {len(relations)} relations across {len(documents)} documents for run {run_id}."
     )
 
 

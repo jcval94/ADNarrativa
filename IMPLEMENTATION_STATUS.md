@@ -1,6 +1,6 @@
 # Estado de Implementación
 
-Fecha de corte: 2026-06-06
+Fecha de corte: 2026-06-07
 
 Versiones efectivas actuales:
 
@@ -10,7 +10,7 @@ Versiones efectivas actuales:
 
 ## Resumen Ejecutivo
 
-El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalable, contratos Pydantic estrictos, taxonomía auditada, constitución estable v1.0, validadores determinísticos iniciales, compilador de notación derivada, loader/segmentador, extracción de heurísticas conservadoras, cliente OpenAI estructurado, clasificador JSON-first, árbitro conservador, auditoría por similitud semántica, construcción de review sets, workflow de revisión sintética por comité OpenAI y métricas de confiabilidad sintética.
+El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalable, contratos Pydantic estrictos, taxonomía auditada, constitución estable v1.0, validadores determinísticos iniciales, compilador de notación derivada, loader/segmentador, extracción de heurísticas conservadoras, cliente OpenAI estructurado, clasificador JSON-first, árbitro conservador, auditoría por similitud semántica, construcción de review sets, workflow de revisión sintética por comité OpenAI, métricas de confiabilidad sintética y detector auditable de relaciones externas.
 
 La decisión más importante sigue intacta: el JSON validado es la fuente de verdad. La notación compacta se compila desde JSON y no debe editarse manualmente.
 
@@ -33,7 +33,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 | 12 | Completo | Auditoría por similitud semántica con embeddings cacheados, conflicto de notación y explicación auditable. |
 | 13 | Completo | Review set sintético priorizado por flags, needs_review, conflictos de similitud, grupos confundibles, pares mínimos y QA de alta confianza. |
 | 14 | Completo | Comité sintético OpenAI con reviewers diversos, aggregator conservador, adjudicator final, candidatos y reportes JSON/MD. |
-| 15 | En este commit | Métricas de confiabilidad sintética, buckets high/medium/rejected y elegibilidad de regresión. |
+| 15 | Completo | Métricas de confiabilidad sintética, buckets high/medium/rejected y elegibilidad de regresión. |
+| 16 | En este commit | Detector determinístico y auditable de relaciones con salida `relations.jsonl`. |
 
 ## Artefactos Clave
 
@@ -69,6 +70,9 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - `schemas/synthetic_review_report.schema.json`: contrato del reporte de revisión sintética.
 - `src/narrative_dna/synthetic_reliability.py`: scoring determinístico de confiabilidad sintética.
 - `schemas/synthetic_reliability_metrics.schema.json`: contrato ampliado de métricas de confiabilidad.
+- `src/narrative_dna/relation_detector.py`: detección determinística de relaciones externas con evidencia, flags y versiones efectivas.
+- `configs/relation_patterns.json`: reglas declarativas base para tipos de relación y distancias conservadoras.
+- `schemas/relation.schema.json`: contrato actualizado con `run_id` y versiones efectivas.
 
 ## Qué Ya Está Bien Encaminado
 
@@ -94,13 +98,15 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - Si aggregator o final adjudicator fallan, el flujo cae a decisiones conservadoras y no promueve gold.
 - `narrative-dna promote-synthetic-gold --run-id <RUN_ID>` calcula acuerdo entre reviewers, acuerdo aggregator/final, confiabilidad final, buckets gold sintéticos y elegibilidad de regresión.
 - Sólo candidatos `synthetic_gold_high_confidence` sin flags ni `needs_review` y con score >= 0.90 cuentan como elegibles para regresión.
+- `narrative-dna detect-relations --run-id <RUN_ID>` lee `documents.jsonl`, adjunta relaciones por documento y escribe `relations.jsonl`.
+- El detector cubre `ANS`, `SUP`, `EXPL`, `ELAB`, `EXMP`, `ANLG`, `CONTR`, `REFUT`, `RISK`, `SOLV`, `SEQ`, `SUM`, `CALL`, `CAUSE` y `COND` con reglas auditables.
 
 ## Refuerzos Pendientes
 
 - Integrar loader, segmenter, heurísticas y validadores en el pipeline end-to-end.
 - Integrar classifier y adjudicator en el pipeline end-to-end cuando se cablee `pipeline.py`.
 - Implementar validadores v1.0 adicionales: certeza epistémica, postura con target, C/B/X, E/H/G y T/M/L/Z.
-- Implementar detector auditable de relaciones del Step 16.
+- Implementar detector de cadenas narrativas del Step 17 sobre relaciones y secuencias multilabel.
 - Reforzar segmentación y heurísticas con más casos de habla oral real antes de congelar regression fixtures.
 - Agregar pruebas golden de notación cuando exista `synthetic_gold_high_confidence`.
 - Validar schemas generados contra ejemplos reales de outputs cuando el pipeline escriba `outputs/{run_id}`.
@@ -110,9 +116,9 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 
 - Hay archivos untracked ajenos al plan actual: `generated/`, `html_builder.py`, `tests/test_html_builder.py`. No los he tocado ni incluido en commits.
 - La suite completa pasa usando `--basetemp .pytest_tmp`; el directorio temporal global de Windows puede dar permisos denegados en este entorno.
-- Ruff sobre `src tests` falla por el archivo untracked `tests/test_html_builder.py`; Ruff sobre archivos versionados pasa.
-- Aún no existe pipeline end-to-end, por lo que documentos, heurísticas, clasificaciones, adjudicaciones y auditorías mockeadas se validan en memoria; el auditor ya puede escribir outputs derivados si existe `outputs/{run_id}/documents.jsonl`.
+- Ruff global falla por los archivos untracked `html_builder.py` y `tests/test_html_builder.py`; Ruff sobre archivos versionados pasa.
+- Aún no existe pipeline end-to-end, por lo que documentos, heurísticas, clasificaciones, adjudicaciones y auditorías mockeadas se validan en memoria; el auditor y el detector de relaciones ya pueden escribir outputs derivados si existe `outputs/{run_id}/documents.jsonl`.
 
 ## Próximo Step Natural
 
-Step 16: detector auditable de relaciones externas entre unidades.
+Step 17: detector de cadenas narrativas sobre secuencias multilabel y relaciones externas.
