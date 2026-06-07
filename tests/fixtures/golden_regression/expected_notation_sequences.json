@@ -1,0 +1,22 @@
+{
+  "allowed_gold_status": "synthetic_gold_high_confidence",
+  "expected_sequence": [
+    {
+      "final_notation": "(P+V)_S1{0}",
+      "unit_id": "fixture_doc_001_u000"
+    },
+    {
+      "final_notation": "(K+Y)!_E2{-}",
+      "unit_id": "fixture_doc_001_u001"
+    },
+    {
+      "final_notation": "(S+I+U)_C1{+}",
+      "unit_id": "fixture_doc_001_u002"
+    }
+  ],
+  "minimum_reliability_score": 0.9,
+  "prompt_version_effective": "v1_0",
+  "run_id": "fixture_synthetic_gold_v1_0",
+  "taxonomy_version_effective": "v1_0",
+  "validator_version_effective": "v1_0"
+}

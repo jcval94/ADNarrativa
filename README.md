@@ -48,7 +48,7 @@ La notación nunca se edita manualmente. Si cambia el JSON, se recompila.
 
 ## Estado del repo
 
-Estado actual: Steps 0-19 completos.
+Estado actual: Steps 0-20 completos.
 
 El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos, clasificador JSON-first por unidad/documento, árbitro conservador para casos de alto riesgo, auditoría por similitud semántica, review sets para comité sintético, workflow de revisión sintética OpenAI, métricas de confiabilidad sintética, detector auditable de relaciones, detector de cadenas narrativas, evaluación con reportes JSON y pipeline/CLI end-to-end.
 
@@ -76,7 +76,9 @@ La evaluación vive en `src/narrative_dna/evaluator.py`: compara `documents.json
 
 El pipeline vive en `src/narrative_dna/pipeline.py` y escribe outputs con `src/narrative_dna/exporter.py`: carga transcripciones, agrega heurísticas, clasifica/adjudica opcionalmente, detecta relaciones/cadenas, genera manifest, JSONL, `dna_sequences.txt`, `audit_report` y CSV derivados.
 
-Siguiente paso natural: Step 20, golden regression tests con synthetic high-confidence.
+La regresión golden vive en `tests/fixtures/golden_regression/`: contiene sólo `synthetic_gold_high_confidence`, re-deriva `final_notation` desde JSON validado y evalúa el fixture con `regression_pass_rate=1.0`.
+
+Siguiente paso natural: Step 21, documentación y guía de operación.
 
 ## Instalación
 
@@ -293,6 +295,14 @@ narrative-dna evaluate --run-id <RUN_ID> --gold outputs/<RUN_ID>/synthetic_gold_
 ```
 
 `evaluate` escribe `evaluation_metrics.json`, `label_metrics.json`, `confusion_groups_report.json`, `audit_report.json` y `audit_report.md`.
+
+Regresión golden local:
+
+```bash
+python -m pytest tests/test_golden_regression.py
+```
+
+Los fixtures viven en `tests/fixtures/golden_regression/` y usan exclusivamente `synthetic_gold_high_confidence`.
 
 ## Pipeline
 
