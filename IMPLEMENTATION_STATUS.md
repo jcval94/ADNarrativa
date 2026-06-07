@@ -14,7 +14,7 @@ El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalab
 
 La decisión más importante sigue intacta: el JSON validado es la fuente de verdad. La notación compacta se compila desde JSON y no debe editarse manualmente.
 
-Step 20 agrega fixtures golden de regresión con `synthetic_gold_high_confidence` y pruebas que bloquean cambios accidentales en la notación derivada.
+Step 20 agrega fixtures golden de regresión con `synthetic_gold_high_confidence` y pruebas que bloquean cambios accidentales en la notación derivada. Step 21 cierra el plan maestro con una guía operativa para ejecutar, auditar, revisar sintéticamente, promover gold y evaluar sin romper el principio JSON-first.
 
 ## Avance Por Step
 
@@ -40,13 +40,15 @@ Step 20 agrega fixtures golden de regresión con `synthetic_gold_high_confidence
 | 17 | Completo | Detector determinístico de cadenas por relaciones y secuencias multilabel con salida `chains.jsonl`. |
 | 18 | Completo | Evaluación contra gold permitido, métricas unitarias/label y reportes JSON/MD derivados. |
 | 19 | Completo | Pipeline y CLI end-to-end JSON-first con manifest, JSONL, audit report, secuencias y CSV derivados. |
-| 20 | En este commit | Fixtures y tests golden con `synthetic_gold_high_confidence` para estabilidad de notación. |
+| 20 | Completo | Fixtures y tests golden con `synthetic_gold_high_confidence` para estabilidad de notación. |
+| 21 | En este commit | Guía de operación para anotaciones estables, auditables y revisadas sintéticamente. |
 
 ## Artefactos Clave
 
 - `tests/fixtures/golden_regression/synthetic_gold_high_confidence.jsonl`: fixtures de regresión elegibles, todos high-confidence y sin flags.
 - `tests/fixtures/golden_regression/expected_notation_sequences.json`: secuencia esperada para comprobar estabilidad de notación derivada.
 - `tests/test_golden_regression.py`: pruebas de elegibilidad, derivación de notación, evaluación perfecta y rechazo de synthetic gold medium/rejected.
+- `OPERATING_GUIDE.md`: guía de instalación, ejecución, auditoría, revisión sintética, promoción gold, evaluación, regresión y checklist.
 
 - `ARCHITECTURE.md`: diseño del sistema y pipeline objetivo.
 - `PROJECT_CHARTER.md`: alcance MVP y no-alcance.
@@ -126,6 +128,7 @@ Step 20 agrega fixtures golden de regresión con `synthetic_gold_high_confidence
 
 - Los fixtures golden de `tests/fixtures/golden_regression/` fuerzan que `final_notation` se rederive desde JSON validado y que `regression_pass_rate` permanezca en `1.0` para el set estable.
 - La regresión rechaza explícitamente candidatos sintéticos que no sean `synthetic_gold_high_confidence`.
+- La guía operativa describe el orden recomendado: run conservador sin LLM, run con LLM/adjudicator, auditoría de similitud, review set, comité sintético, promoción, evaluación y regresión golden.
 
 ## Refuerzos Pendientes
 
@@ -144,4 +147,4 @@ Step 20 agrega fixtures golden de regresión con `synthetic_gold_high_confidence
 
 ## Próximo Step Natural
 
-Step 21: documentación y guía de operación.
+Plan maestro 0-21 completo. Próximo trabajo recomendado: endurecer validadores v1.0 pendientes y ampliar fixtures golden con casos reales promovidos high-confidence.

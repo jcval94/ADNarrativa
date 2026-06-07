@@ -48,7 +48,7 @@ La notación nunca se edita manualmente. Si cambia el JSON, se recompila.
 
 ## Estado del repo
 
-Estado actual: Steps 0-20 completos.
+Estado actual: Steps 0-21 completos.
 
 El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos, clasificador JSON-first por unidad/documento, árbitro conservador para casos de alto riesgo, auditoría por similitud semántica, review sets para comité sintético, workflow de revisión sintética OpenAI, métricas de confiabilidad sintética, detector auditable de relaciones, detector de cadenas narrativas, evaluación con reportes JSON y pipeline/CLI end-to-end.
 
@@ -78,7 +78,9 @@ El pipeline vive en `src/narrative_dna/pipeline.py` y escribe outputs con `src/n
 
 La regresión golden vive en `tests/fixtures/golden_regression/`: contiene sólo `synthetic_gold_high_confidence`, re-deriva `final_notation` desde JSON validado y evalúa el fixture con `regression_pass_rate=1.0`.
 
-Siguiente paso natural: Step 21, documentación y guía de operación.
+La guía operativa vive en `OPERATING_GUIDE.md`: resume instalación, ejecución sin LLM, flujo con LLM, auditoría, revisión sintética, promoción a gold, evaluación, regresión y checklist de entrega.
+
+Plan maestro: Steps 0-21 completos.
 
 ## Instalación
 
@@ -122,6 +124,7 @@ narrative_dna/
   .env.example
   PROJECT_CHARTER.md
   ARCHITECTURE.md
+  OPERATING_GUIDE.md
 
   configs/
     project_config.json
@@ -303,6 +306,12 @@ python -m pytest tests/test_golden_regression.py
 ```
 
 Los fixtures viven en `tests/fixtures/golden_regression/` y usan exclusivamente `synthetic_gold_high_confidence`.
+
+Guía operativa completa:
+
+```bash
+type OPERATING_GUIDE.md
+```
 
 ## Pipeline
 
