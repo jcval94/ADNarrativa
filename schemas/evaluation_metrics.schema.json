@@ -11,6 +11,36 @@
       "title": "Gold Path",
       "type": "string"
     },
+    "total_gold_units": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Total Gold Units",
+      "type": "integer"
+    },
+    "total_predicted_units": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Total Predicted Units",
+      "type": "integer"
+    },
+    "matched_units": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Matched Units",
+      "type": "integer"
+    },
+    "missing_predictions": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Missing Predictions",
+      "type": "integer"
+    },
+    "unexpected_predictions": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Unexpected Predictions",
+      "type": "integer"
+    },
     "functions_exact_match": {
       "maximum": 1,
       "minimum": 0,
@@ -41,6 +71,47 @@
       "title": "Macro F1",
       "type": "number"
     },
+    "emotion_expressed_accuracy": {
+      "default": 0,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Emotion Expressed Accuracy",
+      "type": "number"
+    },
+    "emotion_intensity_mae": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Emotion Intensity Mae",
+      "type": "number"
+    },
+    "stance_accuracy": {
+      "default": 0,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Stance Accuracy",
+      "type": "number"
+    },
+    "certainty_accuracy": {
+      "default": 0,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Certainty Accuracy",
+      "type": "number"
+    },
+    "overlabeling_rate": {
+      "default": 0,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Overlabeling Rate",
+      "type": "number"
+    },
+    "n_rate": {
+      "default": 0,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "N Rate",
+      "type": "number"
+    },
     "validator_violation_rate": {
       "maximum": 1,
       "minimum": 0,
@@ -58,6 +129,45 @@
       "minimum": 0,
       "title": "Similarity Conflict Rate",
       "type": "number"
+    },
+    "relation_precision_recall_f1": {
+      "default": 0,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Relation Precision Recall F1",
+      "type": "number"
+    },
+    "regression_pass_rate": {
+      "default": 0,
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Regression Pass Rate",
+      "type": "number"
+    },
+    "outputs": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Outputs",
+      "type": "object"
+    },
+    "taxonomy_version_effective": {
+      "default": "v1_0",
+      "minLength": 1,
+      "title": "Taxonomy Version Effective",
+      "type": "string"
+    },
+    "prompt_version_effective": {
+      "default": "v1_0",
+      "minLength": 1,
+      "title": "Prompt Version Effective",
+      "type": "string"
+    },
+    "validator_version_effective": {
+      "default": "v1_0",
+      "minLength": 1,
+      "title": "Validator Version Effective",
+      "type": "string"
     }
   },
   "required": [

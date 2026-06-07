@@ -10,7 +10,7 @@ Versiones efectivas actuales:
 
 ## Resumen Ejecutivo
 
-El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalable, contratos Pydantic estrictos, taxonomía auditada, constitución estable v1.0, validadores determinísticos iniciales, compilador de notación derivada, loader/segmentador, extracción de heurísticas conservadoras, cliente OpenAI estructurado, clasificador JSON-first, árbitro conservador, auditoría por similitud semántica, construcción de review sets, workflow de revisión sintética por comité OpenAI, métricas de confiabilidad sintética, detector auditable de relaciones externas y detector de cadenas narrativas.
+El proyecto ya tiene una base JSON-first sólida: arquitectura, paquete instalable, contratos Pydantic estrictos, taxonomía auditada, constitución estable v1.0, validadores determinísticos iniciales, compilador de notación derivada, loader/segmentador, extracción de heurísticas conservadoras, cliente OpenAI estructurado, clasificador JSON-first, árbitro conservador, auditoría por similitud semántica, construcción de review sets, workflow de revisión sintética por comité OpenAI, métricas de confiabilidad sintética, detector auditable de relaciones externas, detector de cadenas narrativas y evaluación con reportes JSON.
 
 La decisión más importante sigue intacta: el JSON validado es la fuente de verdad. La notación compacta se compila desde JSON y no debe editarse manualmente.
 
@@ -35,7 +35,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 | 14 | Completo | Comité sintético OpenAI con reviewers diversos, aggregator conservador, adjudicator final, candidatos y reportes JSON/MD. |
 | 15 | Completo | Métricas de confiabilidad sintética, buckets high/medium/rejected y elegibilidad de regresión. |
 | 16 | Completo | Detector determinístico y auditable de relaciones con salida `relations.jsonl`. |
-| 17 | En este commit | Detector determinístico de cadenas por relaciones y secuencias multilabel con salida `chains.jsonl`. |
+| 17 | Completo | Detector determinístico de cadenas por relaciones y secuencias multilabel con salida `chains.jsonl`. |
+| 18 | En este commit | Evaluación contra gold permitido, métricas unitarias/label y reportes JSON/MD derivados. |
 
 ## Artefactos Clave
 
@@ -77,6 +78,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - `src/narrative_dna/chain_detector.py`: detección determinística de cadenas narrativas por grafo de relaciones y secuencias multilabel.
 - `configs/chain_patterns.json`: patrones declarativos de cadenas por relaciones y pasos funcionales.
 - `schemas/chain.schema.json`: contrato actualizado con `run_id`, evidencia, flags y versiones efectivas.
+- `src/narrative_dna/evaluator.py`: evaluación JSON-first contra gold permitido y escritura de reportes derivados.
+- `schemas/evaluation_metrics.schema.json`: contrato ampliado de métricas de evaluación con conteos, outputs y versiones efectivas.
 
 ## Qué Ya Está Bien Encaminado
 
@@ -106,13 +109,15 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - El detector cubre `ANS`, `SUP`, `EXPL`, `ELAB`, `EXMP`, `ANLG`, `CONTR`, `REFUT`, `RISK`, `SOLV`, `SEQ`, `SUM`, `CALL`, `CAUSE` y `COND` con reglas auditables.
 - `narrative-dna detect-chains --run-id <RUN_ID>` lee `documents.jsonl`, usa relaciones adjuntas o `relations.jsonl`, adjunta cadenas por documento y escribe `chains.jsonl`.
 - El detector de cadenas cubre patrones por relación como pregunta-respuesta, claim-soporte-explicación, riesgo-solución, contraste-resolución y ejemplo/analogía; también cubre secuencias multilabel contiguas sin LLM.
+- `narrative-dna evaluate --run-id <RUN_ID> --gold <GOLD_JSONL>` escribe `evaluation_metrics.json`, `label_metrics.json`, `confusion_groups_report.json`, `audit_report.json` y `audit_report.md`.
+- La evaluación acepta gold humano, `synthetic_gold_high_confidence` y unidades JSONL explícitas; rechaza candidatos sintéticos medium/rejected.
 
 ## Refuerzos Pendientes
 
 - Integrar loader, segmenter, heurísticas y validadores en el pipeline end-to-end.
 - Integrar classifier y adjudicator en el pipeline end-to-end cuando se cablee `pipeline.py`.
 - Implementar validadores v1.0 adicionales: certeza epistémica, postura con target, C/B/X, E/H/G y T/M/L/Z.
-- Implementar evaluación, métricas y reportes JSON del Step 18.
+- Cablear pipeline y CLI end-to-end JSON-first del Step 19.
 - Reforzar segmentación y heurísticas con más casos de habla oral real antes de congelar regression fixtures.
 - Agregar pruebas golden de notación cuando exista `synthetic_gold_high_confidence`.
 - Validar schemas generados contra ejemplos reales de outputs cuando el pipeline escriba `outputs/{run_id}`.
@@ -123,8 +128,8 @@ La decisión más importante sigue intacta: el JSON validado es la fuente de ver
 - Hay archivos untracked ajenos al plan actual: `generated/`, `html_builder.py`, `tests/test_html_builder.py`. No los he tocado ni incluido en commits.
 - La suite completa pasa usando `--basetemp .pytest_tmp`; el directorio temporal global de Windows puede dar permisos denegados en este entorno.
 - Ruff global falla por los archivos untracked `html_builder.py` y `tests/test_html_builder.py`; Ruff sobre archivos versionados pasa.
-- Aún no existe pipeline end-to-end, por lo que documentos, heurísticas, clasificaciones, adjudicaciones y auditorías mockeadas se validan en memoria; el auditor, el detector de relaciones y el detector de cadenas ya pueden escribir outputs derivados si existe `outputs/{run_id}/documents.jsonl`.
+- Aún no existe pipeline end-to-end, por lo que documentos, heurísticas, clasificaciones, adjudicaciones y auditorías mockeadas se validan en memoria; el auditor, detectores y evaluador ya pueden escribir outputs derivados si existe `outputs/{run_id}/documents.jsonl`.
 
 ## Próximo Step Natural
 
-Step 18: evaluación, métricas y reportes JSON.
+Step 19: pipeline y CLI end-to-end JSON-first.

@@ -6,6 +6,7 @@ import typer
 from rich.console import Console
 
 from narrative_dna.chain_detector import detect_chains_for_run
+from narrative_dna.evaluator import write_evaluation_outputs
 from narrative_dna.relation_detector import detect_relations_for_run
 from narrative_dna.review_set_builder import build_and_write_review_set
 from narrative_dna.schema_exporter import export_schemas as export_schema_files
@@ -34,8 +35,18 @@ def run() -> None:
 
 
 @app.command("evaluate")
-def evaluate() -> None:
+def evaluate(
+    run_id: str = typer.Option(..., "--run-id", help="Run id under outputs/."),
+    gold: str = typer.Option(..., "--gold", help="Gold JSONL path."),
+    outputs_dir: str = typer.Option("outputs", "--outputs-dir", help="Base outputs directory."),
+) -> None:
     """Evaluate a run against an allowed gold source."""
+    metrics = write_evaluation_outputs(run_id=run_id, gold_path=gold, outputs_dir=outputs_dir)
+    console.print(
+        f"Evaluated run {metrics.run_id}: "
+        f"{metrics.matched_units}/{metrics.total_gold_units} matched gold units, "
+        f"micro_f1={metrics.micro_f1:.4f}, macro_f1={metrics.macro_f1:.4f}."
+    )
 
 
 @app.command("inspect")
