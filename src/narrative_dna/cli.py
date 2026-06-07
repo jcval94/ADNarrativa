@@ -2,11 +2,15 @@
 
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 import typer
 from rich.console import Console
 
 from narrative_dna.chain_detector import detect_chains_for_run
 from narrative_dna.evaluator import write_evaluation_outputs
+from narrative_dna.pipeline import run_pipeline
 from narrative_dna.relation_detector import detect_relations_for_run
 from narrative_dna.review_set_builder import build_and_write_review_set
 from narrative_dna.schema_exporter import export_schemas as export_schema_files
@@ -30,8 +34,43 @@ def validate_taxonomy() -> None:
 
 
 @app.command("run")
-def run() -> None:
+def run(
+    input_dir: str = typer.Option("data/transcripts", "--input-dir", help="Input transcript path."),
+    output_dir: str = typer.Option("outputs", "--output-dir", help="Base output directory."),
+    run_id: str | None = typer.Option(None, "--run-id", help="Optional explicit run id."),
+    use_llm: bool = typer.Option(
+        False, "--use-llm/--no-llm", help="Use structured LLM classifier."
+    ),
+    use_adjudicator: bool = typer.Option(
+        False,
+        "--use-adjudicator/--no-adjudicator",
+        help="Use conservative adjudicator after classification.",
+    ),
+    audit_similarity_enabled: bool = typer.Option(
+        False,
+        "--audit-similarity",
+        help="Run semantic similarity audit after core outputs.",
+    ),
+    limit: int | None = typer.Option(None, "--limit", help="Limit loaded documents."),
+) -> None:
     """Run the JSON-first annotation pipeline."""
+    result = run_pipeline(
+        input_dir=input_dir,
+        output_dir=output_dir,
+        run_id=run_id,
+        use_llm=use_llm,
+        use_adjudicator=use_adjudicator,
+        audit_similarity_enabled=audit_similarity_enabled,
+        limit=limit,
+    )
+    total_units = sum(len(document.units) for document in result.documents)
+    total_relations = sum(len(document.relations) for document in result.documents)
+    total_chains = sum(len(document.chains) for document in result.documents)
+    console.print(
+        f"Wrote run {result.run_id} to {result.run_dir}: "
+        f"{len(result.documents)} documents, {total_units} units, "
+        f"{total_relations} relations, {total_chains} chains."
+    )
 
 
 @app.command("evaluate")
@@ -50,8 +89,33 @@ def evaluate(
 
 
 @app.command("inspect")
-def inspect_run() -> None:
+def inspect_run(
+    run_id: str = typer.Option(..., "--run-id", help="Run id under outputs/."),
+    outputs_dir: str = typer.Option("outputs", "--outputs-dir", help="Base outputs directory."),
+) -> None:
     """Inspect a run manifest and outputs."""
+    run_dir = Path(outputs_dir) / run_id
+    manifest_path = run_dir / "run_manifest.json"
+    if not manifest_path.exists():
+        raise typer.BadParameter(f"Missing run manifest: {manifest_path}")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    counts = {
+        "documents": count_jsonl(run_dir / "documents.jsonl"),
+        "units": count_jsonl(run_dir / "units.jsonl"),
+        "relations": count_jsonl(run_dir / "relations.jsonl"),
+        "chains": count_jsonl(run_dir / "chains.jsonl"),
+    }
+    console.print(
+        f"Run {manifest['run_id']} ({manifest['project_version']}): "
+        f"{counts['documents']} documents, {counts['units']} units, "
+        f"{counts['relations']} relations, {counts['chains']} chains."
+    )
+
+
+def count_jsonl(path: Path) -> int:
+    if not path.exists():
+        return 0
+    return sum(1 for line in path.read_text(encoding="utf-8").splitlines() if line.strip())
 
 
 @app.command("audit-similarity")

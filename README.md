@@ -48,9 +48,9 @@ La notación nunca se edita manualmente. Si cambia el JSON, se recompila.
 
 ## Estado del repo
 
-Estado actual: Steps 0-18 completos.
+Estado actual: Steps 0-19 completos.
 
-El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos, clasificador JSON-first por unidad/documento, árbitro conservador para casos de alto riesgo, auditoría por similitud semántica, review sets para comité sintético, workflow de revisión sintética OpenAI, métricas de confiabilidad sintética, detector auditable de relaciones, detector de cadenas narrativas y evaluación con reportes JSON.
+El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos, clasificador JSON-first por unidad/documento, árbitro conservador para casos de alto riesgo, auditoría por similitud semántica, review sets para comité sintético, workflow de revisión sintética OpenAI, métricas de confiabilidad sintética, detector auditable de relaciones, detector de cadenas narrativas, evaluación con reportes JSON y pipeline/CLI end-to-end.
 
 La capa actual puede leer `.txt`, `.json`, `.jsonl` y `data/transcripts/videos` para producir `NarrativeDocument` con unidades candidatas sin LLM. Las unidades nacen como `N_N0{0}` y las heurísticas agregan sólo señales auditables (`locked_functions`, `candidate_functions`, certeza/emoción/postura candidata y `evidence_spans`); no cambian `functions` ni `final_notation`.
 
@@ -74,7 +74,9 @@ El detector de cadenas vive en `src/narrative_dna/chain_detector.py`: compone re
 
 La evaluación vive en `src/narrative_dna/evaluator.py`: compara `documents.jsonl` contra gold JSONL permitido, calcula métricas unitarias y por label, rechaza gold sintético que no sea high-confidence y escribe reportes JSON/MD derivados.
 
-Siguiente paso natural: Step 19, pipeline y CLI end-to-end JSON-first.
+El pipeline vive en `src/narrative_dna/pipeline.py` y escribe outputs con `src/narrative_dna/exporter.py`: carga transcripciones, agrega heurísticas, clasifica/adjudica opcionalmente, detecta relaciones/cadenas, genera manifest, JSONL, `dna_sequences.txt`, `audit_report` y CSV derivados.
+
+Siguiente paso natural: Step 20, golden regression tests con synthetic high-confidence.
 
 ## Instalación
 
