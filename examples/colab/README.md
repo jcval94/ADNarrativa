@@ -2,7 +2,7 @@
 
 Estos ejemplos están pensados para ejecutar `narrative_dna` desde cero en
 Google Colab: clonan el repo desde GitHub, instalan el paquete, importan los
-módulos principales y corren el pipeline JSON-first.
+módulos principales y corren el pipeline JSON-first desde texto general.
 
 ## Notebook Principal
 
@@ -18,9 +18,11 @@ Incluye:
 
 - descarga del repo con `git clone`;
 - instalación editable con `pip install -e ".[dev]"`;
-- imports de `load_documents`, `run_pipeline` y `load_gold_units`;
-- ejecución conservadora sin LLM sobre `data/transcripts/videos`;
+- imports de `load_text_document`, `run_pipeline_from_text`, `run_pipeline` y `load_gold_units`;
+- ejecución conservadora sin LLM desde un string en memoria;
+- ejecución alternativa desde un archivo `.txt`;
 - lectura de outputs JSON/JSONL;
+- visualización de `heuristic_candidates`, ya que sin LLM la clasificación final permanece como `N_N0{0}`;
 - regresión golden local;
 - celda opcional para usar `OPENAI_API_KEY` desde Colab Secrets.
 
@@ -43,17 +45,26 @@ Después:
 ```python
 %pip install -q -e ".[dev]"
 
-from narrative_dna.loader import load_documents
-from narrative_dna.pipeline import run_pipeline
+from narrative_dna.loader import load_text_document
+from narrative_dna.pipeline import run_pipeline_from_text
 
-documents = load_documents("data/transcripts/videos", limit=1)
-result = run_pipeline(
-    input_dir="data/transcripts/videos",
+transcript_text = """
+Te propongo algo simple. Crea tu propia caja negra emocional.
+¿Qué aprendiste este año? ¿Qué quieres dejar registrado?
+""".strip()
+
+document = load_text_document(transcript_text, document_id="colab_text_demo", language="es")
+result = run_pipeline_from_text(
+    transcript_text,
+    document_id="colab_text_demo",
     output_dir="outputs",
-    run_id="colab_no_llm_demo",
+    run_id="colab_text_no_llm_demo",
     use_llm=False,
     use_adjudicator=False,
-    limit=1,
 )
 print(result.run_dir)
 ```
+
+En modo sin LLM, `final_notation` seguirá siendo `N_N0{0}` por diseño. Mira
+`heuristic_candidates` para ver señales determinísticas auditables, o usa
+`use_llm=True` para clasificación final.

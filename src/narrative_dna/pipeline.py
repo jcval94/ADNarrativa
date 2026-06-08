@@ -13,7 +13,7 @@ from narrative_dna.adjudicator import ConservativeAdjudicator
 from narrative_dna.chain_detector import detect_chains_for_document
 from narrative_dna.exporter import write_run_outputs
 from narrative_dna.heuristic_candidates import annotate_document_with_heuristics
-from narrative_dna.loader import load_documents
+from narrative_dna.loader import load_documents, load_text_document
 from narrative_dna.models import NarrativeDocument, ProjectRunManifest
 from narrative_dna.relation_detector import detect_relations_for_document
 from narrative_dna.similarity_auditor import audit_similarity, write_similarity_audit
@@ -46,9 +46,68 @@ def run_pipeline(
 ) -> PipelineRunResult:
     """Run the JSON-first pipeline and write core outputs."""
 
+    raw_documents = load_documents(input_dir, limit=limit)
+    return run_pipeline_from_documents(
+        documents=raw_documents,
+        input_dir=input_dir,
+        output_dir=output_dir,
+        run_id=run_id,
+        use_llm=use_llm,
+        use_adjudicator=use_adjudicator,
+        audit_similarity_enabled=audit_similarity_enabled,
+        limit=limit,
+    )
+
+
+def run_pipeline_from_text(
+    text: str,
+    *,
+    document_id: str | None = None,
+    source_path: str = "<text>",
+    metadata: dict[str, Any] | None = None,
+    language: str = "und",
+    output_dir: str | Path = "outputs",
+    run_id: str | None = None,
+    use_llm: bool = False,
+    use_adjudicator: bool = False,
+    audit_similarity_enabled: bool = False,
+) -> PipelineRunResult:
+    """Run the JSON-first pipeline from an in-memory transcript string."""
+
+    document = load_text_document(
+        text,
+        document_id=document_id,
+        source_path=source_path,
+        metadata=metadata,
+        language=language,
+    )
+    return run_pipeline_from_documents(
+        documents=[document],
+        input_dir=source_path,
+        output_dir=output_dir,
+        run_id=run_id,
+        use_llm=use_llm,
+        use_adjudicator=use_adjudicator,
+        audit_similarity_enabled=audit_similarity_enabled,
+    )
+
+
+def run_pipeline_from_documents(
+    *,
+    documents: list[NarrativeDocument],
+    input_dir: str | Path,
+    output_dir: str | Path = "outputs",
+    run_id: str | None = None,
+    use_llm: bool = False,
+    use_adjudicator: bool = False,
+    audit_similarity_enabled: bool = False,
+    limit: int | None = None,
+) -> PipelineRunResult:
+    """Run the JSON-first pipeline from pre-built documents."""
+
     effective_run_id = run_id or make_run_id()
     run_dir = Path(output_dir) / effective_run_id
-    raw_documents = load_documents(input_dir, limit=limit)
+    raw_documents = documents[:limit] if limit is not None else documents
     classifier = UnitClassifier() if use_llm else None
     adjudicator = ConservativeAdjudicator() if use_adjudicator else None
     processed_documents = [

@@ -3,7 +3,14 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from narrative_dna.loader import load_document, load_documents
+import pytest
+
+from narrative_dna.loader import (
+    TranscriptLoadError,
+    load_document,
+    load_documents,
+    load_text_document,
+)
 from narrative_dna.normalizer import normalize_text, stable_document_id
 from narrative_dna.segmenter import SourceSegment, segment_transcript
 
@@ -20,6 +27,30 @@ def test_loads_basic_txt_with_offsets_and_neighbor_links(tmp_path: Path) -> None
     assert document.units[0].next_unit_id == document.units[1].unit_id
     assert document.units[1].previous_unit_id == document.units[0].unit_id
     assert document.units[0].final_notation == "N_N0{0}"
+
+
+def test_loads_in_memory_text_document() -> None:
+    document = load_text_document(
+        "Te propongo algo simple. Que aprendiste este año?",
+        document_id="inline_demo",
+        source_path="<colab-cell>",
+        metadata={"source": "unit_test"},
+        language="es",
+    )
+
+    assert document.document_id == "inline_demo"
+    assert document.source_path == "<colab-cell>"
+    assert document.metadata["source"] == "unit_test"
+    assert document.language == "es"
+    assert [unit.text for unit in document.units] == [
+        "Te propongo algo simple.",
+        "Que aprendiste este año?",
+    ]
+
+
+def test_rejects_empty_in_memory_text_document() -> None:
+    with pytest.raises(TranscriptLoadError, match="must not be empty"):
+        load_text_document("   ")
 
 
 def test_loads_json_transcript_and_preserves_metadata(tmp_path: Path) -> None:

@@ -6,7 +6,7 @@ from pathlib import Path
 from typer.testing import CliRunner
 
 from narrative_dna.cli import app
-from narrative_dna.pipeline import run_pipeline
+from narrative_dna.pipeline import run_pipeline, run_pipeline_from_text
 
 
 def write_transcript(tmp_path: Path) -> Path:
@@ -58,6 +58,36 @@ def test_run_pipeline_no_llm_writes_core_outputs(tmp_path: Path) -> None:
     assert any(unit["heuristic_candidates"] for unit in units)
     assert all(unit["final_notation"] == "N_N0{0}" for unit in units)
     assert "N_N0{0}" in (run_dir / "dna_sequences.txt").read_text(encoding="utf-8")
+
+
+def test_run_pipeline_from_text_writes_general_outputs(tmp_path: Path) -> None:
+    output_dir = tmp_path / "outputs"
+
+    result = run_pipeline_from_text(
+        "Te propongo algo simple. Que aprendiste este año?",
+        document_id="inline_demo",
+        source_path="<test-string>",
+        metadata={"source": "unit_test"},
+        language="es",
+        output_dir=output_dir,
+        run_id="run_inline_text",
+        use_llm=False,
+        use_adjudicator=False,
+    )
+
+    run_dir = output_dir / "run_inline_text"
+    units = [
+        json.loads(line)
+        for line in (run_dir / "units.jsonl").read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+
+    assert result.run_id == "run_inline_text"
+    assert result.documents[0].source_path == "<test-string>"
+    assert units
+    assert all(unit["final_notation"] == "N_N0{0}" for unit in units)
+    assert any(unit["heuristic_candidates"] for unit in units)
+    assert (run_dir / "documents.jsonl").exists()
 
 
 def test_cli_run_and_inspect(tmp_path: Path) -> None:

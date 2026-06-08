@@ -26,6 +26,36 @@ def load_document(path: str | Path) -> NarrativeDocument:
     return documents[0]
 
 
+def load_text_document(
+    text: str,
+    *,
+    document_id: str | None = None,
+    source_path: str = "<text>",
+    metadata: dict[str, Any] | None = None,
+    language: str = "und",
+) -> NarrativeDocument:
+    """Build one transcript document directly from an in-memory text string."""
+
+    normalized = normalize_text(text)
+    if not normalized:
+        raise TranscriptLoadError("text transcript must not be empty")
+    normalized_metadata = normalize_metadata(metadata)
+    effective_document_id = (
+        document_id
+        or _document_id_from_metadata(normalized_metadata)
+        or stable_document_id(source_path=source_path, content=normalized)
+    )
+    return _build_document(
+        path=Path(source_path),
+        source_path=source_path,
+        source_type="txt",
+        document_id=effective_document_id,
+        text=normalized,
+        metadata=normalized_metadata,
+        language=language,
+    )
+
+
 def load_documents(path: str | Path, *, limit: int | None = None) -> list[NarrativeDocument]:
     """Load supported transcript files from a file or directory."""
 
@@ -147,6 +177,7 @@ def _load_jsonl(path: Path) -> list[NarrativeDocument]:
 def _build_document(
     *,
     path: Path,
+    source_path: str | None = None,
     source_type: str,
     document_id: str,
     metadata: dict[str, Any],
@@ -163,7 +194,7 @@ def _build_document(
     return NarrativeDocument.model_validate(
         {
             "document_id": document_id,
-            "source_path": str(path.resolve()),
+            "source_path": source_path or str(path.resolve()),
             "source_type": source_type,
             "language": language or "und",
             "metadata": metadata,

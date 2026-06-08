@@ -76,17 +76,22 @@ Después:
 ```python
 %pip install -q -e ".[dev]"
 
-from narrative_dna.loader import load_documents
-from narrative_dna.pipeline import run_pipeline
+from narrative_dna.loader import load_text_document
+from narrative_dna.pipeline import run_pipeline_from_text
 
-documents = load_documents("data/transcripts/videos", limit=1)
-result = run_pipeline(
-    input_dir="data/transcripts/videos",
+transcript_text = """
+Te propongo algo simple. Crea tu propia caja negra emocional.
+¿Qué aprendiste este año? ¿Qué quieres dejar registrado?
+""".strip()
+
+document = load_text_document(transcript_text, document_id="colab_text_demo", language="es")
+result = run_pipeline_from_text(
+    transcript_text,
+    document_id="colab_text_demo",
     output_dir="outputs",
-    run_id="colab_no_llm_demo",
+    run_id="colab_text_no_llm_demo",
     use_llm=False,
     use_adjudicator=False,
-    limit=1,
 )
 print(result.run_dir)
 ```
@@ -124,9 +129,11 @@ narrative-dna run ^
 ```
 
 El modo sin LLM produce unidades `N_N0{0}` como clasificación final, agrega
-heurísticas como señales candidatas auditables y detecta relaciones/cadenas con
-reglas determinísticas. Esto sirve para comprobar que la ingesta y los outputs
-están sanos antes de pagar o confiar en inferencia.
+heurísticas como señales candidatas auditables en `heuristic_candidates` y
+detecta relaciones/cadenas con reglas determinísticas. Esto sirve para comprobar
+que la ingesta y los outputs están sanos antes de pagar o confiar en inferencia.
+Si necesitas etiquetas finales distintas de `N_N0{0}`, ejecuta el clasificador
+con `--use-llm` o usa `run_pipeline_from_text(..., use_llm=True)`.
 
 Después inspecciona el run:
 
