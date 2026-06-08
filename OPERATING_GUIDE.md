@@ -42,6 +42,55 @@ python -m ruff check .
 python -m ruff format --check .
 ```
 
+## Ejecución En Google Colab
+
+El repo incluye un notebook que clona GitHub, instala el paquete e importa los
+módulos principales:
+
+```text
+examples/colab/narrative_dna_quickstart.ipynb
+```
+
+Ábrelo directamente en Colab:
+
+```text
+https://colab.research.google.com/github/jcval94/ADNarrativa/blob/main/examples/colab/narrative_dna_quickstart.ipynb
+```
+
+El flujo mínimo dentro de Colab es:
+
+```python
+from pathlib import Path
+import os
+import subprocess
+
+repo_url = "https://github.com/jcval94/ADNarrativa.git"
+repo_dir = Path("/content/ADNarrativa")
+if not repo_dir.exists():
+    subprocess.run(["git", "clone", repo_url, str(repo_dir)], check=True)
+os.chdir(repo_dir)
+```
+
+Después:
+
+```python
+%pip install -q -e ".[dev]"
+
+from narrative_dna.loader import load_documents
+from narrative_dna.pipeline import run_pipeline
+
+documents = load_documents("data/transcripts/videos", limit=1)
+result = run_pipeline(
+    input_dir="data/transcripts/videos",
+    output_dir="outputs",
+    run_id="colab_no_llm_demo",
+    use_llm=False,
+    use_adjudicator=False,
+    limit=1,
+)
+print(result.run_dir)
+```
+
 En este workspace puede haber archivos untracked ajenos al MVP que hagan fallar
 Ruff global. Para validar sólo el proyecto versionado:
 

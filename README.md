@@ -313,6 +313,11 @@ Guía operativa completa:
 type OPERATING_GUIDE.md
 ```
 
+Ejemplos Colab:
+
+- [Abrir notebook quickstart](https://colab.research.google.com/github/jcval94/ADNarrativa/blob/main/examples/colab/narrative_dna_quickstart.ipynb)
+- `examples/colab/README.md`
+
 ## Pipeline
 
 Flujo end-to-end:
