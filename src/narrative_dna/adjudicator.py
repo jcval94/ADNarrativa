@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from collections.abc import Mapping
+from contextlib import nullcontext
 from pathlib import Path
 from typing import Any
 
@@ -24,6 +25,7 @@ from narrative_dna.models import (
     ValidatorFlag,
 )
 from narrative_dna.notation import derive_final_notation, normalize_function_codes
+from narrative_dna.timing import TimingRecorder, json_size_chars
 from narrative_dna.validators import ValidationContext, normalize_and_validate_unit
 
 DEFAULT_TAXONOMY_VERSION = "v1_0"
@@ -94,8 +96,14 @@ class ConservativeAdjudicator:
         prompt_version: str = DEFAULT_PROMPT_VERSION,
         validator_version: str = DEFAULT_VALIDATOR_VERSION,
         dry_run: bool = False,
+        timing_recorder: TimingRecorder | None = None,
+        log_timings: bool | None = None,
     ) -> None:
-        self.llm_client = llm_client or OpenAIStructuredClient()
+        self.llm_client = llm_client or OpenAIStructuredClient(
+            timing_recorder=timing_recorder,
+            log_timings=log_timings,
+        )
+        self.timing_recorder = timing_recorder or getattr(self.llm_client, "timing_recorder", None)
         self.profile_name = profile_name
         self.prompt_path = Path(prompt_path)
         self.decision_trees_path = Path(decision_trees_path)
@@ -114,26 +122,35 @@ class ConservativeAdjudicator:
         *,
         high_similarity_conflict_unit_ids: set[str] | None = None,
     ) -> NarrativeDocument:
-        conflict_ids = high_similarity_conflict_unit_ids or set()
-        units = [
-            self.adjudicate_unit(
-                document,
-                index,
-                high_similarity_conflict=document.units[index].unit_id in conflict_ids,
-            )
-            for index in range(len(document.units))
-        ]
-        payload = document.model_dump(mode="json")
-        payload["units"] = [unit.model_dump(mode="json") for unit in units]
-        payload["audit_summary"] = {
-            **document.audit_summary,
-            "adjudicated_unit_count": sum(1 for unit in units if unit.method == "adjudicated"),
-            "adjudicator_profile": self.profile_name,
-            "taxonomy_version_effective": self.taxonomy_version,
-            "prompt_version_effective": self.prompt_version,
-            "validator_version_effective": self.validator_version,
-        }
-        return NarrativeDocument.model_validate(payload)
+        with self._timing_span(
+            "adjudicator.document",
+            document_id=document.document_id,
+            unit_count=len(document.units),
+            profile_name=self.profile_name,
+        ) as timing:
+            conflict_ids = high_similarity_conflict_unit_ids or set()
+            units = [
+                self.adjudicate_unit(
+                    document,
+                    index,
+                    high_similarity_conflict=document.units[index].unit_id in conflict_ids,
+                )
+                for index in range(len(document.units))
+            ]
+            adjudicated_count = sum(1 for unit in units if unit.method == "adjudicated")
+            payload = document.model_dump(mode="json")
+            payload["units"] = [unit.model_dump(mode="json") for unit in units]
+            payload["audit_summary"] = {
+                **document.audit_summary,
+                "adjudicated_unit_count": adjudicated_count,
+                "adjudicator_profile": self.profile_name,
+                "taxonomy_version_effective": self.taxonomy_version,
+                "prompt_version_effective": self.prompt_version,
+                "validator_version_effective": self.validator_version,
+            }
+            timing["adjudicated_unit_count"] = adjudicated_count
+            timing["skipped_unit_count"] = len(units) - adjudicated_count
+            return NarrativeDocument.model_validate(payload)
 
     def adjudicate_unit(
         self,
@@ -143,47 +160,83 @@ class ConservativeAdjudicator:
         high_similarity_conflict: bool = False,
     ) -> NarrativeUnit:
         unit = document.units[unit_index]
-        risk_reasons = adjudication_risk_reasons(
-            unit,
-            high_similarity_conflict=high_similarity_conflict,
-        )
-        if not risk_reasons:
-            return unit
-
-        context = build_adjudication_context(
-            document=document,
+        with self._timing_span(
+            "adjudicator.unit",
+            document_id=document.document_id,
+            unit_id=unit.unit_id,
             unit_index=unit_index,
-            risk_reasons=risk_reasons,
-            decision_trees=self.decision_trees,
-            minimal_pairs=self.minimal_pairs,
-        )
-        result = self.llm_client.request_structured(
+            unit_chars=len(unit.text),
             profile_name=self.profile_name,
-            input_payload=context.model_dump(mode="json"),
-            response_model=AdjudicatedClassification,
-            taxonomy_version=self.taxonomy_version,
-            prompt_version=self.prompt_version,
-            validator_version=self.validator_version,
-            system_prompt=self.system_prompt,
-            dry_run=self.dry_run,
-        )
-        if not result.ok or not result.parsed:
-            return mark_adjudication_failed(unit, result)
-        adjudicated = AdjudicatedClassification.model_validate(result.parsed)
-        return apply_adjudication(
-            unit=unit,
-            adjudicated=adjudicated,
-            llm_result=result,
-            previous_text=document.units[unit_index - 1].text if unit_index > 0 else None,
-            next_text=(
-                document.units[unit_index + 1].text
-                if unit_index + 1 < len(document.units)
-                else None
-            ),
-            taxonomy_version=self.taxonomy_version,
-            prompt_version=self.prompt_version,
-            validator_version=self.validator_version,
-        )
+        ) as timing:
+            risk_reasons = adjudication_risk_reasons(
+                unit,
+                high_similarity_conflict=high_similarity_conflict,
+            )
+            timing["risk_reasons"] = risk_reasons
+            if not risk_reasons:
+                timing["skipped"] = True
+                timing.update(_unit_timing_outcome(unit))
+                return unit
+
+            with self._timing_span(
+                "adjudicator.build_context",
+                document_id=document.document_id,
+                unit_id=unit.unit_id,
+                unit_index=unit_index,
+                risk_reasons=risk_reasons,
+            ) as context_timing:
+                context = build_adjudication_context(
+                    document=document,
+                    unit_index=unit_index,
+                    risk_reasons=risk_reasons,
+                    decision_trees=self.decision_trees,
+                    minimal_pairs=self.minimal_pairs,
+                )
+                context_payload = context.model_dump(mode="json")
+                context_timing["payload_chars"] = json_size_chars(context_payload)
+            timing["payload_chars"] = json_size_chars(context_payload)
+            result = self.llm_client.request_structured(
+                profile_name=self.profile_name,
+                input_payload=context_payload,
+                response_model=AdjudicatedClassification,
+                taxonomy_version=self.taxonomy_version,
+                prompt_version=self.prompt_version,
+                validator_version=self.validator_version,
+                system_prompt=self.system_prompt,
+                dry_run=self.dry_run,
+            )
+            timing.update(
+                {
+                    "skipped": False,
+                    "llm_ok": result.ok,
+                    "cache_hit": result.cache_hit,
+                    "attempts": result.attempts,
+                    "error_type": result.error_type,
+                }
+            )
+            if not result.ok or not result.parsed:
+                timing["fallback"] = True
+                failed_unit = mark_adjudication_failed(unit, result)
+                timing.update(_unit_timing_outcome(failed_unit))
+                return failed_unit
+            adjudicated = AdjudicatedClassification.model_validate(result.parsed)
+            timing["fallback"] = False
+            adjudicated_unit = apply_adjudication(
+                unit=unit,
+                adjudicated=adjudicated,
+                llm_result=result,
+                previous_text=document.units[unit_index - 1].text if unit_index > 0 else None,
+                next_text=(
+                    document.units[unit_index + 1].text
+                    if unit_index + 1 < len(document.units)
+                    else None
+                ),
+                taxonomy_version=self.taxonomy_version,
+                prompt_version=self.prompt_version,
+                validator_version=self.validator_version,
+            )
+            timing.update(_unit_timing_outcome(adjudicated_unit))
+            return adjudicated_unit
 
     def _load_minimal_pairs(self, limit: int = 80) -> list[dict[str, Any]]:
         if not self.minimal_pairs_path.exists():
@@ -201,6 +254,11 @@ class ConservativeAdjudicator:
         if not path.exists():
             return ""
         return path.read_text(encoding="utf-8")
+
+    def _timing_span(self, stage: str, **metadata: Any):
+        if self.timing_recorder is None:
+            return nullcontext({})
+        return self.timing_recorder.span(stage, **metadata)
 
 
 def adjudication_risk_reasons(
@@ -515,6 +573,17 @@ def unit_context(unit: NarrativeUnit) -> dict[str, Any]:
         "normalized_text": unit.normalized_text,
         "previous_unit_id": unit.previous_unit_id,
         "next_unit_id": unit.next_unit_id,
+    }
+
+
+def _unit_timing_outcome(unit: NarrativeUnit) -> dict[str, Any]:
+    return {
+        "output_functions": [str(function) for function in unit.functions],
+        "output_primary_function": str(unit.primary_function),
+        "output_final_notation": unit.final_notation,
+        "output_confidence": unit.confidence,
+        "output_needs_review": unit.needs_review,
+        "output_method": str(unit.method),
     }
 
 

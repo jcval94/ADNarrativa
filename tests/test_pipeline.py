@@ -73,6 +73,7 @@ def test_run_pipeline_from_text_writes_general_outputs(tmp_path: Path) -> None:
         run_id="run_inline_text",
         use_llm=False,
         use_adjudicator=False,
+        log_timings=True,
     )
 
     run_dir = output_dir / "run_inline_text"
@@ -88,6 +89,11 @@ def test_run_pipeline_from_text_writes_general_outputs(tmp_path: Path) -> None:
     assert all(unit["final_notation"] == "N_N0{0}" for unit in units)
     assert any(unit["heuristic_candidates"] for unit in units)
     assert (run_dir / "documents.jsonl").exists()
+    assert (run_dir / "timing_report.json").exists()
+    timing = json.loads((run_dir / "timing_report.json").read_text(encoding="utf-8"))
+    assert timing["run_id"] == "run_inline_text"
+    assert timing["taxonomy_version_effective"] == "v1_0"
+    assert any(record["stage"] == "pipeline.load_text_document" for record in timing["records"])
 
 
 def test_cli_run_and_inspect(tmp_path: Path) -> None:

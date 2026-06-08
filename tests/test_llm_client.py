@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field
 
 from narrative_dna.llm_client import (
     OpenAIStructuredClient,
+    api_call_purpose,
     build_cache_key,
     build_responses_kwargs,
     build_text_format,
@@ -15,6 +16,7 @@ from narrative_dna.llm_client import (
     prepare_openai_json_schema,
     resolve_profile,
 )
+from narrative_dna.timing import TimingRecorder
 
 
 class TinyClassification(BaseModel):
@@ -136,6 +138,34 @@ def test_retry_on_transient_transport_error(tmp_path: Path) -> None:
     assert result.ok is True
     assert result.attempts == 2
     assert len(transport.calls) == 2
+
+
+def test_openai_api_call_timing_records_purpose(tmp_path: Path) -> None:
+    transport = CountingTransport(
+        [{"id": "resp_1", "output_text": '{"label":"P","confidence":0.92}'}]
+    )
+    config_path = tmp_path / "llm_config.json"
+    write_config(config_path)
+    timing = TimingRecorder(run_id="timing_test", enabled=True, echo=False)
+    client_ = OpenAIStructuredClient(
+        config_path=config_path,
+        cache_dir=tmp_path / "cache",
+        api_key="test-key",
+        transport=transport,
+        sleeper=lambda _: None,
+        timing_recorder=timing,
+    )
+
+    result = request(client_)
+
+    api_records = [record for record in timing.records if record.stage == "openai.api_call"]
+    assert result.ok is True
+    assert len(api_records) == 1
+    assert api_records[0].metadata["openai_api_call"] is True
+    assert api_records[0].metadata["api_call_purpose"] == api_call_purpose(
+        "main_classifier",
+        "TinyClassification",
+    )
 
 
 def test_dry_run_skips_transport_and_cache(tmp_path: Path) -> None:

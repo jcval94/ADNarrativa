@@ -52,6 +52,11 @@ def run(
         help="Run semantic similarity audit after core outputs.",
     ),
     limit: int | None = typer.Option(None, "--limit", help="Limit loaded documents."),
+    log_timings: bool | None = typer.Option(
+        None,
+        "--log-timings/--no-log-timings",
+        help="Echo timing logs and write timing_report.json.",
+    ),
 ) -> None:
     """Run the JSON-first annotation pipeline."""
     result = run_pipeline(
@@ -62,6 +67,7 @@ def run(
         use_adjudicator=use_adjudicator,
         audit_similarity_enabled=audit_similarity_enabled,
         limit=limit,
+        log_timings=log_timings,
     )
     total_units = sum(len(document.units) for document in result.documents)
     total_relations = sum(len(document.relations) for document in result.documents)

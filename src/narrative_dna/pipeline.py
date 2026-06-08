@@ -17,6 +17,7 @@ from narrative_dna.loader import load_documents, load_text_document
 from narrative_dna.models import NarrativeDocument, ProjectRunManifest
 from narrative_dna.relation_detector import detect_relations_for_document
 from narrative_dna.similarity_auditor import audit_similarity, write_similarity_audit
+from narrative_dna.timing import TimingRecorder, write_timing_report
 from narrative_dna.unit_classifier import UnitClassifier
 
 PROJECT_VERSION = "0.1.0"
@@ -43,19 +44,31 @@ def run_pipeline(
     use_adjudicator: bool = False,
     audit_similarity_enabled: bool = False,
     limit: int | None = None,
+    log_timings: bool | None = None,
 ) -> PipelineRunResult:
     """Run the JSON-first pipeline and write core outputs."""
 
-    raw_documents = load_documents(input_dir, limit=limit)
+    effective_run_id = run_id or make_run_id()
+    timing_recorder = make_timing_recorder(
+        run_id=effective_run_id,
+        log_timings=log_timings,
+        use_llm=use_llm,
+        use_adjudicator=use_adjudicator,
+        audit_similarity_enabled=audit_similarity_enabled,
+    )
+    with timing_recorder.span("pipeline.load_documents", input_dir=str(input_dir), limit=limit):
+        raw_documents = load_documents(input_dir, limit=limit)
     return run_pipeline_from_documents(
         documents=raw_documents,
         input_dir=input_dir,
         output_dir=output_dir,
-        run_id=run_id,
+        run_id=effective_run_id,
         use_llm=use_llm,
         use_adjudicator=use_adjudicator,
         audit_similarity_enabled=audit_similarity_enabled,
         limit=limit,
+        log_timings=log_timings,
+        timing_recorder=timing_recorder,
     )
 
 
@@ -71,24 +84,44 @@ def run_pipeline_from_text(
     use_llm: bool = False,
     use_adjudicator: bool = False,
     audit_similarity_enabled: bool = False,
+    log_timings: bool | None = None,
 ) -> PipelineRunResult:
     """Run the JSON-first pipeline from an in-memory transcript string."""
 
-    document = load_text_document(
-        text,
+    effective_run_id = run_id or make_run_id()
+    timing_recorder = make_timing_recorder(
+        run_id=effective_run_id,
+        log_timings=log_timings,
+        use_llm=use_llm,
+        use_adjudicator=use_adjudicator,
+        audit_similarity_enabled=audit_similarity_enabled,
+    )
+    with timing_recorder.span(
+        "pipeline.load_text_document",
         document_id=document_id,
         source_path=source_path,
-        metadata=metadata,
-        language=language,
-    )
+        text_chars=len(text),
+    ) as timing:
+        document = load_text_document(
+            text,
+            document_id=document_id,
+            source_path=source_path,
+            metadata=metadata,
+            language=language,
+        )
+        timing["unit_count"] = len(document.units)
+        timing["effective_document_id"] = document.document_id
+        timing["char_count"] = document.document_metrics.get("char_count")
     return run_pipeline_from_documents(
         documents=[document],
         input_dir=source_path,
         output_dir=output_dir,
-        run_id=run_id,
+        run_id=effective_run_id,
         use_llm=use_llm,
         use_adjudicator=use_adjudicator,
         audit_similarity_enabled=audit_similarity_enabled,
+        log_timings=log_timings,
+        timing_recorder=timing_recorder,
     )
 
 
@@ -102,53 +135,116 @@ def run_pipeline_from_documents(
     use_adjudicator: bool = False,
     audit_similarity_enabled: bool = False,
     limit: int | None = None,
+    log_timings: bool | None = None,
+    timing_recorder: TimingRecorder | None = None,
 ) -> PipelineRunResult:
     """Run the JSON-first pipeline from pre-built documents."""
 
     effective_run_id = run_id or make_run_id()
     run_dir = Path(output_dir) / effective_run_id
-    raw_documents = documents[:limit] if limit is not None else documents
-    classifier = UnitClassifier() if use_llm else None
-    adjudicator = ConservativeAdjudicator() if use_adjudicator else None
-    processed_documents = [
-        process_document(
-            document,
-            run_id=effective_run_id,
-            classifier=classifier,
-            adjudicator=adjudicator,
-        )
-        for document in raw_documents
-    ]
-    conflicts = []
-    similarity_summary = None
-    if audit_similarity_enabled:
-        conflicts, similarity_summary = audit_similarity(
-            processed_documents, run_id=effective_run_id
-        )
-    manifest = build_run_manifest(
+    timing = timing_recorder or make_timing_recorder(
         run_id=effective_run_id,
-        input_dir=input_dir,
-        output_dir=output_dir,
+        log_timings=log_timings,
         use_llm=use_llm,
         use_adjudicator=use_adjudicator,
         audit_similarity_enabled=audit_similarity_enabled,
-        limit=limit,
     )
-    output_paths = write_run_outputs(
-        run_dir=run_dir,
-        manifest=manifest,
-        documents=processed_documents,
-        similarity_conflicts=conflicts,
-    )
-    if audit_similarity_enabled:
-        assert similarity_summary is not None
-        conflict_path, summary_path = write_similarity_audit(
-            conflicts=conflicts,
-            summary=similarity_summary,
-            output_dir=run_dir,
+    with timing.span(
+        "pipeline.total",
+        output_dir=str(output_dir),
+        use_llm=use_llm,
+        use_adjudicator=use_adjudicator,
+        audit_similarity_enabled=audit_similarity_enabled,
+    ) as total_timing:
+        raw_documents = documents[:limit] if limit is not None else documents
+        total_timing["document_count"] = len(raw_documents)
+        total_timing["unit_count"] = sum(len(document.units) for document in raw_documents)
+
+        classifier = None
+        if use_llm:
+            with timing.span("pipeline.init_classifier", profile_name="main_classifier"):
+                classifier = UnitClassifier(timing_recorder=timing, log_timings=log_timings)
+
+        adjudicator = None
+        if use_adjudicator:
+            with timing.span("pipeline.init_adjudicator", profile_name="adjudicator"):
+                adjudicator = ConservativeAdjudicator(
+                    timing_recorder=timing,
+                    log_timings=log_timings,
+                )
+
+        processed_documents = [
+            process_document(
+                document,
+                run_id=effective_run_id,
+                classifier=classifier,
+                adjudicator=adjudicator,
+                timing_recorder=timing,
+            )
+            for document in raw_documents
+        ]
+        conflicts = []
+        similarity_summary = None
+        if audit_similarity_enabled:
+            with timing.span(
+                "pipeline.audit_similarity",
+                document_count=len(processed_documents),
+                unit_count=sum(len(document.units) for document in processed_documents),
+            ) as audit_timing:
+                conflicts, similarity_summary = audit_similarity(
+                    processed_documents,
+                    run_id=effective_run_id,
+                )
+                audit_timing["conflict_count"] = len(conflicts)
+        with timing.span("pipeline.build_manifest"):
+            manifest = build_run_manifest(
+                run_id=effective_run_id,
+                input_dir=input_dir,
+                output_dir=output_dir,
+                use_llm=use_llm,
+                use_adjudicator=use_adjudicator,
+                audit_similarity_enabled=audit_similarity_enabled,
+                limit=limit,
+            )
+        with timing.span(
+            "pipeline.write_outputs",
+            run_dir=str(run_dir),
+            document_count=len(processed_documents),
+        ):
+            output_paths = write_run_outputs(
+                run_dir=run_dir,
+                manifest=manifest,
+                documents=processed_documents,
+                similarity_conflicts=conflicts,
+            )
+        if audit_similarity_enabled:
+            assert similarity_summary is not None
+            with timing.span(
+                "pipeline.write_similarity_audit",
+                run_dir=str(run_dir),
+                conflict_count=len(conflicts),
+            ):
+                conflict_path, summary_path = write_similarity_audit(
+                    conflicts=conflicts,
+                    summary=similarity_summary,
+                    output_dir=run_dir,
+                )
+                output_paths["similarity_conflicts"] = conflict_path
+                output_paths["similarity_conflicts_summary"] = summary_path
+        total_timing["processed_document_count"] = len(processed_documents)
+        total_timing["processed_unit_count"] = sum(
+            len(document.units) for document in processed_documents
         )
-        output_paths["similarity_conflicts"] = conflict_path
-        output_paths["similarity_conflicts_summary"] = summary_path
+    if timing.enabled:
+        timing_path = run_dir / "timing_report.json"
+        write_timing_report(
+            timing_path,
+            timing,
+            taxonomy_version_effective=DEFAULT_TAXONOMY_VERSION,
+            prompt_version_effective=DEFAULT_PROMPT_VERSION,
+            validator_version_effective=DEFAULT_VALIDATOR_VERSION,
+        )
+        output_paths["timing_report"] = timing_path
     return PipelineRunResult(
         run_id=effective_run_id,
         run_dir=run_dir,
@@ -164,25 +260,66 @@ def process_document(
     run_id: str,
     classifier: UnitClassifier | None,
     adjudicator: ConservativeAdjudicator | None,
+    timing_recorder: TimingRecorder | None = None,
 ) -> NarrativeDocument:
     """Apply in-memory pipeline stages to one document."""
 
-    current = annotate_document_with_heuristics(document)
-    if classifier is not None:
-        current = classifier.classify_document(current)
-    if adjudicator is not None:
-        current = adjudicator.adjudicate_document(current)
-    current = detect_relations_for_document(current, run_id=run_id)
-    current = detect_chains_for_document(current, run_id=run_id)
-    payload = current.model_dump(mode="json")
-    payload["audit_summary"] = {
-        **current.audit_summary,
-        "pipeline_completed": True,
-        "taxonomy_version_effective": DEFAULT_TAXONOMY_VERSION,
-        "prompt_version_effective": DEFAULT_PROMPT_VERSION,
-        "validator_version_effective": DEFAULT_VALIDATOR_VERSION,
-    }
-    return NarrativeDocument.model_validate(payload)
+    timing = timing_recorder or TimingRecorder(run_id=run_id, enabled=False)
+    with timing.span(
+        "pipeline.process_document",
+        document_id=document.document_id,
+        unit_count=len(document.units),
+    ) as document_timing:
+        with timing.span(
+            "pipeline.heuristics",
+            document_id=document.document_id,
+            unit_count=len(document.units),
+        ):
+            current = annotate_document_with_heuristics(document)
+        if classifier is not None:
+            current = classifier.classify_document(current)
+        if adjudicator is not None:
+            current = adjudicator.adjudicate_document(current)
+        with timing.span(
+            "pipeline.detect_relations",
+            document_id=current.document_id,
+            unit_count=len(current.units),
+        ) as relation_timing:
+            current = detect_relations_for_document(current, run_id=run_id)
+            relation_timing["relation_count"] = len(current.relations)
+        with timing.span(
+            "pipeline.detect_chains",
+            document_id=current.document_id,
+            relation_count=len(current.relations),
+        ) as chain_timing:
+            current = detect_chains_for_document(current, run_id=run_id)
+            chain_timing["chain_count"] = len(current.chains)
+        payload = current.model_dump(mode="json")
+        payload["audit_summary"] = {
+            **current.audit_summary,
+            "pipeline_completed": True,
+            "taxonomy_version_effective": DEFAULT_TAXONOMY_VERSION,
+            "prompt_version_effective": DEFAULT_PROMPT_VERSION,
+            "validator_version_effective": DEFAULT_VALIDATOR_VERSION,
+        }
+        document_timing["relation_count"] = len(current.relations)
+        document_timing["chain_count"] = len(current.chains)
+        return NarrativeDocument.model_validate(payload)
+
+
+def make_timing_recorder(
+    *,
+    run_id: str,
+    log_timings: bool | None,
+    use_llm: bool,
+    use_adjudicator: bool,
+    audit_similarity_enabled: bool,
+) -> TimingRecorder:
+    if log_timings is None:
+        enabled = use_llm or use_adjudicator or audit_similarity_enabled
+    else:
+        enabled = log_timings
+    return TimingRecorder(run_id=run_id, enabled=enabled, echo=enabled)
 
 
 def build_run_manifest(

@@ -13,6 +13,7 @@ from typing import Any, TypeVar
 from pydantic import BaseModel, Field, ValidationError
 
 from narrative_dna.models import StrictBaseModel
+from narrative_dna.timing import TimingRecorder, env_flag, json_size_chars
 
 T = TypeVar("T", bound=BaseModel)
 DEFAULT_CONFIG_PATH = Path("configs/llm_config.json")
@@ -77,6 +78,8 @@ class OpenAIStructuredClient:
         api_key: str | None = None,
         transport: Callable[..., Any] | None = None,
         sleeper: Callable[[float], None] = sleep,
+        timing_recorder: TimingRecorder | None = None,
+        log_timings: bool | None = None,
     ) -> None:
         self.config_path = Path(config_path)
         self.config = load_llm_config(self.config_path)
@@ -87,6 +90,12 @@ class OpenAIStructuredClient:
         self.api_key = api_key or os.environ.get("OPENAI_API_KEY")
         self.transport = transport
         self.sleeper = sleeper
+        timing_enabled = (
+            env_flag("NARRATIVE_DNA_LOG_TIMINGS") if log_timings is None else log_timings
+        )
+        self.timing_recorder = timing_recorder or (
+            TimingRecorder(run_id="standalone_llm", enabled=True) if timing_enabled else None
+        )
 
     def request_structured(
         self,
@@ -103,131 +112,250 @@ class OpenAIStructuredClient:
     ) -> LLMCallResult:
         """Request a strict structured response and validate it with Pydantic."""
 
-        profile = resolve_profile(self.config, profile_name)
-        cache_enabled = self._cache_enabled(use_cache)
-        cache_key = build_cache_key(
-            profile=profile,
+        with self._timing_span(
+            "llm.request",
             profile_name=profile_name,
-            input_payload=input_payload,
-            taxonomy_version=taxonomy_version,
-            prompt_version=prompt_version,
-            validator_version=validator_version,
-            schema_name=response_model.__name__,
-            system_prompt=system_prompt,
-        )
-        cache_path = self.cache_dir / f"{cache_key}.json"
-
-        if dry_run:
-            return LLMCallResult(
-                ok=True,
-                profile_name=profile_name,
-                model=profile.model,
-                cache_key=cache_key,
-                cache_path=str(cache_path),
-                dry_run=True,
-                attempts=0,
-                error_type="dry_run",
-                error="Dry run enabled; no OpenAI request was sent.",
+            response_schema=response_model.__name__,
+            payload_chars=json_size_chars(input_payload),
+            system_prompt_chars=len(system_prompt or ""),
+            api_call_purpose=api_call_purpose(profile_name, response_model.__name__),
+        ) as timing:
+            profile = resolve_profile(self.config, profile_name)
+            cache_enabled = self._cache_enabled(use_cache)
+            timing.update(
+                {
+                    "model": profile.model,
+                    "reasoning_effort": profile.reasoning_effort,
+                    "temperature": profile.temperature,
+                    "cache_enabled": cache_enabled,
+                }
             )
-
-        if cache_enabled:
-            cached = self._read_cache(cache_path, response_model=response_model)
-            if cached is not None:
-                return cached.model_copy(
-                    update={
-                        "profile_name": profile_name,
-                        "model": profile.model,
-                        "cache_key": cache_key,
-                        "cache_path": str(cache_path),
-                        "cache_hit": True,
-                    }
-                )
-
-        try:
-            transport = self._transport()
-        except LLMClientError as exc:
-            return self._error_result(
-                profile_name=profile_name,
+            cache_key = build_cache_key(
                 profile=profile,
-                cache_key=cache_key,
-                cache_path=cache_path,
-                attempts=0,
-                error_type=type(exc).__name__,
-                error=str(exc),
+                profile_name=profile_name,
+                input_payload=input_payload,
+                taxonomy_version=taxonomy_version,
+                prompt_version=prompt_version,
+                validator_version=validator_version,
+                schema_name=response_model.__name__,
+                system_prompt=system_prompt,
             )
+            cache_path = self.cache_dir / f"{cache_key}.json"
 
-        kwargs = build_responses_kwargs(
-            profile=profile,
-            input_payload=input_payload,
-            response_model=response_model,
-            system_prompt=system_prompt,
-        )
-        max_attempts, backoff_seconds = self._retry_policy()
-        last_error: str | None = None
-
-        for attempt in range(1, max_attempts + 1):
-            try:
-                response = transport(**kwargs)
-                parsed_payload = extract_json_payload(response)
-                parsed_model = response_model.model_validate(parsed_payload)
-                result = LLMCallResult(
+            if dry_run:
+                timing.update({"ok": True, "dry_run": True, "attempts": 0, "cache_hit": False})
+                return LLMCallResult(
                     ok=True,
                     profile_name=profile_name,
                     model=profile.model,
                     cache_key=cache_key,
                     cache_path=str(cache_path),
-                    attempts=attempt,
-                    parsed=parsed_model.model_dump(mode="json"),
-                    usage=extract_usage(response),
-                    response_id=extract_response_id(response),
-                )
-                if cache_enabled:
-                    self._write_cache(cache_path, result)
-                return result
-            except ValidationError as exc:
-                return self._error_result(
-                    profile_name=profile_name,
-                    profile=profile,
-                    cache_key=cache_key,
-                    cache_path=cache_path,
-                    attempts=attempt,
-                    error_type="schema_validation",
-                    error=str(exc),
-                )
-            except (json.JSONDecodeError, LLMClientError, ValueError) as exc:
-                return self._error_result(
-                    profile_name=profile_name,
-                    profile=profile,
-                    cache_key=cache_key,
-                    cache_path=cache_path,
-                    attempts=attempt,
-                    error_type="invalid_structured_output",
-                    error=str(exc),
-                )
-            except Exception as exc:  # pragma: no cover - exercised with test fakes.
-                last_error = str(exc)
-                if attempt < max_attempts:
-                    self.sleeper(backoff_seconds[min(attempt - 1, len(backoff_seconds) - 1)])
-                    continue
-                return self._error_result(
-                    profile_name=profile_name,
-                    profile=profile,
-                    cache_key=cache_key,
-                    cache_path=cache_path,
-                    attempts=attempt,
-                    error_type=type(exc).__name__,
-                    error=last_error,
+                    dry_run=True,
+                    attempts=0,
+                    error_type="dry_run",
+                    error="Dry run enabled; no OpenAI request was sent.",
                 )
 
-        return self._error_result(
-            profile_name=profile_name,
-            profile=profile,
-            cache_key=cache_key,
-            cache_path=cache_path,
-            attempts=max_attempts,
-            error_type="unknown_error",
-            error=last_error or "Unknown LLM client failure.",
-        )
+            if cache_enabled:
+                with self._timing_span(
+                    "llm.cache_read",
+                    profile_name=profile_name,
+                    model=profile.model,
+                    cache_path=str(cache_path),
+                    api_call_purpose=api_call_purpose(profile_name, response_model.__name__),
+                ) as cache_timing:
+                    cached = self._read_cache(cache_path, response_model=response_model)
+                    cache_timing["cache_hit"] = cached is not None
+                if cached is not None:
+                    timing.update({"ok": True, "cache_hit": True, "attempts": cached.attempts})
+                    return cached.model_copy(
+                        update={
+                            "profile_name": profile_name,
+                            "model": profile.model,
+                            "cache_key": cache_key,
+                            "cache_path": str(cache_path),
+                            "cache_hit": True,
+                        }
+                    )
+
+            try:
+                with self._timing_span(
+                    "llm.transport_init",
+                    profile_name=profile_name,
+                    model=profile.model,
+                    api_call_purpose=api_call_purpose(profile_name, response_model.__name__),
+                ):
+                    transport = self._transport()
+            except LLMClientError as exc:
+                timing.update({"ok": False, "attempts": 0, "error_type": type(exc).__name__})
+                return self._error_result(
+                    profile_name=profile_name,
+                    profile=profile,
+                    cache_key=cache_key,
+                    cache_path=cache_path,
+                    attempts=0,
+                    error_type=type(exc).__name__,
+                    error=str(exc),
+                )
+
+            with self._timing_span(
+                "llm.build_request",
+                profile_name=profile_name,
+                model=profile.model,
+                response_schema=response_model.__name__,
+                api_call_purpose=api_call_purpose(profile_name, response_model.__name__),
+            ):
+                kwargs = build_responses_kwargs(
+                    profile=profile,
+                    input_payload=input_payload,
+                    response_model=response_model,
+                    system_prompt=system_prompt,
+                )
+            max_attempts, backoff_seconds = self._retry_policy()
+            last_error: str | None = None
+
+            for attempt in range(1, max_attempts + 1):
+                try:
+                    with self._timing_span(
+                        "openai.api_call",
+                        profile_name=profile_name,
+                        model=profile.model,
+                        attempt=attempt,
+                        max_attempts=max_attempts,
+                        openai_api_call=True,
+                        api_call_purpose=api_call_purpose(
+                            profile_name,
+                            response_model.__name__,
+                        ),
+                    ):
+                        response = transport(**kwargs)
+                    with self._timing_span(
+                        "llm.parse_validate",
+                        profile_name=profile_name,
+                        model=profile.model,
+                        attempt=attempt,
+                        api_call_purpose=api_call_purpose(profile_name, response_model.__name__),
+                    ):
+                        parsed_payload = extract_json_payload(response)
+                        parsed_model = response_model.model_validate(parsed_payload)
+                    result = LLMCallResult(
+                        ok=True,
+                        profile_name=profile_name,
+                        model=profile.model,
+                        cache_key=cache_key,
+                        cache_path=str(cache_path),
+                        attempts=attempt,
+                        parsed=parsed_model.model_dump(mode="json"),
+                        usage=extract_usage(response),
+                        response_id=extract_response_id(response),
+                    )
+                    if cache_enabled:
+                        with self._timing_span(
+                            "llm.cache_write",
+                            profile_name=profile_name,
+                            model=profile.model,
+                            cache_path=str(cache_path),
+                            api_call_purpose=api_call_purpose(
+                                profile_name,
+                                response_model.__name__,
+                            ),
+                        ):
+                            self._write_cache(cache_path, result)
+                    timing.update({"ok": True, "cache_hit": False, "attempts": attempt})
+                    return result
+                except ValidationError as exc:
+                    timing.update(
+                        {
+                            "ok": False,
+                            "cache_hit": False,
+                            "attempts": attempt,
+                            "error_type": "schema_validation",
+                        }
+                    )
+                    return self._error_result(
+                        profile_name=profile_name,
+                        profile=profile,
+                        cache_key=cache_key,
+                        cache_path=cache_path,
+                        attempts=attempt,
+                        error_type="schema_validation",
+                        error=str(exc),
+                    )
+                except (json.JSONDecodeError, LLMClientError, ValueError) as exc:
+                    timing.update(
+                        {
+                            "ok": False,
+                            "cache_hit": False,
+                            "attempts": attempt,
+                            "error_type": "invalid_structured_output",
+                        }
+                    )
+                    return self._error_result(
+                        profile_name=profile_name,
+                        profile=profile,
+                        cache_key=cache_key,
+                        cache_path=cache_path,
+                        attempts=attempt,
+                        error_type="invalid_structured_output",
+                        error=str(exc),
+                    )
+                except Exception as exc:  # pragma: no cover - exercised with test fakes.
+                    last_error = str(exc)
+                    if attempt < max_attempts:
+                        delay = backoff_seconds[min(attempt - 1, len(backoff_seconds) - 1)]
+                        with self._timing_span(
+                            "llm.retry_sleep",
+                            profile_name=profile_name,
+                            model=profile.model,
+                            attempt=attempt,
+                            delay_seconds=delay,
+                            api_call_purpose=api_call_purpose(
+                                profile_name,
+                                response_model.__name__,
+                            ),
+                        ):
+                            self.sleeper(delay)
+                        continue
+                    timing.update(
+                        {
+                            "ok": False,
+                            "cache_hit": False,
+                            "attempts": attempt,
+                            "error_type": type(exc).__name__,
+                        }
+                    )
+                    return self._error_result(
+                        profile_name=profile_name,
+                        profile=profile,
+                        cache_key=cache_key,
+                        cache_path=cache_path,
+                        attempts=attempt,
+                        error_type=type(exc).__name__,
+                        error=last_error,
+                    )
+
+            timing.update(
+                {
+                    "ok": False,
+                    "cache_hit": False,
+                    "attempts": max_attempts,
+                    "error_type": "unknown_error",
+                }
+            )
+            return self._error_result(
+                profile_name=profile_name,
+                profile=profile,
+                cache_key=cache_key,
+                cache_path=cache_path,
+                attempts=max_attempts,
+                error_type="unknown_error",
+                error=last_error or "Unknown LLM client failure.",
+            )
+
+    def _timing_span(self, stage: str, **metadata: Any):
+        if self.timing_recorder is None:
+            return _NullTimingSpan()
+        return self.timing_recorder.span(stage, **metadata)
 
     def _cache_enabled(self, override: bool | None) -> bool:
         if override is not None:
@@ -321,6 +449,24 @@ def resolve_profile(config: Mapping[str, Any], profile_name: str) -> LLMProfile:
                 payload.pop("name", None)
                 return LLMProfile.model_validate(payload)
     raise LLMClientError(f"unknown LLM profile: {profile_name}")
+
+
+def api_call_purpose(profile_name: str, response_schema: str) -> str:
+    """Explain why an OpenAI request is needed for timing logs."""
+
+    by_profile = {
+        "main_classifier": (
+            "classify one narrative unit into strict JSON fields before deriving notation"
+        ),
+        "adjudicator": "review a high-risk unit conservatively before final notation",
+        "synthetic_aggregator": "aggregate synthetic reviewer disagreements conservatively",
+        "synthetic_final_adjudicator": "make final conservative synthetic-gold decision",
+    }
+    if profile_name in by_profile:
+        return by_profile[profile_name]
+    if response_schema == "SyntheticReviewerOutput":
+        return "diversify synthetic review of a difficult or boundary-case annotation"
+    return f"request strict structured output for {response_schema}"
 
 
 def build_responses_kwargs(
@@ -535,3 +681,11 @@ def _schema_name(response_model: type[BaseModel]) -> str:
     name = response_model.__name__
     safe = "".join(char if char.isalnum() or char in "_-" else "_" for char in name)
     return safe[:64] or "structured_response"
+
+
+class _NullTimingSpan:
+    def __enter__(self) -> dict[str, Any]:
+        return {}
+
+    def __exit__(self, *_exc_info: Any) -> bool:
+        return False
