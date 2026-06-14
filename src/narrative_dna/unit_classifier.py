@@ -12,7 +12,7 @@ from pydantic import Field
 
 from narrative_dna.heuristic_candidates import (
     HeuristicExtraction,
-    annotate_unit_with_heuristics,
+    apply_heuristic_baseline_to_unit,
     extract_heuristic_candidates,
 )
 from narrative_dna.llm_client import LLMCallResult, OpenAIStructuredClient
@@ -232,14 +232,11 @@ class UnitClassifier:
         heuristics: HeuristicExtraction,
         result: LLMCallResult,
     ) -> NarrativeUnit:
-        annotated = annotate_unit_with_heuristics(unit)
-        payload = annotated.model_dump(mode="json")
-        if heuristics.locked_functions:
-            payload["functions"] = [str(function) for function in heuristics.locked_functions]
-            payload["primary_function"] = payload["functions"][0]
-            payload["secondary_functions"] = payload["functions"][1:]
-            payload["method"] = "heuristic"
-            payload["confidence"] = 0.6
+        fallback = apply_heuristic_baseline_to_unit(
+            unit,
+            failure_reason="llm_classification_failed",
+        )
+        payload = fallback.model_dump(mode="json")
         payload["needs_review"] = True
         payload["review_status"] = "needs_review"
         payload["review_reasons"] = _append_unique(

@@ -33,6 +33,10 @@ class LLMProfile(StrictBaseModel):
     model: str = Field(min_length=1)
     reasoning_effort: str | None = None
     temperature: float | None = None
+    temperature_supported: bool | None = None
+    timeout_seconds: int | None = Field(default=None, gt=0)
+    max_output_tokens: int | None = Field(default=None, gt=0)
+    text_verbosity: str | None = None
     enabled: bool = True
 
 
@@ -126,7 +130,10 @@ class OpenAIStructuredClient:
                 {
                     "model": profile.model,
                     "reasoning_effort": profile.reasoning_effort,
-                    "temperature": profile.temperature,
+                    "temperature": effective_temperature(profile),
+                    "text_verbosity": profile.text_verbosity,
+                    "max_output_tokens": profile.max_output_tokens,
+                    "timeout_seconds": profile.timeout_seconds,
                     "cache_enabled": cache_enabled,
                 }
             )
@@ -301,7 +308,8 @@ class OpenAIStructuredClient:
                     )
                 except Exception as exc:  # pragma: no cover - exercised with test fakes.
                     last_error = str(exc)
-                    if attempt < max_attempts:
+                    retryable = is_retryable_exception(exc)
+                    if retryable and attempt < max_attempts:
                         delay = backoff_seconds[min(attempt - 1, len(backoff_seconds) - 1)]
                         with self._timing_span(
                             "llm.retry_sleep",
@@ -322,6 +330,7 @@ class OpenAIStructuredClient:
                             "cache_hit": False,
                             "attempts": attempt,
                             "error_type": type(exc).__name__,
+                            "retryable": retryable,
                         }
                     )
                     return self._error_result(
@@ -469,6 +478,50 @@ def api_call_purpose(profile_name: str, response_schema: str) -> str:
     return f"request strict structured output for {response_schema}"
 
 
+def effective_temperature(profile: LLMProfile) -> float | None:
+    """Return the temperature value that should actually be sent to the API."""
+
+    if profile.temperature is None:
+        return None
+    if profile.temperature_supported is not None:
+        return profile.temperature if profile.temperature_supported else None
+    if is_gpt5_reasoning_model(profile.model):
+        return None
+    return profile.temperature
+
+
+def is_gpt5_reasoning_model(model: str) -> bool:
+    return model.lower().startswith("gpt-5")
+
+
+def is_retryable_exception(exc: Exception) -> bool:
+    """Classify transport errors conservatively to avoid retrying bad requests."""
+
+    status_code = getattr(exc, "status_code", None)
+    if isinstance(status_code, int):
+        return status_code in {408, 409, 429} or status_code >= 500
+
+    message = str(exc).lower()
+    if (
+        "unsupported parameter" in message
+        or "invalid_request" in message
+        or "bad request" in message
+        or "error code: 400" in message
+    ):
+        return False
+    retry_markers = (
+        "rate_limit",
+        "rate limit",
+        "timeout",
+        "timed out",
+        "temporarily",
+        "connection",
+        "server error",
+        "service unavailable",
+    )
+    return any(marker in message for marker in retry_markers)
+
+
 def build_responses_kwargs(
     *,
     profile: LLMProfile,
@@ -478,15 +531,22 @@ def build_responses_kwargs(
 ) -> dict[str, Any]:
     """Build a Responses API request that only accepts strict structured output."""
 
+    text_config: dict[str, Any] = {"format": build_text_format(response_model)}
+    if profile.text_verbosity:
+        text_config["verbosity"] = profile.text_verbosity
     request: dict[str, Any] = {
         "model": profile.model,
         "input": build_responses_input(input_payload, system_prompt=system_prompt),
-        "text": {"format": build_text_format(response_model)},
+        "text": text_config,
     }
     if profile.reasoning_effort:
         request["reasoning"] = {"effort": profile.reasoning_effort}
-    if profile.temperature is not None:
-        request["temperature"] = profile.temperature
+    if effective_temperature(profile) is not None:
+        request["temperature"] = effective_temperature(profile)
+    if profile.max_output_tokens is not None:
+        request["max_output_tokens"] = profile.max_output_tokens
+    if profile.timeout_seconds is not None:
+        request["timeout"] = profile.timeout_seconds
     return request
 
 
@@ -548,7 +608,10 @@ def build_cache_key(
         "profile_name": profile_name,
         "model": profile.model,
         "reasoning_effort": profile.reasoning_effort,
-        "temperature": profile.temperature,
+        "temperature": effective_temperature(profile),
+        "text_verbosity": profile.text_verbosity,
+        "max_output_tokens": profile.max_output_tokens,
+        "timeout_seconds": profile.timeout_seconds,
         "taxonomy_version": taxonomy_version,
         "prompt_version": prompt_version,
         "validator_version": validator_version,

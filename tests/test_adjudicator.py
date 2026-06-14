@@ -254,3 +254,51 @@ def test_risk_detection_includes_locked_heuristic_conflict(tmp_path: Path) -> No
 
     assert should_adjudicate(unit) is True
     assert "locked_heuristic_llm_conflict" in adjudication_risk_reasons(unit)
+
+
+def test_classifier_infrastructure_failure_skips_adjudicator_call(tmp_path: Path) -> None:
+    document = document_with_unit(
+        tmp_path,
+        "Por que importa?",
+        functions=["P"],
+        primary_function="P",
+        confidence=0.0,
+        method="heuristic",
+        needs_review=True,
+        review_status="needs_review",
+        review_reasons=["llm_classification_failed"],
+    )
+    fake = FakeAdjudicatorClient([])
+
+    unit = ConservativeAdjudicator(llm_client=fake).adjudicate_document(document).units[0]
+
+    assert fake.calls == []
+    assert unit.review_reasons == ["llm_classification_failed"]
+
+
+def test_actionable_low_confidence_validator_flag_still_adjudicates(tmp_path: Path) -> None:
+    document = document_with_unit(
+        tmp_path,
+        "Esto confirma la idea central.",
+        functions=["D"],
+        primary_function="D",
+        confidence=0.4,
+        needs_review=True,
+        review_status="needs_review",
+        validator_flags=[
+            {
+                "rule_id": "D_without_evidence",
+                "severity": "warning",
+                "message": "D requires evidence.",
+                "field": "evidence_spans",
+            }
+        ],
+    )
+    fake = FakeAdjudicatorClient(
+        [adjudicated_payload(final_functions=["A"], final_primary_function="A")]
+    )
+
+    unit = ConservativeAdjudicator(llm_client=fake).adjudicate_document(document).units[0]
+
+    assert len(fake.calls) == 1
+    assert unit.functions == ["A"]

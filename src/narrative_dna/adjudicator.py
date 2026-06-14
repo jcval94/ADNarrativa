@@ -46,6 +46,9 @@ HIGH_RISK_FLAGS = {
     "R_without_question_anchor",
     "possible_overlabeling",
 }
+CLASSIFIER_INFRASTRUCTURE_FAILURE_REASONS = {
+    "llm_classification_failed",
+}
 
 
 class AdjudicatedClassification(StrictBaseModel):
@@ -271,6 +274,10 @@ def adjudication_risk_reasons(
     functions = [str(function) for function in unit.functions]
     locked = locked_functions_from_unit(unit)
 
+    if classifier_infrastructure_failed(unit):
+        if high_similarity_conflict:
+            return ["high_similarity_conflict"]
+        return []
     if unit.confidence < 0.70:
         reasons.append("low_confidence")
     for rule_id in sorted(flag_ids & HIGH_RISK_FLAGS):
@@ -294,6 +301,10 @@ def should_adjudicate(
     high_similarity_conflict: bool = False,
 ) -> bool:
     return bool(adjudication_risk_reasons(unit, high_similarity_conflict=high_similarity_conflict))
+
+
+def classifier_infrastructure_failed(unit: NarrativeUnit) -> bool:
+    return bool(set(unit.review_reasons) & CLASSIFIER_INFRASTRUCTURE_FAILURE_REASONS)
 
 
 def build_adjudication_context(

@@ -128,12 +128,11 @@ narrative-dna run ^
   --limit 1
 ```
 
-El modo sin LLM produce unidades `N_N0{0}` como clasificación final, agrega
-heurísticas como señales candidatas auditables en `heuristic_candidates` y
-detecta relaciones/cadenas con reglas determinísticas. Esto sirve para comprobar
-que la ingesta y los outputs están sanos antes de pagar o confiar en inferencia.
-Si necesitas etiquetas finales distintas de `N_N0{0}`, ejecuta el clasificador
-con `--use-llm` o usa `run_pipeline_from_text(..., use_llm=True)`.
+El modo sin LLM produce un baseline heurístico conservador: agrega señales
+candidatas auditables en `heuristic_candidates`, promueve sólo reglas
+determinísticas de alta confianza a `functions`, recompila `final_notation`
+desde JSON validado y marca revisión cuando la promoción sea candidata o
+multietiqueta. Las unidades sin señales suficientes permanecen como `N_N0{0}`.
 
 Después inspecciona el run:
 

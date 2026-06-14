@@ -77,7 +77,9 @@ result = run_pipeline_from_text(
 print(result.run_dir)
 ```
 
-En modo sin LLM, `final_notation` seguirá siendo `N_N0{0}` por diseño. Mira
-`heuristic_candidates` para ver señales determinísticas auditables, o usa
-`use_llm=True`, `use_adjudicator=True` y `log_timings=True` para clasificación
-final con timings por etapa.
+En modo sin LLM, `final_notation` ya no queda fijo en `N_N0{0}` cuando hay
+señales determinísticas fuertes: el pipeline promueve un baseline heurístico
+conservador, conserva `heuristic_candidates` como evidencia auditable y marca
+revisión para señales candidatas o multietiqueta. Usa `use_llm=True`,
+`use_adjudicator=True` y `log_timings=True` cuando necesites inferencia
+estructurada y tiempos por etapa.

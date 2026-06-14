@@ -21,6 +21,11 @@ from narrative_dna.models import (
 )
 from narrative_dna.normalizer import normalize_text
 from narrative_dna.notation import normalize_function_codes
+from narrative_dna.question_detection import find_question_anchor_span
+from narrative_dna.validators import ValidationContext, normalize_and_validate_unit
+
+PROMOTABLE_CANDIDATE_MIN_CONFIDENCE = 0.76
+NON_PROMOTABLE_CANDIDATE_FUNCTIONS = {"V"}
 
 
 class HeuristicExtraction(StrictBaseModel):
@@ -241,9 +246,9 @@ def extract_heuristic_candidates(
     fired: list[str] = []
     evidence: list[EvidenceSpan] = []
 
-    question_match = _question_match(text, folded)
-    if question_match:
-        _add_signal("P", "function:P.question_mark", question_match, text, locked, fired, evidence)
+    question_span = find_question_anchor_span(text)
+    if question_span:
+        _add_signal("P", "function:P.question_mark", question_span, text, locked, fired, evidence)
 
     for pattern in CONCLUSION_PATTERNS:
         match = re.search(pattern, folded)
@@ -319,6 +324,111 @@ def annotate_document_with_heuristics(document: NarrativeDocument) -> NarrativeD
     return NarrativeDocument.model_validate(payload)
 
 
+def apply_heuristic_baseline_to_unit(
+    unit: NarrativeUnit,
+    *,
+    total_units: int | None = None,
+    previous_text: str | None = None,
+    next_text: str | None = None,
+    failure_reason: str | None = None,
+) -> NarrativeUnit:
+    """Promote high-confidence heuristic signals into a conservative final baseline."""
+
+    extraction = extract_heuristic_candidates(unit, total_units=total_units)
+    candidate_records = _heuristic_candidates_from_extraction(extraction)
+    promoted_functions, candidate_derived = _promoted_function_labels(candidate_records)
+    payload = unit.model_dump(mode="json")
+    payload["heuristic_candidates"] = candidate_records
+    payload["evidence_spans"] = [span.model_dump(mode="json") for span in extraction.evidence_spans]
+
+    changed = False
+    review_reasons = list(payload.get("review_reasons", []))
+    if promoted_functions:
+        payload["functions"] = promoted_functions
+        payload["primary_function"] = promoted_functions[0]
+        payload["secondary_functions"] = promoted_functions[1:]
+        changed = True
+    if extraction.candidate_certainty:
+        payload["certainty"] = str(extraction.candidate_certainty)
+        changed = True
+        review_reasons = _append_unique(review_reasons, "heuristic_certainty_candidate")
+    if extraction.candidate_emotion_expressed:
+        payload["emotion_expressed"] = str(extraction.candidate_emotion_expressed)
+        payload["emotion_intensity"] = max(int(payload.get("emotion_intensity") or 0), 1)
+        changed = True
+        review_reasons = _append_unique(review_reasons, "heuristic_emotion_candidate")
+    if extraction.candidate_emotions_mentioned:
+        payload["emotions_mentioned"] = _dedupe(
+            [
+                *[str(emotion) for emotion in payload.get("emotions_mentioned", [])],
+                *[str(emotion) for emotion in extraction.candidate_emotions_mentioned],
+            ]
+        )
+        changed = True
+        review_reasons = _append_unique(review_reasons, "heuristic_emotion_mention_candidate")
+    if extraction.candidate_stance:
+        payload["stance"] = str(extraction.candidate_stance)
+        changed = True
+        review_reasons = _append_unique(review_reasons, "heuristic_stance_candidate")
+
+    if changed:
+        payload["method"] = "heuristic"
+        payload["confidence"] = _heuristic_baseline_confidence(
+            candidate_records,
+            promoted_functions,
+            has_non_function_signal=bool(
+                extraction.candidate_certainty
+                or extraction.candidate_emotion_expressed
+                or extraction.candidate_emotions_mentioned
+                or extraction.candidate_stance
+            ),
+        )
+    if candidate_derived:
+        payload["needs_review"] = True
+        review_reasons = _append_unique(review_reasons, "heuristic_candidate_promoted")
+    if len(promoted_functions) > 1:
+        payload["needs_review"] = True
+        review_reasons = _append_unique(review_reasons, "heuristic_multilabel")
+    if failure_reason:
+        payload["needs_review"] = True
+        review_reasons = _append_unique(review_reasons, failure_reason)
+    if payload.get("needs_review"):
+        payload["review_status"] = "needs_review"
+    elif changed:
+        payload["review_status"] = "accepted"
+    payload["review_reasons"] = review_reasons
+
+    return normalize_and_validate_unit(
+        payload,
+        context=ValidationContext(previous_text=previous_text, next_text=next_text),
+    )
+
+
+def apply_heuristic_baseline_to_document(document: NarrativeDocument) -> NarrativeDocument:
+    """Apply the no-LLM conservative baseline to all units in a document."""
+
+    units = []
+    for index, unit in enumerate(document.units):
+        units.append(
+            apply_heuristic_baseline_to_unit(
+                unit,
+                total_units=len(document.units),
+                previous_text=document.units[index - 1].text if index > 0 else None,
+                next_text=(
+                    document.units[index + 1].text if index + 1 < len(document.units) else None
+                ),
+            )
+        )
+    audit_summary = dict(document.audit_summary)
+    audit_summary["heuristic_baseline_unit_count"] = sum(
+        1 for unit in units if unit.method == "heuristic"
+    )
+    payload = document.model_dump(mode="json")
+    payload["units"] = [unit.model_dump(mode="json") for unit in units]
+    payload["audit_summary"] = audit_summary
+    return NarrativeDocument.model_validate(payload)
+
+
 def _heuristic_candidates_from_extraction(extraction: HeuristicExtraction) -> list[dict[str, Any]]:
     records: list[dict[str, Any]] = []
     for code in extraction.locked_functions:
@@ -349,12 +459,6 @@ def _match_rule(rule: FunctionRule, folded: str) -> re.Match[str] | None:
         if match:
             return match
     return None
-
-
-def _question_match(text: str, folded: str) -> re.Match[str] | None:
-    if "?" not in text and "¿" not in text and "?" not in folded:
-        return None
-    return re.search(r"[?¿]", folded) or re.search(r".", folded)
 
 
 def _is_near_document_end(unit: NarrativeUnit, total_units: int | None) -> bool:
@@ -401,7 +505,7 @@ def _candidate_emotions_mentioned(folded: str) -> tuple[list[str], list[str], li
 def _add_signal(
     code: str,
     rule_id: str,
-    match: re.Match[str],
+    match: re.Match[str] | tuple[int, int],
     original_text: str,
     target: list[str],
     fired: list[str],
@@ -414,16 +518,16 @@ def _add_signal(
 
 def _add_evidence(
     rule_id: str,
-    match: re.Match[str],
+    match: re.Match[str] | tuple[int, int],
     original_text: str,
     fired: list[str],
     evidence: list[EvidenceSpan],
 ) -> None:
     fired.append(rule_id)
-    start, end = match.span()
-    span_text = original_text[start:end] if end <= len(original_text) else match.group(0)
+    start, end = _span_bounds(match)
+    span_text = original_text[start:end] if end <= len(original_text) else _span_text(match)
     if not span_text.strip():
-        span_text = match.group(0)
+        span_text = _span_text(match)
     evidence.append(
         EvidenceSpan(
             text=span_text,
@@ -432,6 +536,51 @@ def _add_evidence(
             source=rule_id,
         )
     )
+
+
+def _span_bounds(match: re.Match[str] | tuple[int, int]) -> tuple[int, int]:
+    return match if isinstance(match, tuple) else match.span()
+
+
+def _span_text(match: re.Match[str] | tuple[int, int]) -> str:
+    return "" if isinstance(match, tuple) else match.group(0)
+
+
+def _promoted_function_labels(
+    candidate_records: list[dict[str, Any]],
+) -> tuple[list[str], bool]:
+    labels: list[str] = []
+    candidate_derived = False
+    for candidate in candidate_records:
+        label = str(candidate["label"])
+        confidence = float(candidate["confidence"])
+        locked = confidence >= 0.95 or "Locked deterministic" in str(candidate.get("reason", ""))
+        promotable_candidate = (
+            confidence >= PROMOTABLE_CANDIDATE_MIN_CONFIDENCE
+            and label not in NON_PROMOTABLE_CANDIDATE_FUNCTIONS
+        )
+        if not (locked or promotable_candidate):
+            continue
+        labels.append(label)
+        candidate_derived = candidate_derived or not locked
+    return normalize_function_codes(labels), candidate_derived
+
+
+def _heuristic_baseline_confidence(
+    candidate_records: list[dict[str, Any]],
+    promoted_functions: list[str],
+    *,
+    has_non_function_signal: bool,
+) -> float:
+    if not promoted_functions:
+        return 0.7 if has_non_function_signal else 0.0
+    by_label = {
+        str(candidate["label"]): float(candidate["confidence"]) for candidate in candidate_records
+    }
+    promoted_confidences = [by_label[label] for label in promoted_functions if label in by_label]
+    if not promoted_confidences:
+        return 0.7
+    return round(min(promoted_confidences), 4)
 
 
 def _fold(text: str) -> str:
@@ -448,3 +597,7 @@ def _dedupe(values: Iterable[str]) -> list[str]:
             seen.add(value)
             deduped.append(value)
     return deduped
+
+
+def _append_unique(values: list[str], value: str) -> list[str]:
+    return values if value in values else [*values, value]

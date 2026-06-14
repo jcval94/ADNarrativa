@@ -3,25 +3,23 @@
   "reviewers": [
     {
       "name": "divergent_reviewer_a",
-      "temperature": 0.9
+      "diversity_source": "reviewer_prompt"
     },
     {
       "name": "divergent_reviewer_b",
-      "temperature": 1.0
+      "diversity_source": "reviewer_prompt"
     },
     {
       "name": "taxonomy_strict_reviewer",
-      "temperature": 0.7
+      "diversity_source": "reviewer_prompt"
     }
   ],
   "aggregator": {
     "name": "synthetic_aggregator",
-    "temperature": 0.1,
     "policy": "conservative"
   },
   "final_adjudicator": {
     "name": "synthetic_final_adjudicator",
-    "temperature": 0.0,
     "policy": "most_conservative"
   },
   "promotion": {

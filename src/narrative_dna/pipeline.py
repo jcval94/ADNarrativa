@@ -12,7 +12,10 @@ from typing import Any
 from narrative_dna.adjudicator import ConservativeAdjudicator
 from narrative_dna.chain_detector import detect_chains_for_document
 from narrative_dna.exporter import write_run_outputs
-from narrative_dna.heuristic_candidates import annotate_document_with_heuristics
+from narrative_dna.heuristic_candidates import (
+    annotate_document_with_heuristics,
+    apply_heuristic_baseline_to_document,
+)
 from narrative_dna.loader import load_documents, load_text_document
 from narrative_dna.models import NarrativeDocument, ProjectRunManifest
 from narrative_dna.relation_detector import detect_relations_for_document
@@ -278,6 +281,8 @@ def process_document(
             current = annotate_document_with_heuristics(document)
         if classifier is not None:
             current = classifier.classify_document(current)
+        else:
+            current = apply_heuristic_baseline_to_document(current)
         if adjudicator is not None:
             current = adjudicator.adjudicate_document(current)
         with timing.span(
