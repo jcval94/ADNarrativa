@@ -8,6 +8,7 @@ from pydantic import BaseModel, Field
 
 from narrative_dna.llm_client import (
     OpenAIStructuredClient,
+    api_call_purpose,
     build_cache_key,
     build_responses_kwargs,
     build_text_format,
@@ -15,6 +16,7 @@ from narrative_dna.llm_client import (
     prepare_openai_json_schema,
     resolve_profile,
 )
+from narrative_dna.timing import TimingRecorder
 
 
 class TinyClassification(BaseModel):
@@ -43,6 +45,7 @@ def write_config(path: Path) -> None:
                     "model": "gpt-5.5",
                     "reasoning_effort": "medium",
                     "temperature": 0.1,
+                    "text_verbosity": "low",
                 },
                 "adjudicator": {
                     "model": "gpt-5.5",
@@ -138,6 +141,52 @@ def test_retry_on_transient_transport_error(tmp_path: Path) -> None:
     assert len(transport.calls) == 2
 
 
+def test_does_not_retry_non_retryable_bad_request(tmp_path: Path) -> None:
+    transport = CountingTransport(
+        [
+            RuntimeError(
+                "Error code: 400 - Unsupported parameter: "
+                "'temperature' is not supported with this model."
+            ),
+            {"output_text": '{"label":"P","confidence":0.8}'},
+        ]
+    )
+
+    result = request(client(tmp_path, transport))
+
+    assert result.ok is False
+    assert result.attempts == 1
+    assert len(transport.calls) == 1
+
+
+def test_openai_api_call_timing_records_purpose(tmp_path: Path) -> None:
+    transport = CountingTransport(
+        [{"id": "resp_1", "output_text": '{"label":"P","confidence":0.92}'}]
+    )
+    config_path = tmp_path / "llm_config.json"
+    write_config(config_path)
+    timing = TimingRecorder(run_id="timing_test", enabled=True, echo=False)
+    client_ = OpenAIStructuredClient(
+        config_path=config_path,
+        cache_dir=tmp_path / "cache",
+        api_key="test-key",
+        transport=transport,
+        sleeper=lambda _: None,
+        timing_recorder=timing,
+    )
+
+    result = request(client_)
+
+    api_records = [record for record in timing.records if record.stage == "openai.api_call"]
+    assert result.ok is True
+    assert len(api_records) == 1
+    assert api_records[0].metadata["openai_api_call"] is True
+    assert api_records[0].metadata["api_call_purpose"] == api_call_purpose(
+        "main_classifier",
+        "TinyClassification",
+    )
+
+
 def test_dry_run_skips_transport_and_cache(tmp_path: Path) -> None:
     transport = CountingTransport([])
     client_ = client(tmp_path, transport)
@@ -200,8 +249,9 @@ def test_request_uses_strict_json_schema_format(tmp_path: Path) -> None:
     assert kwargs["model"] == "gpt-5.5"
     assert kwargs["text"]["format"]["type"] == "json_schema"
     assert kwargs["text"]["format"]["strict"] is True
+    assert kwargs["text"]["verbosity"] == "low"
     assert kwargs["reasoning"] == {"effort": "medium"}
-    assert kwargs["temperature"] == 0.1
+    assert "temperature" not in kwargs
 
 
 def test_cache_key_includes_versions_and_model_fields() -> None:
@@ -211,6 +261,7 @@ def test_cache_key_includes_versions_and_model_fields() -> None:
                 "model": "gpt-5.5",
                 "reasoning_effort": "medium",
                 "temperature": 0.1,
+                "text_verbosity": "low",
             }
         },
         "main_classifier",
@@ -238,6 +289,30 @@ def test_cache_key_includes_versions_and_model_fields() -> None:
     )
 
     assert key_a != key_b
+
+    profile_verbose = resolve_profile(
+        {
+            "main_classifier": {
+                "model": "gpt-5.5",
+                "reasoning_effort": "medium",
+                "temperature": 0.1,
+                "text_verbosity": "high",
+            }
+        },
+        "main_classifier",
+    )
+    key_c = build_cache_key(
+        profile=profile_verbose,
+        profile_name="main_classifier",
+        input_payload={"text": "same"},
+        taxonomy_version="v1_0",
+        prompt_version="v1_0",
+        validator_version="v1_0",
+        schema_name="TinyClassification",
+        system_prompt=None,
+    )
+
+    assert key_a != key_c
 
 
 def test_openai_schema_removes_pydantic_metadata_and_forbids_extra_fields() -> None:

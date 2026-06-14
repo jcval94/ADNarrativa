@@ -6,7 +6,9 @@ módulos principales y corren el pipeline JSON-first desde texto general.
 
 ## Notebook Principal
 
-[Abrir en Colab](https://colab.research.google.com/github/jcval94/ADNarrativa/blob/main/examples/colab/narrative_dna_quickstart.ipynb)
+[Abrir en Colab, rama main](https://colab.research.google.com/github/jcval94/ADNarrativa/blob/main/examples/colab/narrative_dna_quickstart.ipynb)
+
+[Abrir en Colab, rama con timing LLM](https://colab.research.google.com/github/jcval94/ADNarrativa/blob/codex/add-llm-timing-logs/examples/colab/narrative_dna_quickstart.ipynb)
 
 Archivo:
 
@@ -16,27 +18,34 @@ examples/colab/narrative_dna_quickstart.ipynb
 
 Incluye:
 
-- descarga del repo con `git clone`;
+- descarga del repo con `git clone` y selección de rama;
 - instalación editable con `pip install -e ".[dev]"`;
-- imports de `load_text_document`, `run_pipeline_from_text`, `run_pipeline` y `load_gold_units`;
+- imports de `load_text_document`, `run_pipeline_from_text` y `run_pipeline`;
+- un caso de prueba exigente con analogía, tesis, evidencia simulada, riesgo, recomendación, instrucciones y preguntas;
 - ejecución conservadora sin LLM desde un string en memoria;
 - ejecución alternativa desde un archivo `.txt`;
-- lectura de outputs JSON/JSONL;
-- visualización de `heuristic_candidates`, ya que sin LLM la clasificación final permanece como `N_N0{0}`;
+- lectura de outputs JSON/JSONL sin usar CSV como fuente de verdad;
+- utilidades para imprimir `ADN -> frase`, evidencia, confianza, revisión, relaciones, cadenas y auditoría;
 - regresión golden local;
-- celda opcional para usar `OPENAI_API_KEY` desde Colab Secrets.
+- celda opcional para usar `OPENAI_API_KEY` desde Colab Secrets;
+- timing por etapa en modo LLM, incluyendo cada `openai.api_call` y su `api_call_purpose`.
 
 ## Uso Rápido En Una Celda
 
 ```python
-from pathlib import Path
 import os
 import subprocess
+from pathlib import Path
 
 repo_url = "https://github.com/jcval94/ADNarrativa.git"
+repo_branch = os.environ.get("ADNARRATIVA_BRANCH", "codex/add-llm-timing-logs")
 repo_dir = Path("/content/ADNarrativa")
+
 if not repo_dir.exists():
-    subprocess.run(["git", "clone", repo_url, str(repo_dir)], check=True)
+    subprocess.run(
+        ["git", "clone", "--depth", "1", "--branch", repo_branch, repo_url, str(repo_dir)],
+        check=True,
+    )
 os.chdir(repo_dir)
 ```
 
@@ -45,15 +54,18 @@ Después:
 ```python
 %pip install -q -e ".[dev]"
 
-from narrative_dna.loader import load_text_document
 from narrative_dna.pipeline import run_pipeline_from_text
 
-transcript_text = """
-Te propongo algo simple. Crea tu propia caja negra emocional.
-¿Qué aprendiste este año? ¿Qué quieres dejar registrado?
-""".strip()
+transcript_text = "\n".join(
+    [
+        "Imagina un hospital pequeño que quiere usar IA para priorizar llamadas de pacientes.",
+        "El director cree que el sistema debe ser una brújula, no un piloto automático.",
+        "Pero hay un riesgo serio: si los datos históricos tienen sesgos, la IA puede repetirlos.",
+        "Primero define qué decisión se automatiza; después mide falsos positivos y negativos.",
+        "¿A quién ayuda este sistema? ¿Qué evidencia necesitarías antes de confiar en él?",
+    ]
+)
 
-document = load_text_document(transcript_text, document_id="colab_text_demo", language="es")
 result = run_pipeline_from_text(
     transcript_text,
     document_id="colab_text_demo",
@@ -65,6 +77,9 @@ result = run_pipeline_from_text(
 print(result.run_dir)
 ```
 
-En modo sin LLM, `final_notation` seguirá siendo `N_N0{0}` por diseño. Mira
-`heuristic_candidates` para ver señales determinísticas auditables, o usa
-`use_llm=True` para clasificación final.
+En modo sin LLM, `final_notation` ya no queda fijo en `N_N0{0}` cuando hay
+señales determinísticas fuertes: el pipeline promueve un baseline heurístico
+conservador, conserva `heuristic_candidates` como evidencia auditable y marca
+revisión para señales candidatas o multietiqueta. Usa `use_llm=True`,
+`use_adjudicator=True` y `log_timings=True` cuando necesites inferencia
+estructurada y tiempos por etapa.

@@ -5,6 +5,7 @@ import pytest
 from narrative_dna.heuristic_candidates import (
     annotate_document_with_heuristics,
     annotate_unit_with_heuristics,
+    apply_heuristic_baseline_to_unit,
     extract_heuristic_candidates,
 )
 from narrative_dna.loader import load_document
@@ -71,6 +72,32 @@ def test_question_marker_is_locked_not_final_classification() -> None:
     assert annotated.functions == ["N"]
     assert annotated.final_notation == "N_N0{0}"
     assert annotated.heuristic_candidates[0].label == "P"
+
+
+def test_embedded_replacement_question_mark_is_not_question_signal() -> None:
+    extraction = extract_heuristic_candidates(
+        unit("Imagina un hospital peque?o con una br?jula operativa.")
+    )
+
+    assert "P" not in extraction.locked_functions
+    assert "P" not in extraction.candidate_functions
+
+
+def test_real_question_mark_still_locks_question_signal() -> None:
+    assert "P" in all_function_signals("Que aprendiste este año?")
+    assert "P" in all_function_signals("¿A quién ayuda este sistema?")
+
+
+def test_heuristic_baseline_promotes_high_confidence_candidates() -> None:
+    baseline = apply_heuristic_baseline_to_unit(
+        unit("Pero hay un riesgo serio porque faltan datos.")
+    )
+
+    assert baseline.method == "heuristic"
+    assert baseline.final_notation != "N_N0{0}"
+    assert "D" in baseline.functions
+    assert "Y" in baseline.functions
+    assert baseline.needs_review is True
 
 
 def test_conclusion_only_locks_near_document_end() -> None:

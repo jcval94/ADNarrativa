@@ -9,6 +9,7 @@ from typing import Any
 
 from narrative_dna.models import NarrativeUnit
 from narrative_dna.notation import derive_final_notation, normalize_function_codes
+from narrative_dna.question_detection import has_question_anchor as text_has_question_anchor
 
 
 @dataclass(frozen=True)
@@ -120,9 +121,10 @@ def _has_evidence_signal(payload: dict[str, Any]) -> bool:
 def _has_question_anchor(payload: dict[str, Any], context: ValidationContext) -> bool:
     text = f"{payload.get('text', '')} {payload.get('normalized_text', '')}".lower()
     previous = (context.previous_text or "").lower()
-    relation_types = {relation.upper() for relation in context.candidate_relation_types}
-    return (
-        "?" in text or "¿" in text or "?" in previous or "¿" in previous or "ANS" in relation_types
+    return text_has_question_anchor(
+        text,
+        previous_text=previous,
+        relation_types=context.candidate_relation_types,
     )
 
 

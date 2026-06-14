@@ -4,49 +4,55 @@
   "client_module": "src/narrative_dna/llm_client.py",
   "main_classifier": {
     "model": "gpt-5.5",
-    "reasoning_effort": "medium",
-    "temperature": 0.1
+    "reasoning_effort": "low",
+    "text_verbosity": "low",
+    "max_output_tokens": 1200,
+    "timeout_seconds": 60
   },
   "adjudicator": {
     "model": "gpt-5.5",
     "reasoning_effort": "high",
-    "temperature": 0.0
+    "text_verbosity": "low",
+    "max_output_tokens": 1200,
+    "timeout_seconds": 60
   },
   "synthetic_reviewers": [
     {
       "name": "divergent_reviewer_a",
       "model": "gpt-5.5",
       "reasoning_effort": "high",
-      "temperature": 0.9
+      "text_verbosity": "medium"
     },
     {
       "name": "divergent_reviewer_b",
       "model": "gpt-5.5",
       "reasoning_effort": "high",
-      "temperature": 1.0
+      "text_verbosity": "medium"
     },
     {
       "name": "taxonomy_strict_reviewer",
       "model": "gpt-5.5",
       "reasoning_effort": "high",
-      "temperature": 0.7
+      "text_verbosity": "low"
     }
   ],
   "synthetic_aggregator": {
     "model": "gpt-5.5",
     "reasoning_effort": "high",
-    "temperature": 0.1
+    "text_verbosity": "low"
   },
   "synthetic_final_adjudicator": {
     "model": "gpt-5.5",
     "reasoning_effort": "xhigh",
-    "temperature": 0.0
+    "text_verbosity": "low"
   },
   "cheap_batch_profile": {
     "enabled": false,
     "model": "gpt-5.4-mini",
     "reasoning_effort": "low",
-    "temperature": 0.0
+    "text_verbosity": "low",
+    "max_output_tokens": 1200,
+    "timeout_seconds": 60
   },
   "cache": {
     "enabled": true,
@@ -54,7 +60,10 @@
     "key_fields": [
       "model",
       "reasoning_effort",
-      "temperature",
+      "effective_temperature",
+      "text_verbosity",
+      "max_output_tokens",
+      "timeout_seconds",
       "input_payload",
       "input_hash",
       "taxonomy_version",
