@@ -7,7 +7,7 @@ import subprocess
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from narrative_dna.adjudicator import ConservativeAdjudicator
 from narrative_dna.chain_detector import detect_chains_for_document
@@ -45,6 +45,8 @@ def run_pipeline(
     run_id: str | None = None,
     use_llm: bool = False,
     use_adjudicator: bool = False,
+    llm_strategy: Literal["unit", "chunked"] = "chunked",
+    adjudication_policy: Literal["actionable", "strict"] = "actionable",
     audit_similarity_enabled: bool = False,
     limit: int | None = None,
     log_timings: bool | None = None,
@@ -57,6 +59,8 @@ def run_pipeline(
         log_timings=log_timings,
         use_llm=use_llm,
         use_adjudicator=use_adjudicator,
+        llm_strategy=llm_strategy,
+        adjudication_policy=adjudication_policy,
         audit_similarity_enabled=audit_similarity_enabled,
     )
     with timing_recorder.span("pipeline.load_documents", input_dir=str(input_dir), limit=limit):
@@ -68,6 +72,8 @@ def run_pipeline(
         run_id=effective_run_id,
         use_llm=use_llm,
         use_adjudicator=use_adjudicator,
+        llm_strategy=llm_strategy,
+        adjudication_policy=adjudication_policy,
         audit_similarity_enabled=audit_similarity_enabled,
         limit=limit,
         log_timings=log_timings,
@@ -86,6 +92,8 @@ def run_pipeline_from_text(
     run_id: str | None = None,
     use_llm: bool = False,
     use_adjudicator: bool = False,
+    llm_strategy: Literal["unit", "chunked"] = "chunked",
+    adjudication_policy: Literal["actionable", "strict"] = "actionable",
     audit_similarity_enabled: bool = False,
     log_timings: bool | None = None,
 ) -> PipelineRunResult:
@@ -97,6 +105,8 @@ def run_pipeline_from_text(
         log_timings=log_timings,
         use_llm=use_llm,
         use_adjudicator=use_adjudicator,
+        llm_strategy=llm_strategy,
+        adjudication_policy=adjudication_policy,
         audit_similarity_enabled=audit_similarity_enabled,
     )
     with timing_recorder.span(
@@ -122,6 +132,8 @@ def run_pipeline_from_text(
         run_id=effective_run_id,
         use_llm=use_llm,
         use_adjudicator=use_adjudicator,
+        llm_strategy=llm_strategy,
+        adjudication_policy=adjudication_policy,
         audit_similarity_enabled=audit_similarity_enabled,
         log_timings=log_timings,
         timing_recorder=timing_recorder,
@@ -136,6 +148,8 @@ def run_pipeline_from_documents(
     run_id: str | None = None,
     use_llm: bool = False,
     use_adjudicator: bool = False,
+    llm_strategy: Literal["unit", "chunked"] = "chunked",
+    adjudication_policy: Literal["actionable", "strict"] = "actionable",
     audit_similarity_enabled: bool = False,
     limit: int | None = None,
     log_timings: bool | None = None,
@@ -150,6 +164,8 @@ def run_pipeline_from_documents(
         log_timings=log_timings,
         use_llm=use_llm,
         use_adjudicator=use_adjudicator,
+        llm_strategy=llm_strategy,
+        adjudication_policy=adjudication_policy,
         audit_similarity_enabled=audit_similarity_enabled,
     )
     with timing.span(
@@ -157,6 +173,8 @@ def run_pipeline_from_documents(
         output_dir=str(output_dir),
         use_llm=use_llm,
         use_adjudicator=use_adjudicator,
+        llm_strategy=llm_strategy,
+        adjudication_policy=adjudication_policy,
         audit_similarity_enabled=audit_similarity_enabled,
     ) as total_timing:
         raw_documents = documents[:limit] if limit is not None else documents
@@ -165,13 +183,26 @@ def run_pipeline_from_documents(
 
         classifier = None
         if use_llm:
-            with timing.span("pipeline.init_classifier", profile_name="main_classifier"):
-                classifier = UnitClassifier(timing_recorder=timing, log_timings=log_timings)
+            with timing.span(
+                "pipeline.init_classifier",
+                profile_name="main_classifier",
+                strategy=llm_strategy,
+            ):
+                classifier = UnitClassifier(
+                    strategy=llm_strategy,
+                    timing_recorder=timing,
+                    log_timings=log_timings,
+                )
 
         adjudicator = None
         if use_adjudicator:
-            with timing.span("pipeline.init_adjudicator", profile_name="adjudicator"):
+            with timing.span(
+                "pipeline.init_adjudicator",
+                profile_name="adjudicator",
+                policy=adjudication_policy,
+            ):
                 adjudicator = ConservativeAdjudicator(
+                    policy=adjudication_policy,
                     timing_recorder=timing,
                     log_timings=log_timings,
                 )
@@ -206,6 +237,8 @@ def run_pipeline_from_documents(
                 output_dir=output_dir,
                 use_llm=use_llm,
                 use_adjudicator=use_adjudicator,
+                llm_strategy=llm_strategy,
+                adjudication_policy=adjudication_policy,
                 audit_similarity_enabled=audit_similarity_enabled,
                 limit=limit,
             )
@@ -318,6 +351,8 @@ def make_timing_recorder(
     log_timings: bool | None,
     use_llm: bool,
     use_adjudicator: bool,
+    llm_strategy: Literal["unit", "chunked"],
+    adjudication_policy: Literal["actionable", "strict"],
     audit_similarity_enabled: bool,
 ) -> TimingRecorder:
     if log_timings is None:
@@ -334,6 +369,8 @@ def build_run_manifest(
     output_dir: str | Path,
     use_llm: bool,
     use_adjudicator: bool,
+    llm_strategy: Literal["unit", "chunked"],
+    adjudication_policy: Literal["actionable", "strict"],
     audit_similarity_enabled: bool,
     limit: int | None,
 ) -> ProjectRunManifest:
@@ -341,6 +378,8 @@ def build_run_manifest(
     config_snapshot["pipeline_options"] = {
         "use_llm": use_llm,
         "use_adjudicator": use_adjudicator,
+        "llm_strategy": llm_strategy,
+        "adjudication_policy": adjudication_policy,
         "audit_similarity": audit_similarity_enabled,
         "limit": limit,
     }

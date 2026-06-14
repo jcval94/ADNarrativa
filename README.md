@@ -55,7 +55,8 @@ conservador. Las unidades siguen naciendo como `N_N0{0}`, pero las senales
 deterministicas de alta confianza se promueven a JSON validado y
 `final_notation` se recompila desde esos campos. El cliente OpenAI omite
 parametros no soportados por perfiles GPT-5 y reintenta solo errores
-transitorios.
+transitorios. El modo LLM recomendado clasifica varias unidades por chunk y
+adjudica sólo riesgos accionables para limitar latencia y llamadas.
 
 El proyecto ya tiene arquitectura JSON-first, scaffolding Python, contratos Pydantic estrictos, JSON Schemas, constitución/taxonomía v1.0, validadores determinísticos, compilador de notación, loader/normalizador/segmentador, extracción de heurísticas conservadoras, cliente OpenAI Responses API con Structured Outputs estrictos, clasificador JSON-first por unidad/documento, árbitro conservador para casos de alto riesgo, auditoría por similitud semántica, review sets para comité sintético, workflow de revisión sintética OpenAI, métricas de confiabilidad sintética, detector auditable de relaciones, detector de cadenas narrativas, evaluación con reportes JSON y pipeline/CLI end-to-end.
 
@@ -63,9 +64,9 @@ La capa actual puede leer strings en memoria, `.txt`, `.json`, `.jsonl` y `data/
 
 El cliente LLM vive únicamente en `src/narrative_dna/llm_client.py`: lee `OPENAI_API_KEY` del entorno, usa `configs/llm_config.json`, construye `text.format` con `json_schema` y `strict=true`, valida toda respuesta con Pydantic, cachea por hash versionado en `.cache/narrative_dna/`, evita parámetros no soportados por perfiles GPT-5, reintenta sólo errores transitorios, soporta `dry_run` y devuelve errores controlados para permitir fallback a heurísticas.
 
-El clasificador vive en `src/narrative_dna/unit_classifier.py`: construye el payload contextual para el modelo, usa `NarrativeUnitPartialClassification`, fusiona locks heurísticos con la salida LLM, ejecuta validadores determinísticos y recompila `final_notation` desde JSON validado.
+El clasificador vive en `src/narrative_dna/unit_classifier.py`: por defecto agrupa unidades contiguas en chunks, obtiene una respuesta estructurada por chunk, fusiona cada resultado con locks heurísticos, ejecuta validadores determinísticos y recompila `final_notation` desde JSON validado. El modo legado `unit` sigue disponible para depuración.
 
-El adjudicator vive en `src/narrative_dna/adjudicator.py`: se activa por baja confianza, flags críticos, sobre-etiquetado, emoción intensa, conflictos heuristic/LLM, funciones excesivas, primarias confundibles o conflictos de similitud. Su política reduce etiquetas débiles, limpia flags resueltos y vuelve a validar la unidad.
+El adjudicator vive en `src/narrative_dna/adjudicator.py`: la política `actionable` se activa sólo por baja confianza, flags críticos, sobre-etiquetado, emoción intensa, conflictos heuristic/LLM, funciones excesivas o conflictos de similitud. Agrupa varios casos riesgosos en una llamada; `strict` conserva la revisión adicional de primarias confundibles.
 
 El auditor de similitud vive en `src/narrative_dna/similarity_auditor.py`: construye texto contextual, usa embeddings locales o OpenAI configurable, cachea vectores, calcula vecinos por cosine similarity, mide distancia de notación y escribe `similarity_conflicts.jsonl` más `similarity_conflicts_summary.json` como outputs derivados.
 
@@ -255,9 +256,15 @@ narrative-dna run \
   --input-dir data/transcripts \
   --output-dir outputs \
   --use-llm \
+  --llm-strategy chunked \
   --use-adjudicator \
+  --adjudication-policy actionable \
   --audit-similarity
 ```
+
+`chunked + actionable` es el perfil recomendado para operación. Usa
+`--llm-strategy unit --adjudication-policy strict` sólo para reproducir el flujo
+por unidad de máxima revisión.
 
 Inspeccionar un run:
 

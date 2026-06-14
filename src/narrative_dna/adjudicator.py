@@ -6,12 +6,12 @@ import json
 from collections.abc import Mapping
 from contextlib import nullcontext
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import Field
 
 from narrative_dna.heuristic_candidates import extract_heuristic_candidates
-from narrative_dna.llm_client import LLMCallResult, OpenAIStructuredClient
+from narrative_dna.llm_client import LLMCallResult, OpenAIStructuredClient, load_llm_config
 from narrative_dna.models import (
     Certainty,
     EmotionCode,
@@ -32,8 +32,11 @@ DEFAULT_TAXONOMY_VERSION = "v1_0"
 DEFAULT_PROMPT_VERSION = "v1_0"
 DEFAULT_VALIDATOR_VERSION = "v1_0"
 DEFAULT_PROMPT_PATH = Path("prompts/adjudicator.md")
+DEFAULT_BATCH_PROMPT_PATH = Path("prompts/adjudicator_batch.md")
 DEFAULT_DECISION_TREES_PATH = Path("annotation_guidelines/decision_trees_v1_0.md")
 DEFAULT_MINIMAL_PAIRS_PATH = Path("annotation_guidelines/minimal_pairs_v1_0.jsonl")
+DEFAULT_BATCH_MAX_UNITS = 8
+DEFAULT_BATCH_MAX_CHARS = 6000
 CONFUSION_GROUPS: tuple[tuple[str, ...], ...] = (
     ("A", "K", "O"),
     ("R", "Y"),
@@ -48,6 +51,8 @@ HIGH_RISK_FLAGS = {
 }
 CLASSIFIER_INFRASTRUCTURE_FAILURE_REASONS = {
     "llm_classification_failed",
+    "llm_batch_missing_unit",
+    "llm_batch_duplicate_unit",
 }
 
 
@@ -84,6 +89,32 @@ class AdjudicationContext(StrictBaseModel):
     decision_tree_relevant: str
 
 
+class BatchAdjudicationCase(StrictBaseModel):
+    unit: dict[str, Any]
+    previous_units: list[dict[str, Any]] = Field(default_factory=list)
+    next_units: list[dict[str, Any]] = Field(default_factory=list)
+    initial_classification: dict[str, Any]
+    heuristics: dict[str, Any]
+    validator_flags: list[dict[str, Any]]
+    risk_reasons: list[str]
+    confusable_labels: list[str]
+
+
+class BatchAdjudicationContext(StrictBaseModel):
+    cases: list[BatchAdjudicationCase] = Field(min_length=1)
+    minimal_pairs_relevant: list[dict[str, Any]] = Field(default_factory=list)
+    decision_trees_relevant: str
+
+
+class BatchAdjudicationItem(StrictBaseModel):
+    unit_id: str = Field(min_length=1)
+    adjudication: AdjudicatedClassification
+
+
+class BatchAdjudicationResponse(StrictBaseModel):
+    adjudications: list[BatchAdjudicationItem] = Field(default_factory=list)
+
+
 class ConservativeAdjudicator:
     """Resolve high-risk classifications with a conservative structured adjudicator."""
 
@@ -92,7 +123,9 @@ class ConservativeAdjudicator:
         *,
         llm_client: Any | None = None,
         profile_name: str = "adjudicator",
+        policy: Literal["actionable", "strict"] | None = None,
         prompt_path: str | Path = DEFAULT_PROMPT_PATH,
+        batch_prompt_path: str | Path = DEFAULT_BATCH_PROMPT_PATH,
         decision_trees_path: str | Path = DEFAULT_DECISION_TREES_PATH,
         minimal_pairs_path: str | Path = DEFAULT_MINIMAL_PAIRS_PATH,
         taxonomy_version: str = DEFAULT_TAXONOMY_VERSION,
@@ -101,6 +134,8 @@ class ConservativeAdjudicator:
         dry_run: bool = False,
         timing_recorder: TimingRecorder | None = None,
         log_timings: bool | None = None,
+        batch_max_units: int | None = None,
+        batch_max_chars: int | None = None,
     ) -> None:
         self.llm_client = llm_client or OpenAIStructuredClient(
             timing_recorder=timing_recorder,
@@ -108,7 +143,16 @@ class ConservativeAdjudicator:
         )
         self.timing_recorder = timing_recorder or getattr(self.llm_client, "timing_recorder", None)
         self.profile_name = profile_name
+        config = getattr(self.llm_client, "config", None) or load_llm_config()
+        adjudication_config = (
+            config.get("adjudication", {}) if isinstance(config.get("adjudication"), dict) else {}
+        )
+        effective_policy = policy or adjudication_config.get("policy", "actionable")
+        if effective_policy not in {"actionable", "strict"}:
+            raise ValueError(f"unknown adjudication policy: {effective_policy}")
+        self.policy = effective_policy
         self.prompt_path = Path(prompt_path)
+        self.batch_prompt_path = Path(batch_prompt_path)
         self.decision_trees_path = Path(decision_trees_path)
         self.minimal_pairs_path = Path(minimal_pairs_path)
         self.taxonomy_version = taxonomy_version
@@ -116,8 +160,23 @@ class ConservativeAdjudicator:
         self.validator_version = validator_version
         self.dry_run = dry_run
         self.system_prompt = self._read_text(self.prompt_path)
+        self.batch_system_prompt = self._read_text(self.batch_prompt_path)
         self.decision_trees = self._read_text(self.decision_trees_path)
         self.minimal_pairs = self._load_minimal_pairs()
+        self.batch_max_units = max(
+            1,
+            int(
+                batch_max_units
+                or adjudication_config.get("batch_max_units", DEFAULT_BATCH_MAX_UNITS)
+            ),
+        )
+        self.batch_max_chars = max(
+            1,
+            int(
+                batch_max_chars
+                or adjudication_config.get("batch_max_chars", DEFAULT_BATCH_MAX_CHARS)
+            ),
+        )
 
     def adjudicate_document(
         self,
@@ -130,16 +189,47 @@ class ConservativeAdjudicator:
             document_id=document.document_id,
             unit_count=len(document.units),
             profile_name=self.profile_name,
+            policy=self.policy,
         ) as timing:
             conflict_ids = high_similarity_conflict_unit_ids or set()
-            units = [
-                self.adjudicate_unit(
+            risk_reasons_by_index = {
+                index: adjudication_risk_reasons(
+                    unit,
+                    high_similarity_conflict=unit.unit_id in conflict_ids,
+                    policy=self.policy,
+                )
+                for index, unit in enumerate(document.units)
+            }
+            actionable_indexes = [
+                index for index, reasons in risk_reasons_by_index.items() if reasons
+            ]
+            units_by_index = {index: unit for index, unit in enumerate(document.units)}
+            if len(actionable_indexes) == 1:
+                index = actionable_indexes[0]
+                units_by_index[index] = self.adjudicate_unit(
                     document,
                     index,
                     high_similarity_conflict=document.units[index].unit_id in conflict_ids,
                 )
-                for index in range(len(document.units))
-            ]
+                request_count = 1
+            else:
+                batches = build_adjudication_batches(
+                    document,
+                    actionable_indexes,
+                    max_units=self.batch_max_units,
+                    max_chars=self.batch_max_chars,
+                )
+                for batch_index, unit_indexes in enumerate(batches):
+                    units_by_index.update(
+                        self.adjudicate_batch(
+                            document,
+                            unit_indexes,
+                            risk_reasons_by_index=risk_reasons_by_index,
+                            batch_index=batch_index,
+                        )
+                    )
+                request_count = len(batches)
+            units = [units_by_index[index] for index in range(len(document.units))]
             adjudicated_count = sum(1 for unit in units if unit.method == "adjudicated")
             payload = document.model_dump(mode="json")
             payload["units"] = [unit.model_dump(mode="json") for unit in units]
@@ -147,13 +237,112 @@ class ConservativeAdjudicator:
                 **document.audit_summary,
                 "adjudicated_unit_count": adjudicated_count,
                 "adjudicator_profile": self.profile_name,
+                "adjudication_policy": self.policy,
+                "adjudicator_request_count": request_count,
+                "adjudication_candidate_unit_count": len(actionable_indexes),
                 "taxonomy_version_effective": self.taxonomy_version,
                 "prompt_version_effective": self.prompt_version,
                 "validator_version_effective": self.validator_version,
             }
             timing["adjudicated_unit_count"] = adjudicated_count
             timing["skipped_unit_count"] = len(units) - adjudicated_count
+            timing["candidate_unit_count"] = len(actionable_indexes)
+            timing["llm_request_count"] = request_count
             return NarrativeDocument.model_validate(payload)
+
+    def adjudicate_batch(
+        self,
+        document: NarrativeDocument,
+        unit_indexes: list[int],
+        *,
+        risk_reasons_by_index: Mapping[int, list[str]],
+        batch_index: int,
+    ) -> dict[int, NarrativeUnit]:
+        """Adjudicate multiple actionable units with one structured request."""
+
+        with self._timing_span(
+            "adjudicator.batch",
+            document_id=document.document_id,
+            batch_index=batch_index,
+            unit_count=len(unit_indexes),
+            unit_indexes=unit_indexes,
+            profile_name=self.profile_name,
+            policy=self.policy,
+        ) as timing:
+            context = build_batch_adjudication_context(
+                document=document,
+                unit_indexes=unit_indexes,
+                risk_reasons_by_index=risk_reasons_by_index,
+                decision_trees=self.decision_trees,
+                minimal_pairs=self.minimal_pairs,
+            )
+            context_payload = context.model_dump(mode="json")
+            timing["payload_chars"] = json_size_chars(context_payload)
+            result = self.llm_client.request_structured(
+                profile_name=self.profile_name,
+                input_payload=context_payload,
+                response_model=BatchAdjudicationResponse,
+                taxonomy_version=self.taxonomy_version,
+                prompt_version=self.prompt_version,
+                validator_version=self.validator_version,
+                system_prompt=self.batch_system_prompt,
+                dry_run=self.dry_run,
+            )
+            timing.update(
+                {
+                    "llm_ok": result.ok,
+                    "cache_hit": result.cache_hit,
+                    "attempts": result.attempts,
+                    "error_type": result.error_type,
+                }
+            )
+            if not result.ok or not result.parsed:
+                failed = {
+                    index: mark_adjudication_failed(document.units[index], result)
+                    for index in unit_indexes
+                }
+                timing["fallback_count"] = len(failed)
+                return failed
+
+            batch = BatchAdjudicationResponse.model_validate(result.parsed)
+            adjudications_by_id: dict[str, list[AdjudicatedClassification]] = {}
+            for item in batch.adjudications:
+                adjudications_by_id.setdefault(item.unit_id, []).append(item.adjudication)
+
+            adjudicated_units: dict[int, NarrativeUnit] = {}
+            fallback_count = 0
+            for index in unit_indexes:
+                unit = document.units[index]
+                candidates = adjudications_by_id.get(unit.unit_id, [])
+                if len(candidates) != 1:
+                    fallback_count += 1
+                    failed_result = result.model_copy(
+                        update={
+                            "ok": False,
+                            "error_type": "adjudication_batch_unit_mismatch",
+                            "error": (
+                                f"Batch response returned {len(candidates)} adjudications "
+                                f"for unit_id={unit.unit_id}."
+                            ),
+                        }
+                    )
+                    adjudicated_units[index] = mark_adjudication_failed(unit, failed_result)
+                    continue
+                adjudicated_units[index] = apply_adjudication(
+                    unit=unit,
+                    adjudicated=candidates[0],
+                    llm_result=result,
+                    previous_text=document.units[index - 1].text if index > 0 else None,
+                    next_text=(
+                        document.units[index + 1].text if index + 1 < len(document.units) else None
+                    ),
+                    taxonomy_version=self.taxonomy_version,
+                    prompt_version=self.prompt_version,
+                    validator_version=self.validator_version,
+                )
+            timing["fallback_count"] = fallback_count
+            timing["adjudicated_unit_count"] = len(adjudicated_units) - fallback_count
+            return adjudicated_units
 
     def adjudicate_unit(
         self,
@@ -174,6 +363,7 @@ class ConservativeAdjudicator:
             risk_reasons = adjudication_risk_reasons(
                 unit,
                 high_similarity_conflict=high_similarity_conflict,
+                policy=self.policy,
             )
             timing["risk_reasons"] = risk_reasons
             if not risk_reasons:
@@ -268,6 +458,7 @@ def adjudication_risk_reasons(
     unit: NarrativeUnit,
     *,
     high_similarity_conflict: bool = False,
+    policy: Literal["actionable", "strict"] = "actionable",
 ) -> list[str]:
     reasons: list[str] = []
     flag_ids = {flag.rule_id for flag in unit.validator_flags}
@@ -288,7 +479,7 @@ def adjudication_risk_reasons(
         reasons.append("locked_heuristic_llm_conflict")
     if len(functions) > 4:
         reasons.append("too_many_functions")
-    if str(unit.primary_function) in confusable_primary_codes():
+    if policy == "strict" and str(unit.primary_function) in confusable_primary_codes():
         reasons.append("confusable_primary_function")
     if high_similarity_conflict:
         reasons.append("high_similarity_conflict")
@@ -299,8 +490,15 @@ def should_adjudicate(
     unit: NarrativeUnit,
     *,
     high_similarity_conflict: bool = False,
+    policy: Literal["actionable", "strict"] = "actionable",
 ) -> bool:
-    return bool(adjudication_risk_reasons(unit, high_similarity_conflict=high_similarity_conflict))
+    return bool(
+        adjudication_risk_reasons(
+            unit,
+            high_similarity_conflict=high_similarity_conflict,
+            policy=policy,
+        )
+    )
 
 
 def classifier_infrastructure_failed(unit: NarrativeUnit) -> bool:
@@ -338,6 +536,81 @@ def build_adjudication_context(
             "decision_tree_relevant": select_decision_tree(decision_trees, confusable),
         }
     )
+
+
+def build_batch_adjudication_context(
+    *,
+    document: NarrativeDocument,
+    unit_indexes: list[int],
+    risk_reasons_by_index: Mapping[int, list[str]],
+    decision_trees: str,
+    minimal_pairs: list[dict[str, Any]],
+) -> BatchAdjudicationContext:
+    cases: list[dict[str, Any]] = []
+    all_confusable: set[str] = set()
+    for index in unit_indexes:
+        unit = document.units[index]
+        confusable = relevant_confusable_labels(unit)
+        all_confusable.update(confusable)
+        cases.append(
+            {
+                "unit": unit_context(unit),
+                "previous_units": [
+                    unit_context(previous) for previous in document.units[max(0, index - 2) : index]
+                ],
+                "next_units": [
+                    unit_context(next_unit) for next_unit in document.units[index + 1 : index + 3]
+                ],
+                "initial_classification": initial_classification(unit),
+                "heuristics": extract_heuristic_candidates(
+                    unit,
+                    total_units=len(document.units),
+                ).model_dump(mode="json"),
+                "validator_flags": [flag.model_dump(mode="json") for flag in unit.validator_flags],
+                "risk_reasons": risk_reasons_by_index[index],
+                "confusable_labels": confusable,
+            }
+        )
+    shared_confusable = sorted(all_confusable)
+    return BatchAdjudicationContext.model_validate(
+        {
+            "cases": cases,
+            "minimal_pairs_relevant": select_minimal_pairs(
+                minimal_pairs,
+                shared_confusable,
+                limit=8,
+            ),
+            "decision_trees_relevant": select_decision_tree(
+                decision_trees,
+                shared_confusable,
+            ),
+        }
+    )
+
+
+def build_adjudication_batches(
+    document: NarrativeDocument,
+    unit_indexes: list[int],
+    *,
+    max_units: int,
+    max_chars: int,
+) -> list[list[int]]:
+    batches: list[list[int]] = []
+    current: list[int] = []
+    current_chars = 0
+    for index in unit_indexes:
+        unit_chars = len(document.units[index].text)
+        would_exceed_units = len(current) >= max_units
+        would_exceed_chars = bool(current) and current_chars + unit_chars > max_chars
+        if would_exceed_units or would_exceed_chars:
+            batches.append(current)
+            current = []
+            current_chars = 0
+        current.append(index)
+        current_chars += unit_chars
+    if current:
+        batches.append(current)
+    return batches
 
 
 def apply_adjudication(

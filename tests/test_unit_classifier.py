@@ -7,8 +7,10 @@ from narrative_dna.heuristic_candidates import extract_heuristic_candidates
 from narrative_dna.llm_client import LLMCallResult
 from narrative_dna.loader import load_document
 from narrative_dna.unit_classifier import (
+    BatchClassificationResponse,
     NarrativeUnitPartialClassification,
     UnitClassifier,
+    build_classification_chunks,
     build_classification_context,
 )
 
@@ -33,7 +35,11 @@ class FakeLLMClient:
 
 
 class FailingLLMClient:
+    def __init__(self) -> None:
+        self.calls: list[dict[str, Any]] = []
+
     def request_structured(self, **kwargs: Any) -> LLMCallResult:
+        self.calls.append(kwargs)
         return LLMCallResult(
             ok=False,
             profile_name=kwargs["profile_name"],
@@ -77,8 +83,8 @@ def document_from_text(tmp_path: Path, text: str):
     return load_document(path)
 
 
-def classifier_with(fake_client: Any) -> UnitClassifier:
-    return UnitClassifier(llm_client=fake_client)
+def classifier_with(fake_client: Any, *, strategy: str = "unit") -> UnitClassifier:
+    return UnitClassifier(llm_client=fake_client, strategy=strategy)
 
 
 def test_partial_classification_schema_is_strict() -> None:
@@ -209,3 +215,73 @@ def test_classification_context_includes_two_neighbors_and_heuristics(tmp_path: 
     assert len(context.previous_units) == 2
     assert len(context.next_units) == 2
     assert context.heuristic_candidates["locked_functions"] == ["P"]
+
+
+def test_chunked_classifier_classifies_six_units_with_one_request(tmp_path: Path) -> None:
+    document = document_from_text(
+        tmp_path,
+        "Primera idea. Segunda idea. Tercera idea. Cuarta idea. Quinta idea. Sexta idea.",
+    )
+    assert len(document.units) == 6
+    batch_payload = {
+        "classifications": [
+            {
+                "unit_id": unit.unit_id,
+                "classification": partial_payload(),
+            }
+            for unit in document.units
+        ]
+    }
+    fake = FakeLLMClient([batch_payload])
+
+    classified = classifier_with(fake, strategy="chunked").classify_document(document)
+
+    assert len(fake.calls) == 1
+    assert fake.calls[0]["response_model"] is BatchClassificationResponse
+    assert all(unit.method == "llm" for unit in classified.units)
+    assert classified.audit_summary["classifier_request_count"] == 1
+    assert classified.audit_summary["llm_strategy"] == "chunked"
+
+
+def test_chunked_classifier_missing_unit_falls_back_without_rescue_call(
+    tmp_path: Path,
+) -> None:
+    document = document_from_text(tmp_path, "Primera idea. Segunda idea.")
+    fake = FakeLLMClient(
+        [
+            {
+                "classifications": [
+                    {
+                        "unit_id": document.units[0].unit_id,
+                        "classification": partial_payload(),
+                    }
+                ]
+            }
+        ]
+    )
+
+    classified = classifier_with(fake, strategy="chunked").classify_document(document)
+
+    assert len(fake.calls) == 1
+    assert classified.units[0].method == "llm"
+    assert classified.units[1].method == "heuristic"
+    assert "llm_batch_missing_unit" in classified.units[1].review_reasons
+
+
+def test_chunked_classifier_failure_falls_back_once_for_entire_chunk(tmp_path: Path) -> None:
+    document = document_from_text(tmp_path, "Primera idea. Segunda idea. Tercera idea.")
+    fake = FailingLLMClient()
+
+    classified = classifier_with(fake, strategy="chunked").classify_document(document)
+
+    assert len(fake.calls) == 1
+    assert all(unit.needs_review for unit in classified.units)
+    assert all("llm_classification_failed" in unit.review_reasons for unit in classified.units)
+
+
+def test_classification_chunks_respect_unit_and_character_limits(tmp_path: Path) -> None:
+    document = document_from_text(tmp_path, "Uno. Dos. Tres. Cuatro. Cinco.")
+
+    chunks = build_classification_chunks(document, max_units=2, max_chars=1000)
+
+    assert chunks == [[0, 1], [2, 3], [4]]

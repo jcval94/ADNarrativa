@@ -463,6 +463,10 @@ def resolve_profile(config: Mapping[str, Any], profile_name: str) -> LLMProfile:
 def api_call_purpose(profile_name: str, response_schema: str) -> str:
     """Explain why an OpenAI request is needed for timing logs."""
 
+    if response_schema == "BatchClassificationResponse":
+        return "classify a chunk of narrative units into strict JSON in one request"
+    if response_schema == "BatchAdjudicationResponse":
+        return "review multiple actionable high-risk units in one conservative request"
     by_profile = {
         "main_classifier": (
             "classify one narrative unit into strict JSON fields before deriving notation"

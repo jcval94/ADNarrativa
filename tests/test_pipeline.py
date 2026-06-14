@@ -55,6 +55,8 @@ def test_run_pipeline_no_llm_writes_core_outputs(tmp_path: Path) -> None:
     assert manifest["run_id"] == "run_pipeline_test"
     assert manifest["taxonomy_version"] == "v1_0"
     assert manifest["config_snapshot"]["pipeline_options"]["use_llm"] is False
+    assert manifest["config_snapshot"]["pipeline_options"]["llm_strategy"] == "chunked"
+    assert manifest["config_snapshot"]["pipeline_options"]["adjudication_policy"] == "actionable"
     assert any(unit["heuristic_candidates"] for unit in units)
     assert any(unit["final_notation"] != "N_N0{0}" for unit in units)
     assert any(unit["method"] == "heuristic" for unit in units)
@@ -114,11 +116,20 @@ def test_cli_run_and_inspect(tmp_path: Path) -> None:
             "run_cli_test",
             "--no-llm",
             "--no-adjudicator",
+            "--llm-strategy",
+            "unit",
+            "--adjudication-policy",
+            "strict",
         ],
     )
 
     assert run_result.exit_code == 0
     assert "Wrote run run_cli_test" in run_result.stdout
+    manifest = json.loads(
+        (output_dir / "run_cli_test" / "run_manifest.json").read_text(encoding="utf-8")
+    )
+    assert manifest["config_snapshot"]["pipeline_options"]["llm_strategy"] == "unit"
+    assert manifest["config_snapshot"]["pipeline_options"]["adjudication_policy"] == "strict"
 
     inspect_result = runner.invoke(
         app,

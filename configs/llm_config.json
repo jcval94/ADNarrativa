@@ -2,18 +2,29 @@
   "enabled": false,
   "provider": "openai",
   "client_module": "src/narrative_dna/llm_client.py",
+  "classification": {
+    "strategy": "chunked",
+    "chunk_max_units": 12,
+    "chunk_max_chars": 6000,
+    "chunk_overlap_units": 1
+  },
+  "adjudication": {
+    "policy": "actionable",
+    "batch_max_units": 8,
+    "batch_max_chars": 6000
+  },
   "main_classifier": {
     "model": "gpt-5.5",
     "reasoning_effort": "low",
     "text_verbosity": "low",
-    "max_output_tokens": 1200,
+    "max_output_tokens": 6000,
     "timeout_seconds": 60
   },
   "adjudicator": {
     "model": "gpt-5.5",
     "reasoning_effort": "high",
     "text_verbosity": "low",
-    "max_output_tokens": 1200,
+    "max_output_tokens": 6000,
     "timeout_seconds": 60
   },
   "synthetic_reviewers": [

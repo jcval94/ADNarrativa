@@ -165,15 +165,36 @@ narrative-dna run ^
   --input-dir data/transcripts/videos ^
   --output-dir outputs ^
   --use-llm ^
+  --llm-strategy chunked ^
   --use-adjudicator ^
+  --adjudication-policy actionable ^
   --audit-similarity
 ```
 
 Este flujo carga, normaliza y segmenta transcripciones; agrega heurísticas
-candidatas; llama a OpenAI sólo a través de `src/narrative_dna/llm_client.py`;
-valida cada respuesta con Pydantic; recompila `final_notation`; pasa casos de
-riesgo al adjudicator conservador; detecta relaciones/cadenas; y escribe
-outputs JSON/JSONL con derivados reconstruibles.
+candidatas; agrupa hasta 12 unidades o 6000 caracteres por request; llama a
+OpenAI sólo a través de `src/narrative_dna/llm_client.py`; valida cada respuesta
+con Pydantic; recompila `final_notation`; agrupa los riesgos accionables para el
+adjudicator conservador; detecta relaciones/cadenas; y escribe outputs
+JSON/JSONL con derivados reconstruibles.
+
+El perfil recomendado es `chunked + actionable`. Para reproducir el flujo
+anterior, una llamada por unidad y adjudicación de toda primaria confundible,
+usa:
+
+```bash
+narrative-dna run ^
+  --input-dir data/transcripts/videos ^
+  --output-dir outputs ^
+  --use-llm ^
+  --llm-strategy unit ^
+  --use-adjudicator ^
+  --adjudication-policy strict
+```
+
+Revisa `outputs/<RUN_ID>/timing_report.json`. La sección `api_summary`
+distingue solicitudes lógicas, cache hits y llamadas reales a OpenAI; sólo
+`real_openai_calls` representa transporte efectivo.
 
 Si el modelo duda, la política correcta es bajar confianza y marcar
 `needs_review=true`. Una anotación incompleta pero honesta es preferible a una

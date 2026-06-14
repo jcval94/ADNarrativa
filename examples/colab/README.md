@@ -81,5 +81,7 @@ En modo sin LLM, `final_notation` ya no queda fijo en `N_N0{0}` cuando hay
 señales determinísticas fuertes: el pipeline promueve un baseline heurístico
 conservador, conserva `heuristic_candidates` como evidencia auditable y marca
 revisión para señales candidatas o multietiqueta. Usa `use_llm=True`,
-`use_adjudicator=True` y `log_timings=True` cuando necesites inferencia
-estructurada y tiempos por etapa.
+`llm_strategy="chunked"`, `use_adjudicator=True`,
+`adjudication_policy="actionable"` y `log_timings=True` cuando necesites
+inferencia estructurada con coste controlado. `timing_report.json` separa
+solicitudes lógicas, cache hits y llamadas reales a OpenAI.

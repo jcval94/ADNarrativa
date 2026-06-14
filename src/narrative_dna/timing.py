@@ -117,6 +117,7 @@ class TimingRecorder:
             "prompt_version_effective": prompt_version_effective,
             "validator_version_effective": validator_version_effective,
             "record_count": len(records),
+            "api_summary": summarize_api_activity(records),
             "summary_by_stage": summarize_records(records),
             "bottlenecks": slowest_records(records, limit=top_bottlenecks),
             "records": records,
@@ -162,6 +163,42 @@ def summarize_records(records: list[dict[str, Any]]) -> dict[str, dict[str, Any]
             "max_ms": round(max(durations), 3),
         }
     return summary
+
+
+def summarize_api_activity(records: list[dict[str, Any]]) -> dict[str, Any]:
+    """Separate logical LLM requests, cache hits, and billable transport calls."""
+
+    llm_requests = [record for record in records if record["stage"] == "llm.request"]
+    api_calls = [record for record in records if record["stage"] == "openai.api_call"]
+
+    def profile_count(items: list[dict[str, Any]], profile_name: str) -> int:
+        return sum(
+            1 for record in items if record.get("metadata", {}).get("profile_name") == profile_name
+        )
+
+    fallback_count = 0
+    for record in records:
+        metadata = record.get("metadata", {})
+        if metadata.get("fallback") is True:
+            fallback_count += 1
+        fallback_count += int(metadata.get("fallback_count") or 0)
+
+    return {
+        "logical_llm_requests": len(llm_requests),
+        "real_openai_calls": len(api_calls),
+        "cache_hits": sum(
+            1 for record in llm_requests if record.get("metadata", {}).get("cache_hit") is True
+        ),
+        "classifier_requests": profile_count(llm_requests, "main_classifier"),
+        "classifier_real_calls": profile_count(api_calls, "main_classifier"),
+        "adjudicator_requests": profile_count(llm_requests, "adjudicator"),
+        "adjudicator_real_calls": profile_count(api_calls, "adjudicator"),
+        "fallback_units": fallback_count,
+        "openai_api_duration_ms": round(
+            sum(float(record["duration_ms"]) for record in api_calls),
+            3,
+        ),
+    }
 
 
 def slowest_records(records: list[dict[str, Any]], *, limit: int) -> list[dict[str, Any]]:

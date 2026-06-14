@@ -5,6 +5,7 @@ from typing import Any
 
 from narrative_dna.adjudicator import (
     AdjudicatedClassification,
+    BatchAdjudicationResponse,
     ConservativeAdjudicator,
     adjudication_risk_reasons,
     should_adjudicate,
@@ -233,7 +234,14 @@ def test_k_vs_a_resolved_with_k_inheriting_a(tmp_path: Path) -> None:
         ]
     )
 
-    unit = ConservativeAdjudicator(llm_client=fake).adjudicate_document(document).units[0]
+    unit = (
+        ConservativeAdjudicator(
+            llm_client=fake,
+            policy="strict",
+        )
+        .adjudicate_document(document)
+        .units[0]
+    )
 
     assert unit.functions == ["K"]
     assert unit.inherited_functions[0].function == "A"
@@ -302,3 +310,89 @@ def test_actionable_low_confidence_validator_flag_still_adjudicates(tmp_path: Pa
 
     assert len(fake.calls) == 1
     assert unit.functions == ["A"]
+
+
+def test_actionable_policy_skips_confusable_primary_alone(tmp_path: Path) -> None:
+    document = document_with_unit(
+        tmp_path,
+        "Esta es una interpretación subjetiva.",
+        functions=["O"],
+        primary_function="O",
+        confidence=0.82,
+    )
+    fake = FakeAdjudicatorClient([])
+
+    unit = (
+        ConservativeAdjudicator(
+            llm_client=fake,
+            policy="actionable",
+        )
+        .adjudicate_document(document)
+        .units[0]
+    )
+
+    assert fake.calls == []
+    assert unit.method != "adjudicated"
+    assert "confusable_primary_function" not in adjudication_risk_reasons(unit)
+    assert "confusable_primary_function" in adjudication_risk_reasons(
+        unit,
+        policy="strict",
+    )
+
+
+def test_multiple_actionable_units_are_adjudicated_in_one_batch(tmp_path: Path) -> None:
+    path = tmp_path / "speech.txt"
+    path.write_text("Primera afirmación. Segunda afirmación.", encoding="utf-8")
+    document = load_document(path)
+    units = []
+    for unit in document.units:
+        payload = unit.model_dump(mode="json")
+        payload.update(
+            {
+                "functions": ["D"],
+                "primary_function": "D",
+                "secondary_functions": [],
+                "confidence": 0.4,
+                "needs_review": True,
+                "review_status": "needs_review",
+                "validator_flags": [
+                    {
+                        "rule_id": "D_without_evidence",
+                        "severity": "warning",
+                        "message": "D requires evidence.",
+                        "field": "evidence_spans",
+                    }
+                ],
+            }
+        )
+        payload["final_notation"] = derive_final_notation(payload)
+        units.append(NarrativeUnit.model_validate(payload))
+    doc_payload = document.model_dump(mode="json")
+    doc_payload["units"] = [unit.model_dump(mode="json") for unit in units]
+    document = NarrativeDocument.model_validate(doc_payload)
+    fake = FakeAdjudicatorClient(
+        [
+            {
+                "adjudications": [
+                    {
+                        "unit_id": unit.unit_id,
+                        "adjudication": adjudicated_payload(
+                            final_functions=["A"],
+                            final_primary_function="A",
+                        ),
+                    }
+                    for unit in units
+                ]
+            }
+        ]
+    )
+
+    adjudicated = ConservativeAdjudicator(
+        llm_client=fake,
+        policy="actionable",
+    ).adjudicate_document(document)
+
+    assert len(fake.calls) == 1
+    assert fake.calls[0]["response_model"] is BatchAdjudicationResponse
+    assert all(unit.functions == ["A"] for unit in adjudicated.units)
+    assert adjudicated.audit_summary["adjudicator_request_count"] == 1

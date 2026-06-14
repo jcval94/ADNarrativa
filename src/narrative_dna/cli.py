@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Literal
 
 import typer
 from rich.console import Console
@@ -46,6 +47,16 @@ def run(
         "--use-adjudicator/--no-adjudicator",
         help="Use conservative adjudicator after classification.",
     ),
+    llm_strategy: Literal["unit", "chunked"] = typer.Option(
+        "chunked",
+        "--llm-strategy",
+        help="Classify one unit per request or multiple units per chunked request.",
+    ),
+    adjudication_policy: Literal["actionable", "strict"] = typer.Option(
+        "actionable",
+        "--adjudication-policy",
+        help="Adjudicate actionable risks only or all strict confusable cases.",
+    ),
     audit_similarity_enabled: bool = typer.Option(
         False,
         "--audit-similarity",
@@ -65,6 +76,8 @@ def run(
         run_id=run_id,
         use_llm=use_llm,
         use_adjudicator=use_adjudicator,
+        llm_strategy=llm_strategy,
+        adjudication_policy=adjudication_policy,
         audit_similarity_enabled=audit_similarity_enabled,
         limit=limit,
         log_timings=log_timings,
