@@ -163,6 +163,191 @@ def test_overlabeling_marks_review() -> None:
     assert "possible_overlabeling" in rule_ids(unit)
 
 
+def test_certainty_requires_epistemic_signal() -> None:
+    unit = normalize_and_validate_unit(
+        unit_payload(
+            text="Me indigna esta decision del equipo.",
+            normalized_text="me indigna esta decision del equipo.",
+            certainty="strong",
+            emotion_expressed="E",
+            emotion_intensity=2,
+        )
+    )
+
+    assert unit.needs_review is True
+    assert "certainty_epistemic_not_intensity" in rule_ids(unit)
+
+
+def test_certainty_epistemic_signal_passes() -> None:
+    unit = normalize_and_validate_unit(
+        unit_payload(
+            text="Claramente esto demuestra que el sistema falla.",
+            normalized_text="claramente esto demuestra que el sistema falla.",
+            certainty="strong",
+        )
+    )
+
+    assert unit.needs_review is False
+    assert "certainty_epistemic_not_intensity" not in rule_ids(unit)
+
+
+def test_non_neutral_stance_requires_target() -> None:
+    unit = normalize_and_validate_unit(
+        unit_payload(
+            text="Esto funciona bien.",
+            normalized_text="esto funciona bien.",
+            stance="positive",
+        )
+    )
+
+    assert unit.needs_review is True
+    assert "stance_requires_target_when_non_neutral" in rule_ids(unit)
+
+
+def test_non_neutral_stance_with_target_passes() -> None:
+    unit = normalize_and_validate_unit(
+        unit_payload(
+            text="La regla funciona bien para el equipo.",
+            normalized_text="la regla funciona bien para el equipo.",
+            stance="positive",
+            target="equipo",
+        )
+    )
+
+    assert unit.needs_review is False
+    assert "stance_requires_target_when_non_neutral" not in rule_ids(unit)
+
+
+def test_contrast_group_requires_boundary_signal() -> None:
+    unit = normalize_and_validate_unit(
+        unit_payload(
+            text="Esto sigue el tema general.",
+            normalized_text="esto sigue el tema general.",
+            functions=["C"],
+            primary_function="C",
+            target="propuesta",
+        )
+    )
+
+    assert unit.needs_review is True
+    assert "contrast_boundary_required" in rule_ids(unit)
+
+
+def test_contrast_group_requires_target_or_proposition() -> None:
+    unit = normalize_and_validate_unit(
+        unit_payload(
+            text="Hay un riesgo serio si faltan datos.",
+            normalized_text="hay un riesgo serio si faltan datos.",
+            functions=["X"],
+            primary_function="X",
+        )
+    )
+
+    assert unit.needs_review is True
+    assert "contrast_refutation_risk_target" in rule_ids(unit)
+    assert "contrast_boundary_required" not in rule_ids(unit)
+
+
+def test_contrast_group_with_signal_and_target_passes() -> None:
+    unit = normalize_and_validate_unit(
+        unit_payload(
+            text="Pero la propuesta tiene un limite claro.",
+            normalized_text="pero la propuesta tiene un limite claro.",
+            functions=["C"],
+            primary_function="C",
+            target="propuesta",
+        )
+    )
+
+    assert unit.needs_review is False
+    assert "contrast_boundary_required" not in rule_ids(unit)
+    assert "contrast_refutation_risk_target" not in rule_ids(unit)
+
+
+def test_illustrative_group_requires_boundary_signal() -> None:
+    unit = normalize_and_validate_unit(
+        unit_payload(
+            text="Esto desarrolla la idea principal.",
+            normalized_text="esto desarrolla la idea principal.",
+            functions=["G"],
+            primary_function="G",
+        )
+    )
+
+    assert unit.needs_review is True
+    assert "illustrative_boundary_required" in rule_ids(unit)
+
+
+def test_illustrative_group_with_signal_passes() -> None:
+    unit = normalize_and_validate_unit(
+        unit_payload(
+            text="Funciona como una caja negra del avion.",
+            normalized_text="funciona como una caja negra del avion.",
+            functions=["G"],
+            primary_function="G",
+        )
+    )
+
+    assert unit.needs_review is False
+    assert "illustrative_boundary_required" not in rule_ids(unit)
+
+
+def test_illustrative_multilabel_primary_priority_conflict_marks_review() -> None:
+    unit = normalize_and_validate_unit(
+        unit_payload(
+            text="Por ejemplo, revisa este caso concreto.",
+            normalized_text="por ejemplo, revisa este caso concreto.",
+            functions=["E", "G"],
+            primary_function="G",
+        )
+    )
+
+    assert unit.needs_review is True
+    assert "dominant_illustrative_unit" in rule_ids(unit)
+
+
+def test_structural_group_requires_boundary_signal() -> None:
+    unit = normalize_and_validate_unit(
+        unit_payload(
+            text="Esto importa mucho para decidir.",
+            normalized_text="esto importa mucho para decidir.",
+            functions=["M"],
+            primary_function="M",
+        )
+    )
+
+    assert unit.needs_review is True
+    assert "structural_boundary_required" in rule_ids(unit)
+
+
+def test_structural_group_with_signal_passes() -> None:
+    unit = normalize_and_validate_unit(
+        unit_payload(
+            text="En resumen, esta es la idea central.",
+            normalized_text="en resumen, esta es la idea central.",
+            functions=["Z"],
+            primary_function="Z",
+        )
+    )
+
+    assert unit.needs_review is False
+    assert "structural_boundary_required" not in rule_ids(unit)
+
+
+def test_structural_multilabel_primary_priority_conflict_marks_review() -> None:
+    unit = normalize_and_validate_unit(
+        unit_payload(
+            text="Primero, limpia el texto antes de clasificar.",
+            normalized_text="primero, limpia el texto antes de clasificar.",
+            functions=["L", "Z"],
+            primary_function="Z",
+        )
+    )
+
+    assert unit.needs_review is True
+    assert "structural_primary_priority" in rule_ids(unit)
+
+
 def test_primary_function_required_is_repaired() -> None:
     unit = normalize_and_validate_unit(unit_payload(functions=["P", "V"], primary_function="K"))
 

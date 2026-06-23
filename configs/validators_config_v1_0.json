@@ -88,7 +88,7 @@
       "rule_id": "illustrative_boundary_required",
       "severity": "warning",
       "description": "E/H/G deben declarar caso, arco o analogía dominante.",
-      "implemented": false,
+      "implemented": true,
       "expected_behavior": "E/H/G deben declarar caso, arco o analogía dominante.",
       "source": "v1_0_consolidation"
     },
@@ -96,7 +96,7 @@
       "rule_id": "dominant_illustrative_unit",
       "severity": "warning",
       "description": "En E/H/G escoger primaria por función ilustrativa dominante.",
-      "implemented": false,
+      "implemented": true,
       "expected_behavior": "En E/H/G escoger primaria por función ilustrativa dominante.",
       "source": "v1_0_consolidation"
     },
@@ -120,7 +120,7 @@
       "rule_id": "contrast_boundary_required",
       "severity": "warning",
       "description": "C/B/X deben declarar contraste, refutación o riesgo.",
-      "implemented": false,
+      "implemented": true,
       "expected_behavior": "C/B/X deben declarar contraste, refutación o riesgo.",
       "source": "v1_0_consolidation"
     },
@@ -128,7 +128,7 @@
       "rule_id": "contrast_refutation_risk_target",
       "severity": "error",
       "description": "C/B/X requieren target o proposición afectada.",
-      "implemented": false,
+      "implemented": true,
       "expected_behavior": "C/B/X requieren target o proposición afectada.",
       "source": "v1_0_consolidation"
     },
@@ -136,7 +136,7 @@
       "rule_id": "structural_boundary_required",
       "severity": "warning",
       "description": "T/M/L/Z deben declarar función estructural dominante.",
-      "implemented": false,
+      "implemented": true,
       "expected_behavior": "T/M/L/Z deben declarar función estructural dominante.",
       "source": "v1_0_consolidation"
     },
@@ -144,7 +144,7 @@
       "rule_id": "structural_primary_priority",
       "severity": "warning",
       "description": "T/M/L/Z no deben acumularse sin prioridad primaria.",
-      "implemented": false,
+      "implemented": true,
       "expected_behavior": "T/M/L/Z no deben acumularse sin prioridad primaria.",
       "source": "v1_0_consolidation"
     },
@@ -168,7 +168,7 @@
       "rule_id": "stance_requires_target_when_non_neutral",
       "severity": "warning",
       "description": "Postura no neutral requiere target recuperable.",
-      "implemented": false,
+      "implemented": true,
       "expected_behavior": "Postura no neutral requiere target recuperable.",
       "source": "v1_0_consolidation"
     },
@@ -184,7 +184,7 @@
       "rule_id": "certainty_epistemic_not_intensity",
       "severity": "error",
       "description": "Certeza mide compromiso epistémico, no intensidad emocional.",
-      "implemented": false,
+      "implemented": true,
       "expected_behavior": "Certeza mide compromiso epistémico, no intensidad emocional.",
       "source": "v1_0_consolidation"
     },
