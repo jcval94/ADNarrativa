@@ -74,7 +74,7 @@ result = run_pipeline_from_text(
     use_llm=False,
     use_adjudicator=False,
 )
-print(result.run_dir)
+print(result.summary_text())
 ```
 
 En modo sin LLM, `final_notation` ya no queda fijo en `N_N0{0}` cuando hay
@@ -85,3 +85,5 @@ revisión para señales candidatas o multietiqueta. Usa `use_llm=True`,
 `adjudication_policy="actionable"` y `log_timings=True` cuando necesites
 inferencia estructurada con coste controlado. `timing_report.json` separa
 solicitudes lógicas, cache hits y llamadas reales a OpenAI.
+`PipelineRunResult.summary` y `PipelineRunResult.summary_text()` muestran
+duración total, conteos y gasto real sin abrir archivos manualmente.

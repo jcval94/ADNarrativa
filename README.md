@@ -332,6 +332,10 @@ Ejemplos Colab:
 - [Abrir notebook quickstart](https://colab.research.google.com/github/jcval94/ADNarrativa/blob/main/examples/colab/narrative_dna_quickstart.ipynb)
 - `examples/colab/README.md`
 
+En notebooks, imprime `result.summary_text()` o `print(result)` para ver
+duración, conteos, `real_openai_calls`, solicitudes lógicas y cache hits sin
+abrir manualmente `timing_report.json`.
+
 ## Pipeline
 
 Flujo end-to-end:
@@ -380,6 +384,7 @@ exports/chains.csv
 Cuando aplique:
 
 ```text
+timing_report.json
 similarity_conflicts.jsonl
 similarity_conflicts_summary.json
 review/review_items.jsonl

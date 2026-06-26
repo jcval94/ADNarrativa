@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import subprocess
+from collections import Counter
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -20,7 +21,7 @@ from narrative_dna.loader import load_documents, load_text_document
 from narrative_dna.models import NarrativeDocument, ProjectRunManifest
 from narrative_dna.relation_detector import detect_relations_for_document
 from narrative_dna.similarity_auditor import audit_similarity, write_similarity_audit
-from narrative_dna.timing import TimingRecorder, write_timing_report
+from narrative_dna.timing import TimingRecorder, build_timing_report, write_timing_report
 from narrative_dna.unit_classifier import UnitClassifier
 
 PROJECT_VERSION = "0.1.0"
@@ -36,6 +37,41 @@ class PipelineRunResult:
     documents: list[NarrativeDocument]
     manifest: ProjectRunManifest
     output_paths: dict[str, Path]
+    summary: dict[str, Any]
+
+    def summary_text(self) -> str:
+        """Return a compact human-readable run summary for notebooks and CLI output."""
+
+        parts = [
+            f"run_id={self.run_id}",
+            f"run_dir={self.run_dir}",
+            f"documents={self.summary.get('document_count', 0)}",
+            f"units={self.summary.get('unit_count', 0)}",
+            f"relations={self.summary.get('relation_count', 0)}",
+            f"chains={self.summary.get('chain_count', 0)}",
+            f"needs_review={self.summary.get('needs_review_unit_count', 0)}",
+        ]
+        elapsed_seconds = self.summary.get("elapsed_seconds")
+        if elapsed_seconds is not None:
+            parts.append(f"elapsed={float(elapsed_seconds):.2f}s")
+        api_summary = self.summary.get("api_summary") or {}
+        if api_summary:
+            openai_api_seconds = float(api_summary.get("openai_api_duration_ms", 0)) / 1000
+            parts.extend(
+                [
+                    f"openai_real_calls={api_summary.get('real_openai_calls', 0)}",
+                    f"llm_requests={api_summary.get('logical_llm_requests', 0)}",
+                    f"cache_hits={api_summary.get('cache_hits', 0)}",
+                    f"openai_api_time={openai_api_seconds:.2f}s",
+                ]
+            )
+        timing_path = self.output_paths.get("timing_report")
+        if timing_path is not None:
+            parts.append(f"timing_report={timing_path}")
+        return "PipelineRunResult(" + ", ".join(parts) + ")"
+
+    def __str__(self) -> str:
+        return self.summary_text()
 
 
 def run_pipeline(
@@ -271,22 +307,37 @@ def run_pipeline_from_documents(
         total_timing["processed_unit_count"] = sum(
             len(document.units) for document in processed_documents
         )
+    timing_report_payload: dict[str, Any] | None = None
     if timing.enabled:
         timing_path = run_dir / "timing_report.json"
+        timing_report_payload = build_timing_report(
+            timing,
+            taxonomy_version_effective=DEFAULT_TAXONOMY_VERSION,
+            prompt_version_effective=DEFAULT_PROMPT_VERSION,
+            validator_version_effective=DEFAULT_VALIDATOR_VERSION,
+        )
         write_timing_report(
             timing_path,
             timing,
             taxonomy_version_effective=DEFAULT_TAXONOMY_VERSION,
             prompt_version_effective=DEFAULT_PROMPT_VERSION,
             validator_version_effective=DEFAULT_VALIDATOR_VERSION,
+            payload=timing_report_payload,
         )
         output_paths["timing_report"] = timing_path
+    summary = build_pipeline_result_summary(
+        run_id=effective_run_id,
+        run_dir=run_dir,
+        documents=processed_documents,
+        timing_report=timing_report_payload,
+    )
     return PipelineRunResult(
         run_id=effective_run_id,
         run_dir=run_dir,
         documents=processed_documents,
         manifest=manifest,
         output_paths=output_paths,
+        summary=summary,
     )
 
 
@@ -396,6 +447,39 @@ def build_run_manifest(
         llm_config_snapshot=load_json_object(Path("configs/llm_config.json")),
         git_commit=current_git_commit(),
     )
+
+
+def build_pipeline_result_summary(
+    *,
+    run_id: str,
+    run_dir: Path,
+    documents: list[NarrativeDocument],
+    timing_report: dict[str, Any] | None,
+) -> dict[str, Any]:
+    units = [unit for document in documents for unit in document.units]
+    relations = [relation for document in documents for relation in document.relations]
+    chains = [chain for document in documents for chain in document.chains]
+    methods = Counter(str(unit.method) for unit in units)
+    summary: dict[str, Any] = {
+        "run_id": run_id,
+        "run_dir": str(run_dir),
+        "document_count": len(documents),
+        "unit_count": len(units),
+        "relation_count": len(relations),
+        "chain_count": len(chains),
+        "needs_review_unit_count": sum(1 for unit in units if unit.needs_review),
+        "accepted_unit_count": sum(1 for unit in units if not unit.needs_review),
+        "unit_methods": dict(sorted(methods.items())),
+        "taxonomy_version_effective": DEFAULT_TAXONOMY_VERSION,
+        "prompt_version_effective": DEFAULT_PROMPT_VERSION,
+        "validator_version_effective": DEFAULT_VALIDATOR_VERSION,
+    }
+    if timing_report:
+        summary["elapsed_seconds"] = timing_report.get("elapsed_seconds")
+        summary["elapsed_ms"] = timing_report.get("elapsed_ms")
+        summary["api_summary"] = timing_report.get("api_summary", {})
+        summary["slowest_stages"] = timing_report.get("bottlenecks", [])[:3]
+    return summary
 
 
 def load_json_object(path: Path) -> dict[str, Any]:

@@ -88,6 +88,10 @@ def test_run_pipeline_from_text_writes_general_outputs(tmp_path: Path) -> None:
 
     assert result.run_id == "run_inline_text"
     assert result.documents[0].source_path == "<test-string>"
+    assert result.summary["unit_count"] == len(units)
+    assert result.summary["api_summary"]["real_openai_calls"] == 0
+    assert "openai_real_calls=0" in result.summary_text()
+    assert "timing_report=" in str(result)
     assert units
     assert any(unit["final_notation"] != "N_N0{0}" for unit in units)
     assert any(unit["heuristic_candidates"] for unit in units)
@@ -96,6 +100,7 @@ def test_run_pipeline_from_text_writes_general_outputs(tmp_path: Path) -> None:
     timing = json.loads((run_dir / "timing_report.json").read_text(encoding="utf-8"))
     assert timing["run_id"] == "run_inline_text"
     assert timing["taxonomy_version_effective"] == "v1_0"
+    assert timing["elapsed_seconds"] >= 0
     assert any(record["stage"] == "pipeline.load_text_document" for record in timing["records"])
 
 
@@ -124,7 +129,8 @@ def test_cli_run_and_inspect(tmp_path: Path) -> None:
     )
 
     assert run_result.exit_code == 0
-    assert "Wrote run run_cli_test" in run_result.stdout
+    assert "PipelineRunResult(run_id=run_cli_test" in run_result.stdout
+    assert "units=" in run_result.stdout
     manifest = json.loads(
         (output_dir / "run_cli_test" / "run_manifest.json").read_text(encoding="utf-8")
     )

@@ -82,14 +82,7 @@ def run(
         limit=limit,
         log_timings=log_timings,
     )
-    total_units = sum(len(document.units) for document in result.documents)
-    total_relations = sum(len(document.relations) for document in result.documents)
-    total_chains = sum(len(document.chains) for document in result.documents)
-    console.print(
-        f"Wrote run {result.run_id} to {result.run_dir}: "
-        f"{len(result.documents)} documents, {total_units} units, "
-        f"{total_relations} relations, {total_chains} chains."
-    )
+    console.print(result.summary_text())
 
 
 @app.command("evaluate")

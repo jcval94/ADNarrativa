@@ -46,12 +46,16 @@ class TimingRecorder:
         enabled: bool = True,
         echo: bool = True,
         printer: Callable[[str], None] = print,
+        echo_starts: bool = True,
     ) -> None:
         self.run_id = run_id
         self.enabled = enabled
         self.echo = echo
+        self.echo_starts = echo_starts
         self.printer = printer
         self.records: list[TimingRecord] = []
+        self.started_at_utc = datetime.now(UTC).isoformat()
+        self._started_perf_counter = perf_counter()
 
     @contextmanager
     def span(self, stage: str, **metadata: Any) -> Iterator[dict[str, Any]]:
@@ -63,6 +67,8 @@ class TimingRecorder:
 
         extra: dict[str, Any] = {}
         started_at_utc = datetime.now(UTC).isoformat()
+        if self.echo and self.echo_starts:
+            self.printer(format_timing_start(stage, metadata, run_id=self.run_id))
         start = perf_counter()
         try:
             yield extra
@@ -96,7 +102,7 @@ class TimingRecorder:
             metadata={key: value for key, value in metadata.items() if value is not None},
         )
         self.records.append(record)
-        message = format_timing_record(record)
+        message = format_timing_record(record, run_id=self.run_id)
         LOGGER.info(message)
         if self.echo:
             self.printer(message)
@@ -110,9 +116,13 @@ class TimingRecorder:
         top_bottlenecks: int = DEFAULT_TOP_BOTTLENECKS,
     ) -> dict[str, Any]:
         records = [record.as_dict() for record in self.records]
+        elapsed_ms = (perf_counter() - self._started_perf_counter) * 1000
         return {
             "run_id": self.run_id,
             "generated_at_utc": datetime.now(UTC).isoformat(),
+            "started_at_utc": self.started_at_utc,
+            "elapsed_ms": round(elapsed_ms, 3),
+            "elapsed_seconds": round(elapsed_ms / 1000, 3),
             "taxonomy_version_effective": taxonomy_version_effective,
             "prompt_version_effective": prompt_version_effective,
             "validator_version_effective": validator_version_effective,
@@ -131,21 +141,37 @@ def write_timing_report(
     taxonomy_version_effective: str,
     prompt_version_effective: str,
     validator_version_effective: str,
+    payload: dict[str, Any] | None = None,
 ) -> Path:
     """Write an auditable JSON timing report for the run."""
 
     destination = Path(path)
     destination.parent.mkdir(parents=True, exist_ok=True)
-    payload = recorder.report(
+    report_payload = payload or build_timing_report(
+        recorder,
         taxonomy_version_effective=taxonomy_version_effective,
         prompt_version_effective=prompt_version_effective,
         validator_version_effective=validator_version_effective,
     )
     destination.write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True),
+        json.dumps(report_payload, ensure_ascii=False, indent=2, sort_keys=True),
         encoding="utf-8",
     )
     return destination
+
+
+def build_timing_report(
+    recorder: TimingRecorder,
+    *,
+    taxonomy_version_effective: str,
+    prompt_version_effective: str,
+    validator_version_effective: str,
+) -> dict[str, Any]:
+    return recorder.report(
+        taxonomy_version_effective=taxonomy_version_effective,
+        prompt_version_effective=prompt_version_effective,
+        validator_version_effective=validator_version_effective,
+    )
 
 
 def summarize_records(records: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
@@ -205,15 +231,40 @@ def slowest_records(records: list[dict[str, Any]], *, limit: int) -> list[dict[s
     return sorted(records, key=lambda record: float(record["duration_ms"]), reverse=True)[:limit]
 
 
-def format_timing_record(record: TimingRecord) -> str:
-    fields = [f"stage={record.stage}", f"duration_ms={record.duration_ms:.1f}"]
-    for key, value in record.metadata.items():
-        if isinstance(value, float):
-            rendered = f"{value:.3f}"
-        else:
-            rendered = str(value)
-        fields.append(f"{key}={rendered}")
+def format_timing_start(
+    stage: str,
+    metadata: Mapping[str, Any],
+    *,
+    run_id: str | None = None,
+) -> str:
+    fields = ["event=start"]
+    if run_id:
+        fields.append(f"run_id={run_id}")
+    fields.append(f"stage={stage}")
+    for key, value in metadata.items():
+        if value is not None:
+            fields.append(f"{key}={_render_log_value(value)}")
     return "[timing] " + " ".join(fields)
+
+
+def format_timing_record(record: TimingRecord, *, run_id: str | None = None) -> str:
+    fields = ["event=end"]
+    if run_id:
+        fields.append(f"run_id={run_id}")
+    fields.extend([f"stage={record.stage}", f"duration_ms={record.duration_ms:.1f}"])
+    for key, value in record.metadata.items():
+        fields.append(f"{key}={_render_log_value(value)}")
+    return "[timing] " + " ".join(fields)
+
+
+def _render_log_value(value: Any) -> str:
+    if isinstance(value, float):
+        return f"{value:.3f}"
+    if isinstance(value, list | tuple | set):
+        return "[" + ",".join(str(item) for item in value) + "]"
+    if isinstance(value, dict):
+        return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return str(value)
 
 
 def json_size_chars(payload: Mapping[str, Any] | list[Any] | str) -> int:

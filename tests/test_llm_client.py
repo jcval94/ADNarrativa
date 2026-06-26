@@ -198,6 +198,24 @@ def test_openai_api_call_timing_records_purpose(tmp_path: Path) -> None:
     assert api_summary["classifier_real_calls"] == 1
 
 
+def test_timing_echoes_stage_start_and_end() -> None:
+    messages: list[str] = []
+    timing = TimingRecorder(
+        run_id="echo_test",
+        enabled=True,
+        echo=True,
+        printer=messages.append,
+    )
+
+    with timing.span("openai.api_call", profile_name="main_classifier"):
+        pass
+
+    assert messages[0].startswith("[timing] event=start run_id=echo_test")
+    assert "stage=openai.api_call" in messages[0]
+    assert messages[1].startswith("[timing] event=end run_id=echo_test")
+    assert "duration_ms=" in messages[1]
+
+
 def test_dry_run_skips_transport_and_cache(tmp_path: Path) -> None:
     transport = CountingTransport([])
     client_ = client(tmp_path, transport)

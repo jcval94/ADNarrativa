@@ -93,7 +93,7 @@ result = run_pipeline_from_text(
     use_llm=False,
     use_adjudicator=False,
 )
-print(result.run_dir)
+print(result.summary_text())
 ```
 
 En este workspace puede haber archivos untracked ajenos al MVP que hagan fallar
@@ -195,6 +195,9 @@ narrative-dna run ^
 Revisa `outputs/<RUN_ID>/timing_report.json`. La sección `api_summary`
 distingue solicitudes lógicas, cache hits y llamadas reales a OpenAI; sólo
 `real_openai_calls` representa transporte efectivo.
+Durante la ejecución con timing activo verás logs `[timing] event=start/end ...`,
+incluyendo el inicio de cada `openai.api_call`. Al terminar, `result.summary`
+y `result.summary_text()` resumen duración, conteos y llamadas reales.
 
 Si el modelo duda, la política correcta es bajar confianza y marcar
 `needs_review=true`. Una anotación incompleta pero honesta es preferible a una
