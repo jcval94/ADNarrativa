@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Literal
 
 import typer
 from rich.console import Console
@@ -46,12 +47,27 @@ def run(
         "--use-adjudicator/--no-adjudicator",
         help="Use conservative adjudicator after classification.",
     ),
+    llm_strategy: Literal["unit", "chunked"] = typer.Option(
+        "chunked",
+        "--llm-strategy",
+        help="Classify one unit per request or multiple units per chunked request.",
+    ),
+    adjudication_policy: Literal["actionable", "strict"] = typer.Option(
+        "actionable",
+        "--adjudication-policy",
+        help="Adjudicate actionable risks only or all strict confusable cases.",
+    ),
     audit_similarity_enabled: bool = typer.Option(
         False,
         "--audit-similarity",
         help="Run semantic similarity audit after core outputs.",
     ),
     limit: int | None = typer.Option(None, "--limit", help="Limit loaded documents."),
+    log_timings: bool | None = typer.Option(
+        None,
+        "--log-timings/--no-log-timings",
+        help="Echo timing logs and write timing_report.json.",
+    ),
 ) -> None:
     """Run the JSON-first annotation pipeline."""
     result = run_pipeline(
@@ -60,17 +76,13 @@ def run(
         run_id=run_id,
         use_llm=use_llm,
         use_adjudicator=use_adjudicator,
+        llm_strategy=llm_strategy,
+        adjudication_policy=adjudication_policy,
         audit_similarity_enabled=audit_similarity_enabled,
         limit=limit,
+        log_timings=log_timings,
     )
-    total_units = sum(len(document.units) for document in result.documents)
-    total_relations = sum(len(document.relations) for document in result.documents)
-    total_chains = sum(len(document.chains) for document in result.documents)
-    console.print(
-        f"Wrote run {result.run_id} to {result.run_dir}: "
-        f"{len(result.documents)} documents, {total_units} units, "
-        f"{total_relations} relations, {total_chains} chains."
-    )
+    console.print(result.summary_text())
 
 
 @app.command("evaluate")

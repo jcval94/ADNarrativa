@@ -17,6 +17,7 @@ from narrative_dna.models import (
     RelationType,
     ValidatorFlag,
 )
+from narrative_dna.question_detection import has_question_anchor
 from narrative_dna.similarity_auditor import load_run_documents
 
 DEFAULT_TAXONOMY_VERSION = "v1_0"
@@ -449,7 +450,11 @@ def has_marker(unit: NarrativeUnit, markers: tuple[str, ...]) -> bool:
 
 
 def is_question(unit: NarrativeUnit) -> bool:
-    return has_function(unit, "P") or has_marker(unit, QUESTION_MARKERS)
+    return (
+        has_function(unit, "P")
+        or has_question_anchor(unit.text)
+        or has_question_anchor(unit.normalized_text)
+    )
 
 
 def answer_like(unit: NarrativeUnit) -> bool:

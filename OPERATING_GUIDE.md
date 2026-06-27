@@ -93,7 +93,7 @@ result = run_pipeline_from_text(
     use_llm=False,
     use_adjudicator=False,
 )
-print(result.run_dir)
+print(result.summary_text())
 ```
 
 En este workspace puede haber archivos untracked ajenos al MVP que hagan fallar
@@ -128,12 +128,11 @@ narrative-dna run ^
   --limit 1
 ```
 
-El modo sin LLM produce unidades `N_N0{0}` como clasificación final, agrega
-heurísticas como señales candidatas auditables en `heuristic_candidates` y
-detecta relaciones/cadenas con reglas determinísticas. Esto sirve para comprobar
-que la ingesta y los outputs están sanos antes de pagar o confiar en inferencia.
-Si necesitas etiquetas finales distintas de `N_N0{0}`, ejecuta el clasificador
-con `--use-llm` o usa `run_pipeline_from_text(..., use_llm=True)`.
+El modo sin LLM produce un baseline heurístico conservador: agrega señales
+candidatas auditables en `heuristic_candidates`, promueve sólo reglas
+determinísticas de alta confianza a `functions`, recompila `final_notation`
+desde JSON validado y marca revisión cuando la promoción sea candidata o
+multietiqueta. Las unidades sin señales suficientes permanecen como `N_N0{0}`.
 
 Después inspecciona el run:
 
@@ -166,15 +165,39 @@ narrative-dna run ^
   --input-dir data/transcripts/videos ^
   --output-dir outputs ^
   --use-llm ^
+  --llm-strategy chunked ^
   --use-adjudicator ^
+  --adjudication-policy actionable ^
   --audit-similarity
 ```
 
 Este flujo carga, normaliza y segmenta transcripciones; agrega heurísticas
-candidatas; llama a OpenAI sólo a través de `src/narrative_dna/llm_client.py`;
-valida cada respuesta con Pydantic; recompila `final_notation`; pasa casos de
-riesgo al adjudicator conservador; detecta relaciones/cadenas; y escribe
-outputs JSON/JSONL con derivados reconstruibles.
+candidatas; agrupa hasta 12 unidades o 6000 caracteres por request; llama a
+OpenAI sólo a través de `src/narrative_dna/llm_client.py`; valida cada respuesta
+con Pydantic; recompila `final_notation`; agrupa los riesgos accionables para el
+adjudicator conservador; detecta relaciones/cadenas; y escribe outputs
+JSON/JSONL con derivados reconstruibles.
+
+El perfil recomendado es `chunked + actionable`. Para reproducir el flujo
+anterior, una llamada por unidad y adjudicación de toda primaria confundible,
+usa:
+
+```bash
+narrative-dna run ^
+  --input-dir data/transcripts/videos ^
+  --output-dir outputs ^
+  --use-llm ^
+  --llm-strategy unit ^
+  --use-adjudicator ^
+  --adjudication-policy strict
+```
+
+Revisa `outputs/<RUN_ID>/timing_report.json`. La sección `api_summary`
+distingue solicitudes lógicas, cache hits y llamadas reales a OpenAI; sólo
+`real_openai_calls` representa transporte efectivo.
+Durante la ejecución con timing activo verás logs `[timing] event=start/end ...`,
+incluyendo el inicio de cada `openai.api_call`. Al terminar, `result.summary`
+y `result.summary_text()` resumen duración, conteos y llamadas reales.
 
 Si el modelo duda, la política correcta es bajar confianza y marcar
 `needs_review=true`. Una anotación incompleta pero honesta es preferible a una

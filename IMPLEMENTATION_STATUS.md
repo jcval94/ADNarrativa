@@ -140,9 +140,8 @@ Step 20 agrega fixtures golden de regresión con `synthetic_gold_high_confidence
 
 ## Observaciones Críticas
 
-- Hay archivos untracked ajenos al plan actual: `generated/`, `html_builder.py`, `tests/test_html_builder.py`. No los he tocado ni incluido en commits.
 - La suite completa pasa usando `--basetemp .pytest_tmp`; el directorio temporal global de Windows puede dar permisos denegados en este entorno.
-- Ruff global falla por los archivos untracked `html_builder.py` y `tests/test_html_builder.py`; Ruff sobre archivos versionados pasa.
+- Ruff global debe pasar junto con la suite completa antes de entregar cambios.
 - El pipeline end-to-end ya existe; el modo con LLM depende de `OPENAI_API_KEY` y de perfiles configurados en `configs/llm_config.json`.
 
 ## Próximo Step Natural

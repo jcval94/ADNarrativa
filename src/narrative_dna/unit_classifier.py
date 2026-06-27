@@ -4,17 +4,18 @@ from __future__ import annotations
 
 import json
 from collections.abc import Mapping
+from contextlib import nullcontext
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import Field
 
 from narrative_dna.heuristic_candidates import (
     HeuristicExtraction,
-    annotate_unit_with_heuristics,
+    apply_heuristic_baseline_to_unit,
     extract_heuristic_candidates,
 )
-from narrative_dna.llm_client import LLMCallResult, OpenAIStructuredClient
+from narrative_dna.llm_client import LLMCallResult, OpenAIStructuredClient, load_llm_config
 from narrative_dna.models import (
     Certainty,
     EmotionCode,
@@ -29,15 +30,20 @@ from narrative_dna.models import (
     ValidatorFlag,
 )
 from narrative_dna.notation import derive_final_notation, normalize_function_codes
+from narrative_dna.timing import TimingRecorder, json_size_chars
 from narrative_dna.validators import ValidationContext, normalize_and_validate_unit
 
 DEFAULT_TAXONOMY_VERSION = "v1_0"
 DEFAULT_PROMPT_VERSION = "v1_0"
 DEFAULT_VALIDATOR_VERSION = "v1_0"
 DEFAULT_PROMPT_PATH = Path("prompts/unit_classifier.md")
+DEFAULT_CHUNK_PROMPT_PATH = Path("prompts/chunk_classifier.md")
 DEFAULT_TAXONOMY_PATH = Path("annotation_guidelines/taxonomy_v1_0.json")
 DEFAULT_DECISION_TREES_PATH = Path("annotation_guidelines/decision_trees_v1_0.md")
 DEFAULT_MINIMAL_PAIRS_PATH = Path("annotation_guidelines/minimal_pairs_v1_0.jsonl")
+DEFAULT_CHUNK_MAX_UNITS = 12
+DEFAULT_CHUNK_MAX_CHARS = 6000
+DEFAULT_CHUNK_OVERLAP_UNITS = 1
 CONFUSION_GROUPS = [
     {"A", "K", "O"},
     {"P", "R", "Y"},
@@ -79,6 +85,30 @@ class ClassificationContext(StrictBaseModel):
     minimal_pairs_excerpt: list[dict[str, Any]] = Field(default_factory=list)
 
 
+class BatchClassificationItem(StrictBaseModel):
+    unit_id: str = Field(min_length=1)
+    classification: NarrativeUnitPartialClassification
+
+
+class BatchClassificationResponse(StrictBaseModel):
+    classifications: list[BatchClassificationItem] = Field(default_factory=list)
+
+
+class ChunkTargetUnit(StrictBaseModel):
+    unit: dict[str, Any]
+    heuristic_candidates: dict[str, Any]
+
+
+class ChunkClassificationContext(StrictBaseModel):
+    taxonomy_version: str = Field(min_length=1)
+    target_units: list[ChunkTargetUnit] = Field(min_length=1)
+    previous_units: list[dict[str, Any]] = Field(default_factory=list)
+    next_units: list[dict[str, Any]] = Field(default_factory=list)
+    taxonomy_excerpt: dict[str, Any]
+    decision_trees_excerpt: str
+    minimal_pairs_excerpt: list[dict[str, Any]] = Field(default_factory=list)
+
+
 class UnitClassifier:
     """Classify narrative units through the structured OpenAI client boundary."""
 
@@ -87,7 +117,8 @@ class UnitClassifier:
         *,
         llm_client: Any | None = None,
         profile_name: str = "main_classifier",
-        prompt_path: str | Path = DEFAULT_PROMPT_PATH,
+        strategy: Literal["unit", "chunked"] | None = None,
+        prompt_path: str | Path | None = None,
         taxonomy_path: str | Path = DEFAULT_TAXONOMY_PATH,
         decision_trees_path: str | Path = DEFAULT_DECISION_TREES_PATH,
         minimal_pairs_path: str | Path = DEFAULT_MINIMAL_PAIRS_PATH,
@@ -95,10 +126,32 @@ class UnitClassifier:
         prompt_version: str = DEFAULT_PROMPT_VERSION,
         validator_version: str = DEFAULT_VALIDATOR_VERSION,
         dry_run: bool = False,
+        timing_recorder: TimingRecorder | None = None,
+        log_timings: bool | None = None,
+        chunk_max_units: int | None = None,
+        chunk_max_chars: int | None = None,
+        chunk_overlap_units: int | None = None,
     ) -> None:
-        self.llm_client = llm_client or OpenAIStructuredClient()
+        self.llm_client = llm_client or OpenAIStructuredClient(
+            timing_recorder=timing_recorder,
+            log_timings=log_timings,
+        )
+        self.timing_recorder = timing_recorder or getattr(self.llm_client, "timing_recorder", None)
         self.profile_name = profile_name
-        self.prompt_path = Path(prompt_path)
+        config = getattr(self.llm_client, "config", None) or load_llm_config()
+        classification_config = (
+            config.get("classification", {})
+            if isinstance(config.get("classification"), dict)
+            else {}
+        )
+        effective_strategy = strategy or classification_config.get("strategy", "chunked")
+        if effective_strategy not in {"unit", "chunked"}:
+            raise ValueError(f"unknown LLM classification strategy: {effective_strategy}")
+        self.strategy = effective_strategy
+        self.prompt_path = Path(
+            prompt_path
+            or (DEFAULT_CHUNK_PROMPT_PATH if self.strategy == "chunked" else DEFAULT_PROMPT_PATH)
+        )
         self.taxonomy_path = Path(taxonomy_path)
         self.decision_trees_path = Path(decision_trees_path)
         self.minimal_pairs_path = Path(minimal_pairs_path)
@@ -106,6 +159,31 @@ class UnitClassifier:
         self.prompt_version = prompt_version
         self.validator_version = validator_version
         self.dry_run = dry_run
+        self.chunk_max_units = max(
+            1,
+            int(
+                chunk_max_units
+                or classification_config.get("chunk_max_units", DEFAULT_CHUNK_MAX_UNITS)
+            ),
+        )
+        self.chunk_max_chars = max(
+            1,
+            int(
+                chunk_max_chars
+                or classification_config.get("chunk_max_chars", DEFAULT_CHUNK_MAX_CHARS)
+            ),
+        )
+        self.chunk_overlap_units = max(
+            0,
+            int(
+                chunk_overlap_units
+                if chunk_overlap_units is not None
+                else classification_config.get(
+                    "chunk_overlap_units",
+                    DEFAULT_CHUNK_OVERLAP_UNITS,
+                )
+            ),
+        )
         self.system_prompt = self._read_text(self.prompt_path)
         self.taxonomy_excerpt = self._load_taxonomy_excerpt()
         self.decision_trees_excerpt = self._read_text(self.decision_trees_path)
@@ -114,86 +192,283 @@ class UnitClassifier:
     def classify_document(self, document: NarrativeDocument) -> NarrativeDocument:
         """Classify all units in a document without calling the adjudicator."""
 
-        units: list[NarrativeUnit] = []
-        for index, _unit in enumerate(document.units):
-            units.append(self.classify_unit(document, index))
-        payload = document.model_dump(mode="json")
-        payload["units"] = [unit.model_dump(mode="json") for unit in units]
-        payload["audit_summary"] = {
-            **document.audit_summary,
-            "classified_unit_count": len(units),
-            "llm_profile": self.profile_name,
-            "taxonomy_version_effective": self.taxonomy_version,
-            "prompt_version_effective": self.prompt_version,
-            "validator_version_effective": self.validator_version,
+        with self._timing_span(
+            "classifier.document",
+            document_id=document.document_id,
+            unit_count=len(document.units),
+            profile_name=self.profile_name,
+            strategy=self.strategy,
+        ) as timing:
+            if self.strategy == "chunked":
+                chunks = build_classification_chunks(
+                    document,
+                    max_units=self.chunk_max_units,
+                    max_chars=self.chunk_max_chars,
+                )
+                units_by_index: dict[int, NarrativeUnit] = {}
+                for chunk_index, unit_indexes in enumerate(chunks):
+                    units_by_index.update(
+                        self.classify_chunk(
+                            document,
+                            unit_indexes,
+                            chunk_index=chunk_index,
+                        )
+                    )
+                units = [units_by_index[index] for index in range(len(document.units))]
+                llm_request_count = len(chunks)
+            else:
+                units = [
+                    self.classify_unit(document, index) for index in range(len(document.units))
+                ]
+                llm_request_count = len(units)
+            payload = document.model_dump(mode="json")
+            payload["units"] = [unit.model_dump(mode="json") for unit in units]
+            payload["audit_summary"] = {
+                **document.audit_summary,
+                "classified_unit_count": len(units),
+                "llm_profile": self.profile_name,
+                "llm_strategy": self.strategy,
+                "classifier_request_count": llm_request_count,
+                "taxonomy_version_effective": self.taxonomy_version,
+                "prompt_version_effective": self.prompt_version,
+                "validator_version_effective": self.validator_version,
+            }
+            timing["classified_unit_count"] = len(units)
+            timing["llm_request_count"] = llm_request_count
+            return NarrativeDocument.model_validate(payload)
+
+    def classify_chunk(
+        self,
+        document: NarrativeDocument,
+        unit_indexes: list[int],
+        *,
+        chunk_index: int,
+    ) -> dict[int, NarrativeUnit]:
+        """Classify a contiguous group of target units with one structured request."""
+
+        heuristics_by_index = {
+            index: extract_heuristic_candidates(
+                document.units[index],
+                total_units=len(document.units),
+            )
+            for index in unit_indexes
         }
-        return NarrativeDocument.model_validate(payload)
+        minimal_pairs = self._minimal_pairs_for_chunk(
+            [document.units[index] for index in unit_indexes],
+            list(heuristics_by_index.values()),
+        )
+        with self._timing_span(
+            "classifier.chunk",
+            document_id=document.document_id,
+            chunk_index=chunk_index,
+            unit_count=len(unit_indexes),
+            unit_indexes=unit_indexes,
+            profile_name=self.profile_name,
+            strategy=self.strategy,
+        ) as timing:
+            with self._timing_span(
+                "classifier.build_chunk_context",
+                document_id=document.document_id,
+                chunk_index=chunk_index,
+                unit_count=len(unit_indexes),
+                minimal_pairs=len(minimal_pairs),
+            ) as context_timing:
+                context = build_chunk_classification_context(
+                    document=document,
+                    unit_indexes=unit_indexes,
+                    heuristics_by_index=heuristics_by_index,
+                    taxonomy_excerpt=self.taxonomy_excerpt,
+                    decision_trees_excerpt=self.decision_trees_excerpt,
+                    minimal_pairs_excerpt=minimal_pairs,
+                    taxonomy_version=self.taxonomy_version,
+                    overlap_units=self.chunk_overlap_units,
+                )
+                context_payload = context.model_dump(mode="json")
+                context_timing["payload_chars"] = json_size_chars(context_payload)
+            timing["payload_chars"] = json_size_chars(context_payload)
+            result = self.llm_client.request_structured(
+                profile_name=self.profile_name,
+                input_payload=context_payload,
+                response_model=BatchClassificationResponse,
+                taxonomy_version=self.taxonomy_version,
+                prompt_version=self.prompt_version,
+                validator_version=self.validator_version,
+                system_prompt=self.system_prompt,
+                dry_run=self.dry_run,
+            )
+            timing.update(
+                {
+                    "llm_ok": result.ok,
+                    "cache_hit": result.cache_hit,
+                    "attempts": result.attempts,
+                    "error_type": result.error_type,
+                }
+            )
+            if not result.ok or not result.parsed:
+                fallback_units = {
+                    index: self._fallback_unit(
+                        document.units[index],
+                        heuristics_by_index[index],
+                        result,
+                    )
+                    for index in unit_indexes
+                }
+                timing["fallback_count"] = len(fallback_units)
+                return fallback_units
+
+            batch = BatchClassificationResponse.model_validate(result.parsed)
+            classifications_by_id: dict[str, list[NarrativeUnitPartialClassification]] = {}
+            for item in batch.classifications:
+                classifications_by_id.setdefault(item.unit_id, []).append(item.classification)
+
+            classified: dict[int, NarrativeUnit] = {}
+            fallback_count = 0
+            for index in unit_indexes:
+                unit = document.units[index]
+                candidates = classifications_by_id.get(unit.unit_id, [])
+                if len(candidates) != 1:
+                    fallback_count += 1
+                    reason = (
+                        "llm_batch_missing_unit" if not candidates else "llm_batch_duplicate_unit"
+                    )
+                    failed_result = result.model_copy(
+                        update={
+                            "ok": False,
+                            "error_type": reason,
+                            "error": (
+                                f"Batch response returned {len(candidates)} classifications "
+                                f"for unit_id={unit.unit_id}."
+                            ),
+                        }
+                    )
+                    classified[index] = self._fallback_unit(
+                        unit,
+                        heuristics_by_index[index],
+                        failed_result,
+                        failure_reason=reason,
+                    )
+                    continue
+                classified[index] = merge_partial_classification(
+                    unit=unit,
+                    partial=candidates[0],
+                    heuristics=heuristics_by_index[index],
+                    llm_result=result,
+                    previous_text=document.units[index - 1].text if index > 0 else None,
+                    next_text=(
+                        document.units[index + 1].text if index + 1 < len(document.units) else None
+                    ),
+                    taxonomy_version=self.taxonomy_version,
+                    prompt_version=self.prompt_version,
+                    validator_version=self.validator_version,
+                )
+            timing["fallback_count"] = fallback_count
+            timing["classified_unit_count"] = len(classified) - fallback_count
+            return classified
 
     def classify_unit(self, document: NarrativeDocument, unit_index: int) -> NarrativeUnit:
         """Classify one unit with local context and deterministic postprocessing."""
 
         unit = document.units[unit_index]
-        heuristics = extract_heuristic_candidates(unit, total_units=len(document.units))
-        context = build_classification_context(
-            document=document,
+        with self._timing_span(
+            "classifier.unit",
+            document_id=document.document_id,
+            unit_id=unit.unit_id,
             unit_index=unit_index,
-            heuristics=heuristics,
-            taxonomy_excerpt=self.taxonomy_excerpt,
-            decision_trees_excerpt=self.decision_trees_excerpt,
-            minimal_pairs_excerpt=self._minimal_pairs_for_unit(unit, heuristics),
-            taxonomy_version=self.taxonomy_version,
-        )
-        result = self.llm_client.request_structured(
+            unit_chars=len(unit.text),
             profile_name=self.profile_name,
-            input_payload=context.model_dump(mode="json"),
-            response_model=NarrativeUnitPartialClassification,
-            taxonomy_version=self.taxonomy_version,
-            prompt_version=self.prompt_version,
-            validator_version=self.validator_version,
-            system_prompt=self.system_prompt,
-            dry_run=self.dry_run,
-        )
-        if not result.ok or not result.parsed:
-            return self._fallback_unit(unit, heuristics, result)
-        partial = NarrativeUnitPartialClassification.model_validate(result.parsed)
-        return merge_partial_classification(
-            unit=unit,
-            partial=partial,
-            heuristics=heuristics,
-            llm_result=result,
-            previous_text=document.units[unit_index - 1].text if unit_index > 0 else None,
-            next_text=(
-                document.units[unit_index + 1].text
-                if unit_index + 1 < len(document.units)
-                else None
-            ),
-            taxonomy_version=self.taxonomy_version,
-            prompt_version=self.prompt_version,
-            validator_version=self.validator_version,
-        )
+        ) as timing:
+            heuristics = extract_heuristic_candidates(unit, total_units=len(document.units))
+            minimal_pairs = self._minimal_pairs_for_unit(unit, heuristics)
+            with self._timing_span(
+                "classifier.build_context",
+                document_id=document.document_id,
+                unit_id=unit.unit_id,
+                unit_index=unit_index,
+                minimal_pairs=len(minimal_pairs),
+            ) as context_timing:
+                context = build_classification_context(
+                    document=document,
+                    unit_index=unit_index,
+                    heuristics=heuristics,
+                    taxonomy_excerpt=self.taxonomy_excerpt,
+                    decision_trees_excerpt=self.decision_trees_excerpt,
+                    minimal_pairs_excerpt=minimal_pairs,
+                    taxonomy_version=self.taxonomy_version,
+                )
+                context_payload = context.model_dump(mode="json")
+                context_timing["payload_chars"] = json_size_chars(context_payload)
+            timing.update(
+                {
+                    "locked_functions": len(heuristics.locked_functions),
+                    "candidate_functions": len(heuristics.candidate_functions),
+                    "payload_chars": json_size_chars(context_payload),
+                }
+            )
+            result = self.llm_client.request_structured(
+                profile_name=self.profile_name,
+                input_payload=context_payload,
+                response_model=NarrativeUnitPartialClassification,
+                taxonomy_version=self.taxonomy_version,
+                prompt_version=self.prompt_version,
+                validator_version=self.validator_version,
+                system_prompt=self.system_prompt,
+                dry_run=self.dry_run,
+            )
+            timing.update(
+                {
+                    "llm_ok": result.ok,
+                    "cache_hit": result.cache_hit,
+                    "attempts": result.attempts,
+                    "error_type": result.error_type,
+                }
+            )
+            if not result.ok or not result.parsed:
+                timing["fallback"] = True
+                fallback_unit = self._fallback_unit(unit, heuristics, result)
+                timing.update(_unit_timing_outcome(fallback_unit))
+                return fallback_unit
+            partial = NarrativeUnitPartialClassification.model_validate(result.parsed)
+            timing["fallback"] = False
+            classified_unit = merge_partial_classification(
+                unit=unit,
+                partial=partial,
+                heuristics=heuristics,
+                llm_result=result,
+                previous_text=document.units[unit_index - 1].text if unit_index > 0 else None,
+                next_text=(
+                    document.units[unit_index + 1].text
+                    if unit_index + 1 < len(document.units)
+                    else None
+                ),
+                taxonomy_version=self.taxonomy_version,
+                prompt_version=self.prompt_version,
+                validator_version=self.validator_version,
+            )
+            timing.update(_unit_timing_outcome(classified_unit))
+            return classified_unit
 
     def _fallback_unit(
         self,
         unit: NarrativeUnit,
         heuristics: HeuristicExtraction,
         result: LLMCallResult,
+        *,
+        failure_reason: str = "llm_classification_failed",
     ) -> NarrativeUnit:
-        annotated = annotate_unit_with_heuristics(unit)
-        payload = annotated.model_dump(mode="json")
-        if heuristics.locked_functions:
-            payload["functions"] = [str(function) for function in heuristics.locked_functions]
-            payload["primary_function"] = payload["functions"][0]
-            payload["secondary_functions"] = payload["functions"][1:]
-            payload["method"] = "heuristic"
-            payload["confidence"] = 0.6
+        fallback = apply_heuristic_baseline_to_unit(
+            unit,
+            failure_reason=failure_reason,
+        )
+        payload = fallback.model_dump(mode="json")
+        payload["method"] = "heuristic"
         payload["needs_review"] = True
         payload["review_status"] = "needs_review"
         payload["review_reasons"] = _append_unique(
-            payload.get("review_reasons", []), "llm_classification_failed"
+            payload.get("review_reasons", []), failure_reason
         )
         payload["validator_flags"] = _append_flag(
             payload.get("validator_flags", []),
-            rule_id="llm_classification_failed",
+            rule_id=failure_reason,
             severity="warning",
             message=result.error or "Structured LLM classification failed.",
             field="llm_votes",
@@ -255,10 +530,38 @@ class UnitClassifier:
                 return selected
         return self.minimal_pairs[:limit]
 
+    def _minimal_pairs_for_chunk(
+        self,
+        units: list[NarrativeUnit],
+        heuristics: list[HeuristicExtraction],
+        limit: int = 8,
+    ) -> list[dict[str, Any]]:
+        labels = {
+            str(label)
+            for extraction in heuristics
+            for label in extraction.locked_functions + extraction.candidate_functions
+        }
+        selected: list[dict[str, Any]] = []
+        for pair in self.minimal_pairs:
+            if labels & set(pair.get("confusable_labels", [])):
+                selected.append(pair)
+            if len(selected) >= limit:
+                return selected
+        if selected:
+            return selected
+        if units:
+            return self.minimal_pairs[:limit]
+        return []
+
     def _read_text(self, path: Path) -> str:
         if not path.exists():
             return ""
         return path.read_text(encoding="utf-8")
+
+    def _timing_span(self, stage: str, **metadata: Any):
+        if self.timing_recorder is None:
+            return nullcontext({})
+        return self.timing_recorder.span(stage, **metadata)
 
 
 def build_classification_context(
@@ -286,6 +589,68 @@ def build_classification_context(
             "minimal_pairs_excerpt": minimal_pairs_excerpt,
         }
     )
+
+
+def build_chunk_classification_context(
+    *,
+    document: NarrativeDocument,
+    unit_indexes: list[int],
+    heuristics_by_index: Mapping[int, HeuristicExtraction],
+    taxonomy_excerpt: Mapping[str, Any],
+    decision_trees_excerpt: str,
+    minimal_pairs_excerpt: list[dict[str, Any]],
+    taxonomy_version: str,
+    overlap_units: int,
+) -> ChunkClassificationContext:
+    first_index = unit_indexes[0]
+    last_index = unit_indexes[-1]
+    previous_units = document.units[max(0, first_index - overlap_units) : first_index]
+    next_units = document.units[
+        last_index + 1 : min(len(document.units), last_index + 1 + overlap_units)
+    ]
+    return ChunkClassificationContext.model_validate(
+        {
+            "taxonomy_version": taxonomy_version,
+            "target_units": [
+                {
+                    "unit": _unit_context(document.units[index]),
+                    "heuristic_candidates": heuristics_by_index[index].model_dump(mode="json"),
+                }
+                for index in unit_indexes
+            ],
+            "previous_units": [_unit_context(unit) for unit in previous_units],
+            "next_units": [_unit_context(unit) for unit in next_units],
+            "taxonomy_excerpt": dict(taxonomy_excerpt),
+            "decision_trees_excerpt": decision_trees_excerpt,
+            "minimal_pairs_excerpt": minimal_pairs_excerpt,
+        }
+    )
+
+
+def build_classification_chunks(
+    document: NarrativeDocument,
+    *,
+    max_units: int,
+    max_chars: int,
+) -> list[list[int]]:
+    """Split target units into stable contiguous chunks without duplicate outputs."""
+
+    chunks: list[list[int]] = []
+    current: list[int] = []
+    current_chars = 0
+    for index, unit in enumerate(document.units):
+        unit_chars = len(unit.text)
+        would_exceed_units = len(current) >= max_units
+        would_exceed_chars = bool(current) and current_chars + unit_chars > max_chars
+        if would_exceed_units or would_exceed_chars:
+            chunks.append(current)
+            current = []
+            current_chars = 0
+        current.append(index)
+        current_chars += unit_chars
+    if current:
+        chunks.append(current)
+    return chunks
 
 
 def merge_partial_classification(
@@ -406,6 +771,17 @@ def _unit_context(unit: NarrativeUnit) -> dict[str, Any]:
         "heuristic_candidates": [
             candidate.model_dump(mode="json") for candidate in unit.heuristic_candidates
         ],
+    }
+
+
+def _unit_timing_outcome(unit: NarrativeUnit) -> dict[str, Any]:
+    return {
+        "output_functions": [str(function) for function in unit.functions],
+        "output_primary_function": str(unit.primary_function),
+        "output_final_notation": unit.final_notation,
+        "output_confidence": unit.confidence,
+        "output_needs_review": unit.needs_review,
+        "output_method": str(unit.method),
     }
 
 

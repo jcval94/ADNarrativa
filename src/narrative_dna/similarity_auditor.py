@@ -21,6 +21,7 @@ from narrative_dna.models import (
     SimilarityConflict,
     StrictBaseModel,
 )
+from narrative_dna.question_detection import has_question_anchor as text_has_question_anchor
 
 DEFAULT_RUN_ID = "in_memory_similarity_audit"
 DEFAULT_THRESHOLD = 0.82
@@ -520,10 +521,9 @@ def _differs_within_group(unit_a: NarrativeUnit, unit_b: NarrativeUnit, group: s
 
 def _has_question_anchor(unit: NarrativeUnit, all_units: list[NarrativeUnit]) -> bool:
     previous_unit = _neighbor(unit, all_units, offset=-1)
-    return (
-        "?" in unit.text
-        or "¿" in unit.text
-        or bool(previous_unit and ("?" in previous_unit.text or "¿" in previous_unit.text))
+    return text_has_question_anchor(
+        unit.text,
+        previous_text=previous_unit.text if previous_unit else None,
     )
 
 
